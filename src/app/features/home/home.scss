@@ -1,5 +1,4 @@
-.photo-slot-wrapper {
-  perspective: 1200px;
+.photo-slot-wrapper {  perspective: 1200px;
 }
 
 .photo-tilt {
@@ -75,4 +74,13 @@
     border-width: 4px;
     border-color: rgb(255 255 255 / 0.9);
   }
+}
+
+.locale-flag {
+  width: 1rem;
+  height: 0.75rem;
+  flex-shrink: 0;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.08);
+  object-fit: cover;
 }

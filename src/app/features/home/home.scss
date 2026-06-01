@@ -85,6 +85,67 @@
   object-fit: cover;
 }
 
+.project-tab {
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  gap: 0;
+  padding: 1.25rem 0;
+  border-radius: 0.125rem;
+  text-align: left;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.75rem;
+  color: rgb(113 113 122);
+  transition:
+    color 0.5s ease,
+    font-size 0.5s ease,
+    font-weight 0.5s ease,
+    gap 0.5s ease;
+}
+
+.project-tab:focus {
+  outline: none;
+}
+
+.project-tab:focus-visible {
+  outline: 2px solid rgb(161 161 170);
+  outline-offset: 2px;
+}
+
+.project-tab--selected {
+  gap: 0.625rem;
+  font-size: 1.2375rem;
+  font-weight: 600;
+  color: rgb(24 24 27);
+}
+
+.project-tab:not(.project-tab--selected):hover {
+  font-size: 1.18125rem;
+  color: rgb(39 39 42);
+}
+
+.project-tab__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    width 0.5s ease,
+    opacity 0.5s ease;
+}
+
+.project-tab__icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.project-tab--selected .project-tab__icon {
+  width: 1.25rem;
+  opacity: 1;
+}
+
 .project-showcase__image {
   transition: transform 0.5s ease;
 }
@@ -109,7 +170,64 @@
   }
 }
 
+.project-action-btn:not(:disabled) {
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.project-action-btn:not(:disabled):hover {
+  border-color: rgb(39 39 42);
+  background-color: rgb(39 39 42);
+  transform: translateY(-1px);
+}
+
+.project-action-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.stack-chip {
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.stack-chip:hover {
+  border-color: rgb(161 161 170);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.06);
+  transform: translateY(-1px);
+}
+
+.stack-chip__icon {
+  filter: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .project-tab,
+  .project-tab__icon {
+    transition: none;
+  }
+
+  .project-action-btn:not(:disabled) {
+    transition: none;
+  }
+
+  .project-action-btn:not(:disabled):hover {
+    transform: none;
+  }
+
+  .stack-chip {
+    transition: none;
+  }
+
+  .stack-chip:hover {
+    transform: none;
+  }
+
   .email-copy-btn {
     animation: none;
   }

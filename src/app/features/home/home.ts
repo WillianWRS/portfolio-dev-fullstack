@@ -17,6 +17,18 @@ interface SocialLink {
   icon: SocialIcon;
 }
 
+interface StackItem {
+  name: string;
+  iconSlug: string;
+}
+
+interface StackCategory {
+  id: 'backend' | 'frontend' | 'database' | 'ai';
+  labelBR: string;
+  labelEN: string;
+  items: StackItem[];
+}
+
 type BackgroundEffect = 'bubbles' | 'stars' | 'pulse';
 
 interface Bubble {
@@ -105,8 +117,18 @@ export class Home {
   protected readonly projectsSubtitleBR = 'Uma coleção de projetos em que trabalhei.';
   protected readonly projectsSubtitleEN = 'A collection of projects I have worked on.';
 
+  protected readonly stacksHeadingBR = 'Stacks e Ferramentas';
+  protected readonly stacksHeadingEN = 'Stacks & Tools';
+  protected readonly stacksSubtitleBR =
+    'Tecnologias e ferramentas que uso no dia a dia para construir produtos em produção.';
+  protected readonly stacksSubtitleEN =
+    'Technologies and tools I use daily to build products in production.';
+
   protected readonly projectUnderConstructionBR = 'Em construção';
   protected readonly projectUnderConstructionEN = 'Under construction';
+
+  protected readonly projectAccessLabelBR = 'Acessar';
+  protected readonly projectAccessLabelEN = 'Access';
 
   protected readonly footerTextBR = 'Construído com Angular 21 e Tailwind CSS.';
   protected readonly footerTextEN = 'Built with Angular 21 and Tailwind CSS.';
@@ -144,6 +166,28 @@ export class Home {
   protected readonly projectsSubtitle = computed(() =>
     this.selectedLocale() === 'BR' ? this.projectsSubtitleBR : this.projectsSubtitleEN,
   );
+
+  protected readonly projectAccessLabel = computed(() =>
+    this.selectedLocale() === 'BR' ? this.projectAccessLabelBR : this.projectAccessLabelEN,
+  );
+
+  protected readonly stacksHeading = computed(() =>
+    this.selectedLocale() === 'BR' ? this.stacksHeadingBR : this.stacksHeadingEN,
+  );
+
+  protected readonly stacksSubtitle = computed(() =>
+    this.selectedLocale() === 'BR' ? this.stacksSubtitleBR : this.stacksSubtitleEN,
+  );
+
+  protected readonly stackCategories = computed(() => {
+    const isBR = this.selectedLocale() === 'BR';
+
+    return this.stackCategoriesSource.map((category) => ({
+      id: category.id,
+      label: isBR ? category.labelBR : category.labelEN,
+      items: category.items,
+    }));
+  });
 
   protected readonly footerText = computed(() =>
     this.selectedLocale() === 'BR' ? this.footerTextBR : this.footerTextEN,
@@ -271,7 +315,62 @@ export class Home {
     },
   ] as const;
 
+  private readonly stackCategoriesSource: StackCategory[] = [
+    {
+      id: 'backend',
+      labelBR: 'Backend',
+      labelEN: 'Backend',
+      items: [
+        { name: 'Java', iconSlug: 'openjdk' },
+        { name: 'Spring Boot', iconSlug: 'springboot' },
+        { name: 'Node.js', iconSlug: 'nodedotjs' },
+        { name: 'NestJS', iconSlug: 'nestjs' },
+        { name: 'Go', iconSlug: 'go' },
+        { name: 'Kafka', iconSlug: 'apachekafka' },
+      ],
+    },
+    {
+      id: 'frontend',
+      labelBR: 'Frontend',
+      labelEN: 'Frontend',
+      items: [
+        { name: 'Angular', iconSlug: 'angular' },
+        { name: 'TypeScript', iconSlug: 'typescript' },
+        { name: 'RxJS', iconSlug: 'reactivex' },
+        { name: 'Tailwind CSS', iconSlug: 'tailwindcss' },
+        { name: 'HTML5', iconSlug: 'html5' },
+        { name: 'CSS3', iconSlug: 'css3' },
+      ],
+    },
+    {
+      id: 'database',
+      labelBR: 'Banco de dados',
+      labelEN: 'Database',
+      items: [
+        { name: 'PostgreSQL', iconSlug: 'postgresql' },
+        { name: 'MongoDB', iconSlug: 'mongodb' },
+        { name: 'Redis', iconSlug: 'redis' },
+        { name: 'H2', iconSlug: 'h2database' },
+      ],
+    },
+    {
+      id: 'ai',
+      labelBR: 'IA',
+      labelEN: 'AI',
+      items: [
+        { name: 'OpenAI', iconSlug: 'openai' },
+        { name: 'Python', iconSlug: 'python' },
+        { name: 'LangChain', iconSlug: 'langchain' },
+        { name: 'Cursor', iconSlug: 'cursor' },
+      ],
+    },
+  ];
+
   protected readonly selectedProjectIndex = signal(0);
+
+  protected stackIconUrl(slug: string): string {
+    return `https://cdn.simpleicons.org/${slug}`;
+  }
 
   protected readonly projects = computed<Project[]>(() => {
     const isBR = this.selectedLocale() === 'BR';
@@ -398,17 +497,6 @@ export class Home {
 
   protected selectProject(index: number): void {
     this.selectedProjectIndex.set(index);
-  }
-
-  protected projectListItemClass(index: number): string {
-    const base =
-      'inline-flex w-full items-center gap-2.5 py-5 text-left text-lg transition-[color,font-size] duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-50 rounded-sm';
-
-    if (this.selectedProjectIndex() === index) {
-      return `${base} text-[1.2375rem] font-semibold text-zinc-900`;
-    }
-
-    return `${base} font-medium text-zinc-500 hover:text-[1.18125rem] hover:text-zinc-800`;
   }
 
   protected toggleEmail(): void {

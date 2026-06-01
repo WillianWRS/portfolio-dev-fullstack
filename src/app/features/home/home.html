@@ -364,7 +364,24 @@
       <div
         class="rounded-3xl bg-zinc-50 px-6 py-16 text-zinc-900 ring-1 ring-zinc-200/70 md:px-10"
       >
-        <h2 class="text-xl font-medium tracking-tight text-zinc-900">{{ projectsHeading() }}</h2>
+        <h2 class="flex items-center gap-2.5 text-xl font-medium tracking-tight text-zinc-900">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            class="h-5 w-5 shrink-0 text-zinc-700"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"
+            />
+          </svg>
+          {{ projectsHeading() }}
+        </h2>
         <p class="mt-3 text-base text-zinc-600">
           {{ projectsSubtitle() }}
         </p>
@@ -404,6 +421,48 @@
                 </li>
               }
             </ul>
+
+            <div class="mt-6 flex flex-wrap gap-3">
+              <button
+                type="button"
+                class="project-action-btn inline-flex items-center gap-2 rounded-full border border-zinc-900 bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-zinc-50"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  class="h-4 w-4 shrink-0"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                  />
+                </svg>
+                GitHub
+              </button>
+              <button
+                type="button"
+                disabled
+                class="project-action-btn inline-flex items-center gap-2 rounded-full border border-zinc-900 bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-zinc-50"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  class="h-4 w-4 shrink-0"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                  />
+                </svg>
+                {{ projectAccessLabel() }}
+              </button>
+            </div>
           </div>
 
           <div
@@ -418,18 +477,17 @@
                 [id]="'project-tab-' + index"
                 [attr.aria-selected]="selectedProjectIndex() === index"
                 [attr.aria-controls]="'project-panel'"
-                [class]="projectListItemClass(index)"
+                class="project-tab"
+                [class.project-tab--selected]="selectedProjectIndex() === index"
                 (click)="selectProject(index)"
               >
-                @if (selectedProjectIndex() === index) {
+                <span class="project-tab__icon" aria-hidden="true">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
                     stroke-width="1.5"
-                    class="h-5 w-5 shrink-0"
-                    aria-hidden="true"
                   >
                     <path
                       stroke-linecap="round"
@@ -437,14 +495,77 @@
                       d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
                     />
                   </svg>
-                }
-                <span>{{ project.title }}</span>
+                </span>
+                <span class="project-tab__label">{{ project.title }}</span>
               </button>
               @if (!last) {
                 <div class="h-px w-full bg-zinc-300/90" aria-hidden="true"></div>
               }
             }
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stacks -->
+    <section class="mt-28 md:mt-36">
+      <div
+        class="rounded-3xl bg-zinc-50 px-6 py-16 text-zinc-900 ring-1 ring-zinc-200/70 md:px-10"
+      >
+        <h2 class="flex items-center gap-2.5 text-xl font-medium tracking-tight text-zinc-900">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            class="h-5 w-5 shrink-0 text-zinc-700"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.003.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.28Z"
+            />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+            />
+          </svg>
+          {{ stacksHeading() }}
+        </h2>
+        <p class="mt-3 text-base text-zinc-600">
+          {{ stacksSubtitle() }}
+        </p>
+
+        <div class="mt-14 grid gap-12 sm:grid-cols-2">
+          @for (category of stackCategories(); track category.id) {
+            <div class="min-w-0">
+              <h3 class="text-sm font-semibold uppercase tracking-wider text-zinc-500">
+                {{ category.label }}
+              </h3>
+              <ul class="mt-5 flex flex-wrap gap-2.5" [attr.aria-label]="category.label">
+                @for (item of category.items; track item.name) {
+                  <li>
+                    <span
+                      class="stack-chip inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3.5 py-2 text-sm font-medium text-zinc-700 shadow-sm"
+                    >
+                      <img
+                        [src]="stackIconUrl(item.iconSlug)"
+                        [alt]=""
+                        class="stack-chip__icon h-5 w-5 shrink-0 object-contain"
+                        width="20"
+                        height="20"
+                        loading="lazy"
+                      />
+                      {{ item.name }}
+                    </span>
+                  </li>
+                }
+              </ul>
+            </div>
+          }
         </div>
       </div>
     </section>

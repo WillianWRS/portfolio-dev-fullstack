@@ -1,0 +1,27 @@
+<div
+  class="loading-screen"
+  [class.loading-screen--exit]="exiting()"
+  role="status"
+  aria-live="polite"
+  aria-label="Carregando portfólio"
+>
+  <div class="loading-screen__content">
+    <svg
+      class="loading-screen__logo"
+      viewBox="0 0 240 80"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <text
+        x="50%"
+        y="54%"
+        text-anchor="middle"
+        dominant-baseline="middle"
+        class="wrs-outline"
+      >
+        WRS
+      </text>
+    </svg>
+    <span class="sr-only">Carregando</span>
+  </div>
+</div>

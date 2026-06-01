@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 
 interface ProjectLink {
   label: string;
@@ -17,11 +17,68 @@ interface SocialLink {
   url: string;
 }
 
+type BackgroundEffect = 'bubbles' | 'stars' | 'pulse';
+
+interface Bubble {
+  id: number;
+  size: number;
+  left: number;
+  duration: number;
+  delay: number;
+  drift: number;
+  opacity: number;
+  willPop: boolean;
+}
+
+interface StarParticle {
+  id: number;
+  left: number;
+  top: number;
+  size: number;
+  duration: number;
+  delay: number;
+  driftX: number;
+  driftY: number;
+  opacity: number;
+}
+
+interface ConstellationOrb {
+  id: number;
+  left: number;
+  top: number;
+  size: number;
+  duration: number;
+  delay: number;
+  opacity: number;
+}
+
+interface MeteorStreak {
+  id: number;
+  top: number;
+  left: number;
+  duration: number;
+  delay: number;
+  length: number;
+  angle: number;
+}
+
+interface RipplePulse {
+  id: number;
+  left: number;
+  top: number;
+  duration: number;
+  delay: number;
+  maxScale: number;
+  opacity: number;
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.html',
 })
 export class Home {
+  private readonly destroyRef = inject(DestroyRef);
+
   protected readonly profile = {
     name: 'Willian Robert Scabora',
     title: 'Desenvolvedor Full Stack Pleno',
@@ -86,4 +143,124 @@ export class Home {
       ],
     },
   ]);
+
+  protected readonly selectedEffect = signal<BackgroundEffect>('stars');
+
+  protected readonly bubbles = signal<Bubble[]>(
+    Array.from({ length: 80 }, (_, index) => this.createBubble(index)),
+  );
+
+  protected readonly starParticles = signal<StarParticle[]>(
+    Array.from({ length: 55 }, (_, index) => this.createStarParticle(index)),
+  );
+
+  protected readonly constellationOrbs = signal<ConstellationOrb[]>(
+    Array.from({ length: 7 }, (_, index) => this.createConstellationOrb(index)),
+  );
+
+  protected readonly meteorStreaks = signal<MeteorStreak[]>(
+    Array.from({ length: 6 }, (_, index) => this.createMeteorStreak(index)),
+  );
+
+  protected readonly ripplePulses = signal<RipplePulse[]>(
+    Array.from({ length: 14 }, (_, index) => this.createRipplePulse(index)),
+  );
+
+  constructor() {
+    const intervalId = setInterval(() => {
+      this.bubbles.set(this.bubbles().map((bubble) => this.refreshBubble(bubble)));
+    }, 3000);
+
+    this.destroyRef.onDestroy(() => clearInterval(intervalId));
+  }
+
+  protected selectEffect(effect: BackgroundEffect): void {
+    this.selectedEffect.set(effect);
+  }
+
+  protected effectButtonClass(effect: BackgroundEffect): string {
+    const base =
+      'rounded-full border px-4 py-2 text-sm font-medium backdrop-blur-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950';
+
+    if (this.selectedEffect() === effect) {
+      return `${base} border-white bg-zinc-100 text-zinc-950 shadow-sm hover:bg-white`;
+    }
+
+    return `${base} border-zinc-300/80 bg-zinc-950/50 text-zinc-200 hover:border-white hover:bg-zinc-900/70 hover:text-white`;
+  }
+
+  private refreshBubble(bubble: Bubble): Bubble {
+    if (Math.random() < 0.2) {
+      return this.createBubble(bubble.id);
+    }
+
+    return bubble;
+  }
+
+  private createBubble(id: number): Bubble {
+    return {
+      id,
+      size: this.randomBetween(14, 68),
+      left: this.randomBetween(0, 100),
+      duration: this.randomBetween(10, 20),
+      delay: this.randomBetween(-20, 0),
+      drift: this.randomBetween(-70, 70),
+      opacity: this.randomBetween(0.28, 0.78),
+      willPop: Math.random() < 0.3,
+    };
+  }
+
+  private createStarParticle(id: number): StarParticle {
+    return {
+      id,
+      left: this.randomBetween(0, 100),
+      top: this.randomBetween(0, 100),
+      size: this.randomBetween(2, 5),
+      duration: this.randomBetween(8, 22),
+      delay: this.randomBetween(-22, 0),
+      driftX: this.randomBetween(-80, 80),
+      driftY: this.randomBetween(-60, 60),
+      opacity: this.randomBetween(0.25, 0.85),
+    };
+  }
+
+  private createConstellationOrb(id: number): ConstellationOrb {
+    return {
+      id,
+      left: this.randomBetween(5, 95),
+      top: this.randomBetween(5, 95),
+      size: this.randomBetween(90, 220),
+      duration: this.randomBetween(18, 32),
+      delay: this.randomBetween(-30, 0),
+      opacity: this.randomBetween(0.06, 0.18),
+    };
+  }
+
+  private createMeteorStreak(id: number): MeteorStreak {
+    return {
+      id,
+      top: this.randomBetween(5, 85),
+      left: this.randomBetween(-10, 90),
+      duration: this.randomBetween(2.5, 5.5),
+      delay: this.randomBetween(-12, 8),
+      length: this.randomBetween(80, 180),
+      angle: this.randomBetween(-35, -15),
+    };
+  }
+
+  private createRipplePulse(id: number): RipplePulse {
+    return {
+      id,
+      left: this.randomBetween(8, 92),
+      top: this.randomBetween(10, 90),
+      duration: this.randomBetween(3.5, 7),
+      delay: this.randomBetween(-14, 4),
+      maxScale: this.randomBetween(2.5, 5.5),
+      opacity: this.randomBetween(0.35, 0.75),
+    };
+  }
+
+  private randomBetween(min: number, max: number): number {
+    return Number((Math.random() * (max - min) + min).toFixed(2));
+  }
 }

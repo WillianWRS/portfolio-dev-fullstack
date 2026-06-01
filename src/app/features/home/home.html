@@ -1,0 +1,73 @@
+<main class="min-h-dvh bg-zinc-950 text-zinc-100">
+  <div class="mx-auto max-w-2xl px-6 py-20 md:py-28">
+    <!-- Hero -->
+    <header>
+      <h1 class="text-3xl font-medium tracking-tight text-zinc-50 md:text-4xl">
+        {{ profile.name }}
+      </h1>
+      <p class="mt-3 text-lg text-zinc-400">{{ profile.title }}</p>
+
+      <p class="mt-10 text-base leading-relaxed text-zinc-400">
+        {{ profile.bio }}
+      </p>
+
+      <nav class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-zinc-500">
+        @for (link of socialLinks(); track link.label) {
+          <a
+            [href]="link.url"
+            [attr.target]="link.label === 'Email' ? null : '_blank'"
+            [attr.rel]="link.label === 'Email' ? null : 'noopener noreferrer'"
+            class="transition-colors hover:text-zinc-200"
+          >
+            {{ link.label }}
+          </a>
+        }
+      </nav>
+    </header>
+
+    <!-- Projects -->
+    <section class="mt-28 md:mt-36">
+      <h2 class="text-xl font-medium tracking-tight text-zinc-100">Meus Projetos</h2>
+      <p class="mt-3 text-base text-zinc-500">Uma coleção de projetos em que trabalhei.</p>
+
+      <div class="mt-16 space-y-20">
+        @for (project of projects(); track project.title) {
+          <article>
+            <h3 class="text-lg font-medium text-zinc-100">{{ project.title }}</h3>
+
+            <p class="mt-4 text-base leading-relaxed text-zinc-400">
+              {{ project.description }}
+            </p>
+
+            <p class="mt-5 font-mono text-xs tracking-wide text-zinc-600">
+              {{ project.stack }}
+            </p>
+
+            @if (project.links.length > 0) {
+              <div class="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm text-zinc-500">
+                @for (link of project.links; track link.label) {
+                  @if (link.url) {
+                    <a
+                      [href]="link.url"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="transition-colors hover:text-zinc-300"
+                    >
+                      [ {{ link.label }} ]
+                    </a>
+                  } @else {
+                    <span class="text-zinc-700">[ {{ link.label }} ]</span>
+                  }
+                }
+              </div>
+            }
+          </article>
+        }
+      </div>
+    </section>
+
+    <footer class="mt-28 border-t border-zinc-900 pt-10 text-sm text-zinc-600">
+      <p>Construído com Angular 21 e Tailwind CSS.</p>
+    </footer>
+  </div>
+</main>

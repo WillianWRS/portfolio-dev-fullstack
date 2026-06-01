@@ -2,16 +2,11 @@ import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 
 type Locale = 'BR' | 'EN';
 
-interface ProjectLink {
-  label: string;
-  url: string | null;
-}
-
 interface Project {
   title: string;
   description: string;
-  stack: string;
-  links: ProjectLink[];
+  stacks: string[];
+  imageUrl: string;
 }
 
 type SocialIcon = 'github' | 'linkedin' | 'email';
@@ -110,6 +105,9 @@ export class Home {
   protected readonly projectsSubtitleBR = 'Uma coleção de projetos em que trabalhei.';
   protected readonly projectsSubtitleEN = 'A collection of projects I have worked on.';
 
+  protected readonly projectUnderConstructionBR = 'Em construção';
+  protected readonly projectUnderConstructionEN = 'Under construction';
+
   protected readonly footerTextBR = 'Construído com Angular 21 e Tailwind CSS.';
   protected readonly footerTextEN = 'Built with Angular 21 and Tailwind CSS.';
 
@@ -200,77 +198,105 @@ export class Home {
 
   private readonly projectsSource = [
     {
-      title: 'Pipeline Orchestrator',
+      title: 'Habit Builder',
+      imageUrl: '/foto2.png',
       descriptionBR:
-        'Simulador de pipelines CI/CD com estágios configuráveis, gates de qualidade e métricas de execução em tempo real. Permite modelar fluxos de build, test e deploy, visualizar gargalos e comparar tempos médios entre branches — útil para demonstrar domínio de DevOps e automação de entrega.',
+        'Gerenciador de hábitos com registro de ações diárias, controle de disciplina e indicadores de consistência para manter rotinas e reduzir quebras de sequência.',
       descriptionEN:
-        'CI/CD pipeline simulator with configurable stages, quality gates, and real-time execution metrics. Lets you model build, test, and deploy flows, spot bottlenecks, and compare average times across branches — useful for demonstrating DevOps and delivery automation expertise.',
-      stack: 'Angular 21 • RxJS • Tailwind CSS • WebSocket Simulation',
-      links: [
-        { label: 'GitHub', url: 'https://github.com' },
-        { label: 'Live Demo', url: null },
-      ],
+        'Habit manager with daily action tracking, discipline control, and consistency metrics to sustain routines and reduce streak breaks.',
+      stacks: ['Java 21', 'Spring Boot', 'PostgreSQL', 'Angular 21', 'Kafka'],
     },
     {
-      title: 'Cache Layer Manager',
+      title: 'Target Locked',
+      imageUrl: '/foto3.png',
       descriptionBR:
-        'Gerenciador de cache em memória inspirado em H2 e estratégias L1/L2, com políticas LRU, TTL configurável e dashboard de hit ratio. Implementa invalidação por tags, warm-up de chaves e logs estruturados para observabilidade — demonstrando conhecimento em performance, consistência de dados e trade-offs de caching.',
+        'Definidor e acompanhador de metas com prazos, marcos intermediários e visão de progresso para transformar objetivos em planos mensuráveis.',
       descriptionEN:
-        'In-memory cache manager inspired by H2 and L1/L2 strategies, with LRU policies, configurable TTL, and a hit-ratio dashboard. Implements tag-based invalidation, key warm-up, and structured logs for observability — demonstrating performance, data consistency, and caching trade-offs.',
-      stack: 'Java 21 • Spring Boot • H2 • Redis Protocol Simulation • Tailwind CSS',
-      links: [
-        { label: 'GitHub', url: 'https://github.com' },
-        { label: 'Live Demo', url: 'https://example.com' },
-      ],
+        'Goal setting and tracking tool with deadlines, milestones, and progress views to turn objectives into measurable plans.',
+      stacks: ['Node.js', 'NestJS', 'MongoDB', 'Angular 21', 'Redis'],
     },
     {
-      title: 'API Gateway Monitor',
+      title: 'Authentication Service',
+      imageUrl: '/settings.png',
       descriptionBR:
-        'Painel de observabilidade para microsserviços com health checks agregados, latência por rota e alertas de degradação. Consome métricas simuladas de múltiplos endpoints REST, exibe status consolidado e histórico de incidentes — refletindo experiência com arquitetura distribuída e SRE básico.',
+        'Gateway interno com rate limiting, roteamento versionado e documentação viva OpenAPI, reduzindo acoplamento entre squads e tempo de integração.',
       descriptionEN:
-        'Observability dashboard for microservices with aggregated health checks, per-route latency, and degradation alerts. Consumes simulated metrics from multiple REST endpoints, shows consolidated status and incident history — reflecting experience with distributed architecture and basic SRE.',
-      stack: 'Node.js • Express • Angular 21 • Signal-based State • REST',
-      links: [
-        { label: 'GitHub', url: 'https://github.com' },
-        { label: 'Live Demo', url: null },
-      ],
+        'Internal gateway with rate limiting, versioned routing, and live OpenAPI docs, reducing coupling between squads and integration time.',
+      stacks: ['Go', 'Kong', 'gRPC', 'Prometheus', 'Angular 21'],
     },
     {
-      title: 'Auth Identity Service',
+      title: 'E-mail Service',
+      imageUrl: '/settings.png',
       descriptionBR:
-        'Serviço de autenticação com JWT, refresh tokens rotativos e controle de sessões concurrentes. Inclui fluxos de registro, MFA simulado e auditoria de eventos de segurança. Frontend companion em Angular consome a API com interceptors e guards — showcase de segurança aplicada e integração full stack.',
+        'Console de observabilidade com SLIs por serviço, correlação de traces e alertas baseados em SLO para ambientes de microsserviços.',
       descriptionEN:
-        'Authentication service with JWT, rotating refresh tokens, and concurrent session control. Includes registration flows, simulated MFA, and security event auditing. Companion Angular frontend consumes the API with interceptors and guards — a showcase of applied security and full-stack integration.',
-      stack: 'Java • Spring Security • PostgreSQL • Angular 21 • OAuth2 Patterns',
-      links: [
-        { label: 'GitHub', url: null },
-        { label: 'Live Demo', url: 'https://example.com' },
-      ],
+        'Observability console with per-service SLIs, trace correlation, and SLO-based alerts for microservice environments.',
+      stacks: ['TypeScript', 'Express', 'OpenTelemetry', 'Grafana', 'Tailwind CSS'],
     },
     {
-      title: 'Event-Driven Order Hub',
+      title: 'Work out Planner',
+      imageUrl: '/settings.png',
       descriptionBR:
-        'Hub de pedidos assíncrono com publicação de eventos de domínio, consumidores desacoplados e rastreamento de saga. Simula fluxo e-commerce completo — criação, pagamento, estoque e notificação — com idempotência e dead-letter queue, evidenciando domínio em mensageria e consistência eventual.',
+        'Orquestrador de releases com pipelines declarativos, aprovações por ambiente e rollback automático quando métricas de saúde degradam após o deploy.',
       descriptionEN:
-        'Asynchronous order hub with domain event publishing, decoupled consumers, and saga tracking. Simulates a full e-commerce flow — creation, payment, inventory, and notification — with idempotency and dead-letter queue, showcasing messaging and eventual consistency expertise.',
-      stack: 'Node.js • RabbitMQ Simulation • DDD • Angular 21 • TypeScript',
-      links: [
-        { label: 'GitHub', url: 'https://github.com' },
-        { label: 'Live Demo', url: null },
-      ],
+        'Release orchestrator with declarative pipelines, per-environment approvals, and automatic rollback when health metrics degrade after deploy.',
+      stacks: ['Angular 21', 'RxJS', 'Docker', 'GitHub Actions', 'WebSocket'],
+    },
+    {
+      title: 'Release Tracker',
+      imageUrl: '/settings.png',
+      descriptionBR:
+        'Serviço de identidade com JWT, refresh rotativo, MFA TOTP e políticas de sessão para aplicações corporativas multi-tenant.',
+      descriptionEN:
+        'Identity service with JWT, rotating refresh tokens, TOTP MFA, and session policies for multi-tenant enterprise applications.',
+      stacks: ['Java', 'Spring Security', 'PostgreSQL', 'OAuth2', 'Angular 21'],
+    },
+    {
+      title: 'Metrics Console',
+      imageUrl: '/settings.png',
+      descriptionBR:
+        'Motor de workflows assíncronos com compensações, timers e visualização do estado de cada instância para processos de onboarding e compliance.',
+      descriptionEN:
+        'Async workflow engine with compensations, timers, and per-instance state visualization for onboarding and compliance processes.',
+      stacks: ['Node.js', 'Temporal', 'TypeScript', 'RabbitMQ', 'DDD'],
+    },
+    {
+      title: 'Config Hub',
+      imageUrl: '/settings.png',
+      descriptionBR:
+        'Painel executivo com agregações em tempo quase real, filtros salvos e exportação de relatórios para acompanhamento de KPIs operacionais.',
+      descriptionEN:
+        'Executive dashboard with near-real-time aggregations, saved filters, and report export for tracking operational KPIs.',
+      stacks: ['Angular 21', 'Signals', 'Tailwind CSS', 'Java', 'H2'],
     },
   ] as const;
+
+  protected readonly selectedProjectIndex = signal(0);
 
   protected readonly projects = computed<Project[]>(() => {
     const isBR = this.selectedLocale() === 'BR';
 
-    return this.projectsSource.map((project) => ({
-      title: project.title,
-      description: isBR ? project.descriptionBR : project.descriptionEN,
-      stack: project.stack,
-      links: [...project.links],
-    }));
+    return this.projectsSource.map((project) => {
+      const isUnderConstruction = project.imageUrl === '/settings.png';
+
+      return {
+        title: project.title,
+        description: isUnderConstruction
+          ? isBR
+            ? this.projectUnderConstructionBR
+            : this.projectUnderConstructionEN
+          : isBR
+            ? project.descriptionBR
+            : project.descriptionEN,
+        stacks: [...project.stacks],
+        imageUrl: project.imageUrl,
+      };
+    });
   });
+
+  protected readonly selectedProject = computed(
+    () => this.projects()[this.selectedProjectIndex()],
+  );
 
   protected readonly selectedEffect = signal<BackgroundEffect>('stars');
 
@@ -336,6 +362,21 @@ export class Home {
 
   protected selectLocale(locale: Locale): void {
     this.selectedLocale.set(locale);
+  }
+
+  protected selectProject(index: number): void {
+    this.selectedProjectIndex.set(index);
+  }
+
+  protected projectListItemClass(index: number): string {
+    const base =
+      'inline-flex w-full items-center gap-2.5 py-5 text-left text-lg transition-[color,font-size] duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-50 rounded-sm';
+
+    if (this.selectedProjectIndex() === index) {
+      return `${base} text-[1.2375rem] font-semibold text-zinc-900`;
+    }
+
+    return `${base} font-medium text-zinc-500 hover:text-[1.18125rem] hover:text-zinc-800`;
   }
 
   protected toggleEmail(): void {

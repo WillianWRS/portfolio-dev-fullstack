@@ -106,30 +106,48 @@
     </button>
   </div>
 
-  <div class="relative z-10 mx-auto max-w-2xl px-6 py-20 md:py-28">
+  <div class="relative z-10 mx-auto max-w-4xl px-6 py-20 md:px-8 md:py-28 lg:max-w-5xl">
     <!-- Hero -->
-    <header>
-      <h1 class="text-3xl font-medium tracking-tight text-zinc-50 md:text-4xl">
-        {{ profile.name }}
-      </h1>
-      <p class="mt-3 text-lg text-zinc-400">{{ profile.title }}</p>
+    <header class="flex flex-col gap-10 md:flex-row md:items-start md:justify-between md:gap-8 lg:gap-12">
+      <div class="min-w-0 md:max-w-xl md:pr-4 lg:max-w-2xl">
+        <h1 class="text-3xl font-medium tracking-tight text-zinc-50 md:text-4xl">
+          {{ profile.name }}
+        </h1>
+        <p class="mt-3 text-lg text-zinc-400">{{ profile.title }}</p>
 
-      <p class="mt-10 text-base leading-relaxed text-zinc-400">
-        {{ profile.bio }}
-      </p>
+        <p class="mt-10 text-base leading-relaxed text-zinc-400">
+          {{ profile.bio }}
+        </p>
 
-      <nav class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-zinc-500">
-        @for (link of socialLinks(); track link.label) {
-          <a
-            [href]="link.url"
-            [attr.target]="link.label === 'Email' ? null : '_blank'"
-            [attr.rel]="link.label === 'Email' ? null : 'noopener noreferrer'"
-            class="transition-colors hover:text-zinc-200"
+        <nav class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-zinc-500">
+          @for (link of socialLinks(); track link.label) {
+            <a
+              [href]="link.url"
+              [attr.target]="link.label === 'Email' ? null : '_blank'"
+              [attr.rel]="link.label === 'Email' ? null : 'noopener noreferrer'"
+              class="transition-colors hover:text-zinc-200"
+            >
+              {{ link.label }}
+            </a>
+          }
+        </nav>
+      </div>
+
+      <div class="photo-slot-wrapper shrink-0 md:ml-auto">
+        <div class="photo-tilt">
+          <figure
+            class="photo-slot aspect-[3/4] w-full max-w-[200px] overflow-hidden rounded-xl bg-zinc-900/50 shadow-lg shadow-black/40 transform-gpu md:max-w-none md:w-52 lg:w-60"
           >
-            {{ link.label }}
-          </a>
-        }
-      </nav>
+            <img
+              src="/foto.png"
+              [alt]="'Foto de ' + profile.name"
+              class="h-full w-full object-cover"
+              width="240"
+              height="320"
+            />
+          </figure>
+        </div>
+      </div>
     </header>
 
     <!-- Visual divider between Hero and Projects -->

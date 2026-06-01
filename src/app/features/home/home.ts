@@ -75,6 +75,7 @@ interface RipplePulse {
 @Component({
   selector: 'app-home',
   templateUrl: './home.html',
+  styleUrl: './home.scss',
 })
 export class Home {
   private readonly destroyRef = inject(DestroyRef);

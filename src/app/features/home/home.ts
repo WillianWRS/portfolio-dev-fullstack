@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, HostListener, inject, signal } from '@angular/core';
 
 type Locale = 'BR' | 'EN';
 
@@ -300,6 +300,10 @@ export class Home {
 
   protected readonly selectedEffect = signal<BackgroundEffect>('stars');
 
+  protected readonly cursorOrbX = signal(0);
+  protected readonly cursorOrbY = signal(0);
+  protected readonly cursorOrbActive = signal(false);
+
   protected readonly bubbles = signal<Bubble[]>(
     Array.from({ length: 80 }, (_, index) => this.createBubble(index)),
   );
@@ -316,6 +320,10 @@ export class Home {
     Array.from({ length: 6 }, (_, index) => this.createMeteorStreak(index)),
   );
 
+  protected readonly triggeredMeteors = signal<MeteorStreak[]>([]);
+
+  private triggeredMeteorSeq = 0;
+
   protected readonly ripplePulses = signal<RipplePulse[]>(
     Array.from({ length: 14 }, (_, index) => this.createRipplePulse(index)),
   );
@@ -326,6 +334,25 @@ export class Home {
     }, 3000);
 
     this.destroyRef.onDestroy(() => clearInterval(intervalId));
+  }
+
+  @HostListener('document:pointermove', ['$event'])
+  protected onDocumentPointerMove(event: PointerEvent): void {
+    if (this.selectedEffect() !== 'stars') {
+      return;
+    }
+
+    this.cursorOrbX.set(event.clientX);
+    this.cursorOrbY.set(event.clientY);
+    this.cursorOrbActive.set(true);
+  }
+
+  protected onMainClick(): void {
+    if (this.selectedEffect() !== 'stars') {
+      return;
+    }
+
+    this.spawnTriggeredMeteor();
   }
 
   protected reloadPage(event: Event): void {
@@ -347,6 +374,11 @@ export class Home {
   protected selectEffect(effect: BackgroundEffect): void {
     this.selectedEffect.set(effect);
     this.effectsMenuOpen.set(false);
+
+    if (effect !== 'stars') {
+      this.triggeredMeteors.set([]);
+      this.cursorOrbActive.set(false);
+    }
   }
 
   protected effectsToggleButtonClass(): string {
@@ -488,6 +520,34 @@ export class Home {
       length: this.randomBetween(80, 180),
       angle: this.randomBetween(-35, -15),
     };
+  }
+
+  private spawnTriggeredMeteor(): void {
+    const id = ++this.triggeredMeteorSeq;
+    const meteor = this.createTriggeredMeteor(id);
+    const durationMs = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ? 350
+      : meteor.duration * 1000;
+
+    this.triggeredMeteors.update((meteors) => [...meteors, meteor]);
+
+    window.setTimeout(() => this.removeTriggeredMeteor(id), durationMs + 50);
+  }
+
+  private createTriggeredMeteor(id: number): MeteorStreak {
+    return {
+      id,
+      top: this.randomBetween(5, 85),
+      left: this.randomBetween(-10, 90),
+      duration: this.randomBetween(0.55, 0.95),
+      delay: 0,
+      length: this.randomBetween(100, 200),
+      angle: this.randomBetween(-35, -15),
+    };
+  }
+
+  private removeTriggeredMeteor(meteorId: number): void {
+    this.triggeredMeteors.update((meteors) => meteors.filter((meteor) => meteor.id !== meteorId));
   }
 
   private createRipplePulse(id: number): RipplePulse {

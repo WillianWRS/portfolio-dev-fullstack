@@ -189,6 +189,21 @@
   animation-delay: var(--delay);
 }
 
+.constellation-orb--cursor {
+  --size: 200px;
+  --opacity: 0.16;
+
+  animation: none;
+  opacity: 0;
+  pointer-events: none;
+  will-change: left, top;
+  transition: opacity 0.35s ease;
+}
+
+.constellation-orb--cursor-active {
+  opacity: var(--opacity);
+}
+
 .star-particle {
   --left: 50%;
   --top: 50%;
@@ -238,6 +253,12 @@
   opacity: 0;
   animation: meteorSweep var(--duration) linear infinite;
   animation-delay: var(--delay);
+}
+
+.meteor-streak--triggered {
+  transform: none;
+  animation: meteorSweepClick var(--duration) linear 0s forwards;
+  will-change: transform, opacity;
 }
 
 @keyframes orbDrift {
@@ -290,6 +311,34 @@
   }
 }
 
+@keyframes meteorSweepOnce {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--angle)) translateX(-30%);
+  }
+  8% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--angle)) translateX(120vw);
+  }
+}
+
+@keyframes meteorSweepClick {
+  0% {
+    opacity: 1;
+    transform: rotate(var(--angle)) translateX(0);
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--angle)) translateX(110vw);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .bubble,
   .bubble.will-pop,
@@ -302,11 +351,17 @@
   }
 
   .constellation-orb,
+  .constellation-orb--cursor,
   .star-particle,
   .meteor-streak,
+  .meteor-streak--triggered,
   .ripple-pulse,
   .ripple-ring {
     animation: none;
+  }
+
+  .meteor-streak--triggered {
+    opacity: 0.85;
   }
 
   .star-particle {

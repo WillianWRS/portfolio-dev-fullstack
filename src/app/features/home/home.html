@@ -1,4 +1,7 @@
-<main class="relative min-h-dvh overflow-hidden bg-zinc-950 text-zinc-100 bg-live">
+<main
+  class="relative min-h-dvh overflow-hidden bg-zinc-950 text-zinc-100 bg-live"
+  (click)="onMainClick()"
+>
   @if (selectedEffect() === 'bubbles') {
     <div class="bubble-field" aria-hidden="true">
       @for (bubble of bubbles(); track bubble.id) {
@@ -20,6 +23,13 @@
 
   @if (selectedEffect() === 'stars') {
     <div class="stars-field" aria-hidden="true">
+      <span
+        class="constellation-orb constellation-orb--cursor"
+        [class.constellation-orb--cursor-active]="cursorOrbActive()"
+        [style.left.px]="cursorOrbX()"
+        [style.top.px]="cursorOrbY()"
+      ></span>
+
       @for (orb of constellationOrbs(); track orb.id) {
         <span
           class="constellation-orb"
@@ -54,6 +64,18 @@
           [style.--length]="meteor.length + 'px'"
           [style.--duration]="meteor.duration + 's'"
           [style.--delay]="meteor.delay + 's'"
+          [style.--angle]="meteor.angle + 'deg'"
+        ></span>
+      }
+
+      @for (meteor of triggeredMeteors(); track meteor.id) {
+        <span
+          class="meteor-streak meteor-streak--triggered"
+          [style.--top]="meteor.top + '%'"
+          [style.--left]="meteor.left + '%'"
+          [style.--length]="meteor.length + 'px'"
+          [style.--duration]="meteor.duration + 's'"
+          [style.--delay]="'0s'"
           [style.--angle]="meteor.angle + 'deg'"
         ></span>
       }

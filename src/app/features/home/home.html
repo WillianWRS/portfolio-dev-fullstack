@@ -338,17 +338,25 @@
 
       <div class="photo-slot-wrapper mt-[30px] shrink-0 md:ml-auto">
         <div class="photo-tilt">
-          <figure
-            class="photo-slot aspect-[3/4] w-full max-w-[200px] overflow-hidden rounded-xl bg-zinc-900/50 shadow-lg shadow-black/40 transform-gpu md:max-w-none md:w-52 lg:w-60"
-          >
-            <img
-              src="/foto.png"
-              [alt]="photoAlt()"
-              class="h-full w-full object-cover"
-              width="240"
-              height="320"
-            />
-          </figure>
+          <div class="photo-frame">
+            <span class="photo-frame__glow" aria-hidden="true"></span>
+            <figure
+              class="photo-slot aspect-[3/4] w-full max-w-[200px] overflow-hidden rounded-xl bg-zinc-900/50 shadow-lg shadow-black/40 transform-gpu md:max-w-none md:w-52 lg:w-60"
+            >
+              <img
+                src="/foto.png"
+                [alt]="photoAlt()"
+                class="photo-slot__img h-full w-full object-cover"
+                width="240"
+                height="320"
+              />
+              <span class="photo-slot__scanlines" aria-hidden="true"></span>
+              <span class="photo-slot__shine" aria-hidden="true"></span>
+              <span class="photo-slot__corners" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+              </span>
+            </figure>
+          </div>
         </div>
       </div>
     </header>

@@ -14,9 +14,12 @@ interface Project {
   links: ProjectLink[];
 }
 
+type SocialIcon = 'github' | 'linkedin' | 'email';
+
 interface SocialLink {
   label: string;
   url: string;
+  icon: SocialIcon;
 }
 
 type BackgroundEffect = 'bubbles' | 'stars' | 'pulse';
@@ -113,7 +116,11 @@ export class Home {
   protected readonly localeGroupAriaLabelBR = 'Selecionar idioma';
   protected readonly localeGroupAriaLabelEN = 'Select language';
 
+  protected readonly effectsToggleAriaLabelBR = 'Efeitos de fundo';
+  protected readonly effectsToggleAriaLabelEN = 'Background effects';
+
   protected readonly selectedLocale = signal<Locale>('BR');
+  protected readonly effectsMenuOpen = signal(false);
 
   protected readonly profile = computed(() => {
     const isBR = this.selectedLocale() === 'BR';
@@ -150,10 +157,45 @@ export class Home {
       : this.localeGroupAriaLabelEN,
   );
 
+  protected readonly effectsToggleAriaLabel = computed(() =>
+    this.selectedLocale() === 'BR'
+      ? this.effectsToggleAriaLabelBR
+      : this.effectsToggleAriaLabelEN,
+  );
+
+  protected readonly emailCopyAriaLabel = computed(() =>
+    this.selectedLocale() === 'BR' ? this.emailCopyAriaLabelBR : this.emailCopyAriaLabelEN,
+  );
+
+  protected readonly emailToggleAriaLabel = computed(() =>
+    this.selectedLocale() === 'BR'
+      ? this.emailToggleAriaLabelBR
+      : this.emailToggleAriaLabelEN,
+  );
+
+  protected readonly emailAddress = 'willian-scabora@hotmail.com';
+
+  protected readonly emailCopyAriaLabelBR = 'Copiar e-mail';
+  protected readonly emailCopyAriaLabelEN = 'Copy email';
+
+  protected readonly emailToggleAriaLabelBR = 'Mostrar ou ocultar e-mail';
+  protected readonly emailToggleAriaLabelEN = 'Show or hide email';
+
+  protected readonly emailCopied = signal(false);
+  protected readonly emailRevealed = signal(false);
+
   protected readonly socialLinks = signal<SocialLink[]>([
-    { label: 'GitHub', url: 'https://github.com' },
-    { label: 'LinkedIn', url: 'https://linkedin.com' },
-    { label: 'Email', url: 'mailto:seu.email@exemplo.com' },
+    { label: 'GitHub', url: 'https://github.com/WillianWRS', icon: 'github' },
+    {
+      label: 'LinkedIn',
+      url: 'https://www.linkedin.com/in/willian-robert-scabora-85a94217b/',
+      icon: 'linkedin',
+    },
+    {
+      label: 'Email',
+      url: `mailto:${this.emailAddress}`,
+      icon: 'email',
+    },
   ]);
 
   private readonly projectsSource = [
@@ -260,12 +302,57 @@ export class Home {
     this.destroyRef.onDestroy(() => clearInterval(intervalId));
   }
 
+  protected reloadPage(event: Event): void {
+    event.preventDefault();
+
+    const path = window.location.pathname;
+    if (path === '/' || path === '') {
+      window.location.reload();
+      return;
+    }
+
+    window.location.href = '/';
+  }
+
+  protected toggleEffectsMenu(): void {
+    this.effectsMenuOpen.update((open) => !open);
+  }
+
   protected selectEffect(effect: BackgroundEffect): void {
     this.selectedEffect.set(effect);
+    this.effectsMenuOpen.set(false);
+  }
+
+  protected effectsToggleButtonClass(): string {
+    const base =
+      'inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border backdrop-blur-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950';
+
+    if (this.effectsMenuOpen()) {
+      return `${base} border-white bg-zinc-100 text-zinc-950`;
+    }
+
+    return `${base} border-zinc-300/80 bg-transparent text-zinc-200 hover:border-white hover:text-white`;
   }
 
   protected selectLocale(locale: Locale): void {
     this.selectedLocale.set(locale);
+  }
+
+  protected toggleEmail(): void {
+    this.emailRevealed.update((revealed) => !revealed);
+  }
+
+  protected async copyEmail(event: Event): Promise<void> {
+    event.preventDefault();
+    event.stopPropagation();
+
+    try {
+      await navigator.clipboard.writeText(this.emailAddress);
+      this.emailCopied.set(true);
+      setTimeout(() => this.emailCopied.set(false), 2000);
+    } catch {
+      // fallback silencioso se a API de clipboard não estiver disponível
+    }
   }
 
   protected effectLabel(effect: BackgroundEffect): string {

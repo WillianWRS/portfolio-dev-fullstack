@@ -1,0 +1,14 @@
+<span
+  class="stack-chip inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3.5 py-2 text-sm font-medium text-zinc-700 shadow-sm"
+>
+  <img
+    [src]="iconUrl()"
+    alt=""
+    class="stack-chip__icon h-5 w-5 shrink-0 object-contain"
+    width="20"
+    height="20"
+    loading="lazy"
+    (error)="onIconError($event)"
+  />
+  {{ name() }}
+</span>

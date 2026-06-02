@@ -1,0 +1,326 @@
+.photo-slot-wrapper {
+  perspective: 1200px;
+}
+
+.photo-tilt {
+  transform: rotateY(-10deg);
+  transform-style: preserve-3d;
+  transition: transform 1s ease;
+  will-change: transform;
+}
+
+.photo-slot-wrapper:not(:hover):not(:focus-within) .photo-tilt {
+  animation: photoTiltCycle 15s ease-in-out infinite;
+}
+
+.photo-slot-wrapper:hover .photo-tilt,
+.photo-slot-wrapper:focus-within .photo-tilt {
+  animation: none;
+  transform: rotateY(0deg);
+}
+
+/* Moldura com borda em gradiente (estética dev / UI) */
+.photo-frame {
+  position: relative;
+  padding: 2px;
+  border-radius: 0.875rem;
+  background: linear-gradient(
+    145deg,
+    rgb(113 113 122 / 0.55),
+    rgb(39 39 42 / 0.35) 40%,
+    rgb(161 161 170 / 0.5) 70%,
+    rgb(63 63 70 / 0.4)
+  );
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.04),
+    0 18px 40px -12px rgb(0 0 0 / 0.55);
+  transform: scale(1);
+  transform-origin: center center;
+  transition:
+    transform 1s ease,
+    box-shadow 0.8s ease;
+  will-change: transform;
+}
+
+.photo-frame::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--photo-border-angle, 0deg),
+    rgb(161 161 170 / 0.15),
+    rgb(228 228 231 / 0.65),
+    rgb(113 113 122 / 0.2),
+    rgb(244 244 245 / 0.55),
+    rgb(82 82 91 / 0.25),
+    rgb(161 161 170 / 0.15)
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.85;
+  pointer-events: none;
+  animation: photoBorderSpin 12s linear infinite;
+}
+
+.photo-frame__glow {
+  position: absolute;
+  inset: -20%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse 70% 55% at 50% 45%,
+    rgb(228 228 231 / 0.12) 0%,
+    transparent 68%
+  );
+  filter: blur(18px);
+  opacity: 0.7;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+
+.photo-slot-wrapper:hover .photo-frame,
+.photo-slot-wrapper:focus-within .photo-frame {
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.08),
+    0 0 48px -8px rgb(228 228 231 / 0.18),
+    0 22px 48px -10px rgb(0 0 0 / 0.6);
+}
+
+.photo-slot-wrapper:hover .photo-frame__glow,
+.photo-slot-wrapper:focus-within .photo-frame__glow {
+  opacity: 1;
+}
+
+.photo-slot {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.photo-slot__img {
+  transition:
+    filter 0.8s ease,
+    transform 1s ease;
+}
+
+.photo-slot__scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgb(0 0 0 / 0.03) 2px,
+    rgb(0 0 0 / 0.03) 4px
+  );
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.photo-slot__shine {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+  background: linear-gradient(
+    115deg,
+    transparent 38%,
+    rgb(255 255 255 / 0.14) 48%,
+    transparent 58%
+  );
+  background-size: 220% 100%;
+  background-position: 130% 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.photo-slot__corners {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.photo-slot__corners span {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: rgb(228 228 231 / 0.55);
+  border-style: solid;
+  border-width: 0;
+  opacity: 0.65;
+  transition:
+    opacity 0.5s ease,
+    border-color 0.5s ease,
+    width 0.5s ease,
+    height 0.5s ease;
+}
+
+.photo-slot__corners span:nth-child(1) {
+  top: 10px;
+  left: 10px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+  border-top-left-radius: 2px;
+}
+
+.photo-slot__corners span:nth-child(2) {
+  top: 10px;
+  right: 10px;
+  border-top-width: 2px;
+  border-right-width: 2px;
+  border-top-right-radius: 2px;
+}
+
+.photo-slot__corners span:nth-child(3) {
+  bottom: 10px;
+  left: 10px;
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+  border-bottom-left-radius: 2px;
+}
+
+.photo-slot__corners span:nth-child(4) {
+  right: 10px;
+  bottom: 10px;
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+.photo-slot-wrapper:hover .photo-frame,
+.photo-slot-wrapper:focus-within .photo-frame {
+  transform: scale(1.3);
+}
+
+.photo-slot-wrapper:hover .photo-slot__img,
+.photo-slot-wrapper:focus-within .photo-slot__img {
+  filter: contrast(1.04) saturate(1.06);
+  transform: scale(1.02);
+}
+
+.photo-slot-wrapper:hover .photo-slot__shine,
+.photo-slot-wrapper:focus-within .photo-slot__shine {
+  opacity: 1;
+  animation: photoShineSweep 1.4s ease-out forwards;
+}
+
+.photo-slot-wrapper:hover .photo-slot__corners span,
+.photo-slot-wrapper:focus-within .photo-slot__corners span {
+  width: 18px;
+  height: 18px;
+  opacity: 1;
+  border-color: rgb(250 250 250 / 0.92);
+}
+
+@keyframes photoBorderSpin {
+  to {
+    --photo-border-angle: 360deg;
+  }
+}
+
+@property --photo-border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes photoShineSweep {
+  from {
+    background-position: 130% 0;
+  }
+
+  to {
+    background-position: -30% 0;
+  }
+}
+
+.email-copy-btn {
+  animation: emailCopyIn 0.3s ease-out;
+}
+
+@keyframes emailCopyIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes photoTiltCycle {
+  0%,
+  100% {
+    transform: rotateY(-10deg);
+  }
+
+  50% {
+    transform: rotateY(-18deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-tilt {
+    animation: none;
+    transform: rotateY(-15deg);
+  }
+
+  .photo-slot-wrapper:hover .photo-tilt,
+  .photo-slot-wrapper:focus-within .photo-tilt {
+    transform: rotateY(0deg);
+    transition: transform 0.5s ease;
+  }
+
+  .photo-frame::before {
+    animation: none;
+  }
+
+  .photo-frame {
+    transition:
+      transform 0.5s ease,
+      box-shadow 0.5s ease;
+  }
+
+  .photo-slot__img {
+    transition: filter 0.5s ease;
+  }
+
+  .photo-slot-wrapper:hover .photo-frame,
+  .photo-slot-wrapper:focus-within .photo-frame {
+    transform: scale(1.15);
+  }
+
+  .photo-slot-wrapper:hover .photo-slot__img,
+  .photo-slot-wrapper:focus-within .photo-slot__img {
+    transform: none;
+  }
+
+  .photo-slot-wrapper:hover .photo-slot__shine,
+  .photo-slot-wrapper:focus-within .photo-slot__shine {
+    animation: none;
+    opacity: 0.35;
+    background-position: 50% 0;
+  }
+
+  .email-copy-btn {
+    animation: none;
+  }
+}

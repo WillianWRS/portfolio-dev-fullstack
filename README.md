@@ -1,59 +1,37 @@
-# PortfolioDevFullstack
+# Portfolio Dev Fullstack
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.13.
+Portfólio pessoal em **Angular 21** com **SSR/prerender**, **Tailwind CSS** e **Signals**.
 
-## Development server
+## Estrutura
 
-To start a local development server, run:
-
-```bash
-ng serve
+```
+src/app/
+├── core/           # modelos, conteúdo estático, i18n, serviços
+├── shared/ui/      # componentes reutilizáveis (ícones, chips)
+└── features/home/  # página principal, seções e efeitos de fundo
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Scripts
 
-## Code scaffolding
+| Comando | Descrição |
+|---------|-----------|
+| `npm start` | Servidor de desenvolvimento |
+| `npm run build` | Build de produção com SSR |
+| `npm test` | Testes unitários (Vitest) |
+| `npm run lint` | ESLint (TypeScript + templates) |
+| `npm run icons:sync` | Baixa ícones de stack para `public/icons/stacks/` |
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Qualidade
 
-```bash
-ng generate component component-name
-```
+- TypeScript e templates em modo **strict**
+- CI em `.github/workflows/ci.yml` (lint, test, build)
+- Conteúdo e traduções desacoplados do componente `Home`
+- Efeitos visuais inicializados no cliente (`afterNextRender`) para evitar problemas de hidratação
+- Locale persistido em `localStorage` (`portfolio.locale`)
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## SSR
 
 ```bash
-ng test
+npm run build
+npm run serve:ssr:portfolio-dev-fullstack
 ```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

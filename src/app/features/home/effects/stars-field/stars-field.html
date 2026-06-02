@@ -1,0 +1,58 @@
+<div class="stars-field" aria-hidden="true">
+  <span
+    class="constellation-orb constellation-orb--cursor"
+    [class.constellation-orb--cursor-active]="cursorOrbActive()"
+    [style.left.px]="cursorOrbX()"
+    [style.top.px]="cursorOrbY()"
+  ></span>
+
+  @for (orb of constellationOrbs(); track orb.id) {
+    <span
+      class="constellation-orb"
+      [style.--left]="orb.left + '%'"
+      [style.--top]="orb.top + '%'"
+      [style.--size]="orb.size + 'px'"
+      [style.--duration]="orb.duration + 's'"
+      [style.--delay]="orb.delay + 's'"
+      [style.--opacity]="orb.opacity"
+    ></span>
+  }
+
+  @for (star of starParticles(); track star.id) {
+    <span
+      class="star-particle"
+      [style.--left]="star.left + '%'"
+      [style.--top]="star.top + '%'"
+      [style.--size]="star.size + 'px'"
+      [style.--duration]="star.duration + 's'"
+      [style.--delay]="star.delay + 's'"
+      [style.--drift-x]="star.driftX + 'px'"
+      [style.--drift-y]="star.driftY + 'px'"
+      [style.--opacity]="star.opacity"
+    ></span>
+  }
+
+  @for (meteor of meteorStreaks(); track meteor.id) {
+    <span
+      class="meteor-streak"
+      [style.--top]="meteor.top + '%'"
+      [style.--left]="meteor.left + '%'"
+      [style.--length]="meteor.length + 'px'"
+      [style.--duration]="meteor.duration + 's'"
+      [style.--delay]="meteor.delay + 's'"
+      [style.--angle]="meteor.angle + 'deg'"
+    ></span>
+  }
+
+  @for (meteor of triggeredMeteors(); track meteor.id) {
+    <span
+      class="meteor-streak meteor-streak--triggered"
+      [style.--top]="meteor.top + '%'"
+      [style.--left]="meteor.left + '%'"
+      [style.--length]="meteor.length + 'px'"
+      [style.--duration]="meteor.duration + 's'"
+      [style.--delay]="'0s'"
+      [style.--angle]="meteor.angle + 'deg'"
+    ></span>
+  }
+</div>

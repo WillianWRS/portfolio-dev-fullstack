@@ -1,0 +1,16 @@
+<div class="bubble-field" aria-hidden="true">
+  @for (bubble of bubbles(); track bubble.id) {
+    <span
+      class="bubble"
+      [class.will-pop]="bubble.willPop"
+      [style.--size]="bubble.size + 'px'"
+      [style.--left]="bubble.left + '%'"
+      [style.--duration]="bubble.duration + 's'"
+      [style.--delay]="bubble.delay + 's'"
+      [style.--drift]="bubble.drift + 'px'"
+      [style.--opacity]="bubble.opacity"
+    >
+      <span class="bubble-burst"></span>
+    </span>
+  }
+</div>

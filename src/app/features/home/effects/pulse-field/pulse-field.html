@@ -1,0 +1,16 @@
+<div class="pulse-field" aria-hidden="true">
+  @for (ripple of ripplePulses(); track ripple.id) {
+    <span
+      class="ripple-pulse"
+      [style.--left]="ripple.left + '%'"
+      [style.--top]="ripple.top + '%'"
+      [style.--duration]="ripple.duration + 's'"
+      [style.--delay]="ripple.delay + 's'"
+      [style.--max-scale]="ripple.maxScale"
+      [style.--opacity]="ripple.opacity"
+    >
+      <span class="ripple-ring ripple-ring--inner"></span>
+      <span class="ripple-ring ripple-ring--outer"></span>
+    </span>
+  }
+</div>

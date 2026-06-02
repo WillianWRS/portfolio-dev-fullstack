@@ -1,0 +1,26 @@
+.stack-chip {
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.stack-chip:hover {
+  border-color: rgb(161 161 170);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.06);
+  transform: translateY(-1px);
+}
+
+.stack-chip__icon {
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stack-chip {
+    transition: none;
+  }
+
+  .stack-chip:hover {
+    transform: none;
+  }
+}

@@ -1,0 +1,11 @@
+@switch (effect()) {
+  @case ('bubbles') {
+    <app-bubbles-field />
+  }
+  @case ('stars') {
+    <app-stars-field [active]="effect() === 'stars'" />
+  }
+  @case ('pulse') {
+    <app-pulse-field />
+  }
+}

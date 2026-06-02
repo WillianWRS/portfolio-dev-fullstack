@@ -1,0 +1,92 @@
+<header class="flex flex-col gap-10 md:flex-row md:items-start md:justify-between md:gap-8 lg:gap-12">
+  <div class="mt-[30px] min-w-0 flex-1 md:pr-8 lg:max-w-4xl">
+    <h1
+      class="font-display text-4xl font-semibold leading-tight tracking-tight text-zinc-50 md:text-5xl lg:text-6xl"
+    >
+      {{ content.profile().name }}
+    </h1>
+    <p class="mt-3 text-lg text-zinc-400">{{ content.profile().title }}</p>
+
+    <p class="mt-10 text-base leading-relaxed text-zinc-400">
+      {{ content.profile().bio }}
+    </p>
+
+    <nav class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-zinc-500">
+      @for (link of socialLinks; track link.label) {
+        @if (link.icon === 'email') {
+          <span class="email-link inline-flex items-center gap-2">
+            <button
+              type="button"
+              class="shrink-0 text-zinc-500 transition-colors hover:text-zinc-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 rounded-sm"
+              [attr.aria-label]="localeService.t('email.toggleAria')"
+              [attr.aria-expanded]="emailRevealed()"
+              (click)="toggleEmail()"
+            >
+              <app-icon name="email" />
+            </button>
+
+            @if (!emailRevealed()) {
+              <span>{{ link.label }}</span>
+            }
+
+            @if (emailRevealed()) {
+              <a
+                [href]="link.url"
+                class="transition-opacity duration-300 ease-out hover:text-zinc-200 motion-reduce:transition-none"
+              >
+                {{ emailAddress }}
+              </a>
+
+              <button
+                type="button"
+                class="email-copy-btn inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-zinc-500/80 text-zinc-400 transition-colors hover:border-zinc-300 hover:text-zinc-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                [attr.aria-label]="localeService.t('email.copyAria')"
+                (click)="copyEmail($event)"
+              >
+                @if (emailCopied()) {
+                  <app-icon name="check" size="sm" />
+                } @else {
+                  <app-icon name="clipboard" size="sm" />
+                }
+              </button>
+            }
+          </span>
+        } @else {
+          <a
+            [href]="link.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 transition-colors hover:text-zinc-200"
+          >
+            <app-icon [name]="link.icon" />
+            {{ link.label }}
+          </a>
+        }
+      }
+    </nav>
+  </div>
+
+  <div class="photo-slot-wrapper mt-[30px] shrink-0 md:ml-auto">
+    <div class="photo-tilt">
+      <div class="photo-frame">
+        <span class="photo-frame__glow" aria-hidden="true"></span>
+        <figure
+          class="photo-slot aspect-[3/4] w-full max-w-[200px] overflow-hidden rounded-xl bg-zinc-900/50 shadow-lg shadow-black/40 transform-gpu md:max-w-none md:w-52 lg:w-60"
+        >
+          <img
+            [src]="content.profile().photoUrl"
+            [alt]="content.photoAlt()"
+            class="photo-slot__img h-full w-full object-cover"
+            width="240"
+            height="320"
+          />
+          <span class="photo-slot__scanlines" aria-hidden="true"></span>
+          <span class="photo-slot__shine" aria-hidden="true"></span>
+          <span class="photo-slot__corners" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+          </span>
+        </figure>
+      </div>
+    </div>
+  </div>
+</header>

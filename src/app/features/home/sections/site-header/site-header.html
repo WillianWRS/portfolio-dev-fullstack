@@ -1,0 +1,68 @@
+<a
+  routerLink="/"
+  class="font-display fixed top-6 left-6 z-20 rounded-full border border-zinc-300/80 bg-transparent px-4 py-2 text-sm font-semibold tracking-widest text-zinc-200 backdrop-blur-sm transition-colors hover:border-white hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+  aria-label="WRS — início"
+>
+  WRS
+</a>
+
+<div
+  class="fixed top-6 right-6 z-20 flex max-w-[calc(100vw-3rem)] flex-wrap items-center justify-end gap-2"
+>
+  <div
+    class="relative inline-grid grid-cols-2 rounded-full border border-zinc-300/80 bg-zinc-950/50 p-0.5 backdrop-blur-sm"
+    role="group"
+    [attr.aria-label]="localeService.t('locale.groupAria')"
+  >
+    <span
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-y-0.5 left-0.5 w-[calc(50%-0.125rem)] rounded-full bg-zinc-100 shadow-sm transition-transform duration-300 ease-out motion-reduce:transition-none"
+      [class.translate-x-0]="localeService.locale() === 'BR'"
+      [class.translate-x-full]="localeService.locale() === 'EN'"
+    ></span>
+    <button
+      type="button"
+      [class]="localeButtonClass('BR')"
+      [attr.aria-pressed]="localeService.locale() === 'BR'"
+      (click)="selectLocale('BR')"
+    >
+      <img src="/flags/br.svg" alt="" class="locale-flag" width="16" height="12" />
+      BR
+    </button>
+    <button
+      type="button"
+      [class]="localeButtonClass('EN')"
+      [attr.aria-pressed]="localeService.locale() === 'EN'"
+      (click)="selectLocale('EN')"
+    >
+      <img src="/flags/us.svg" alt="" class="locale-flag" width="16" height="12" />
+      EN
+    </button>
+  </div>
+
+  <button
+    type="button"
+    [class]="effectsToggleButtonClass()"
+    [attr.aria-label]="localeService.t('effects.toggleAria')"
+    [attr.aria-expanded]="effectsMenuOpen()"
+    aria-controls="effects-menu"
+    (click)="effectsMenuToggle.emit()"
+  >
+    <app-icon name="sparkles" />
+  </button>
+
+  @if (effectsMenuOpen()) {
+    <div id="effects-menu" class="flex flex-wrap items-center justify-end gap-2" role="group">
+      @for (effect of effectOptions; track effect) {
+        <button
+          type="button"
+          [class]="effectButtonClass(effect)"
+          [attr.aria-pressed]="selectedEffect() === effect"
+          (click)="effectSelect.emit(effect)"
+        >
+          {{ effectLabel(effect) }}
+        </button>
+      }
+    </div>
+  }
+</div>

@@ -324,3 +324,42 @@
     animation: none;
   }
 }
+
+.profile-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.profile-cta--primary {
+  border: 1px solid rgb(250 250 250);
+  background: rgb(250 250 250);
+  color: rgb(9 9 11);
+}
+
+.profile-cta--primary:hover {
+  background: rgb(228 228 231);
+  border-color: rgb(228 228 231);
+  transform: translateY(-1px);
+}
+
+.profile-cta--secondary {
+  border: 1px solid rgb(82 82 91 / 0.8);
+  background: rgb(24 24 27 / 0.5);
+  color: rgb(228 228 231);
+}
+
+.profile-cta--secondary:hover {
+  border-color: rgb(161 161 170);
+  color: rgb(250 250 250);
+  transform: translateY(-1px);
+}

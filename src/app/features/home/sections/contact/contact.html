@@ -1,0 +1,48 @@
+<section id="contact" class="section-reveal mt-28 md:mt-36 scroll-mt-28">
+  <div class="section-card">
+    <h2 class="section-card__heading">
+      <app-icon name="message" />
+      {{ localeService.t('contact.heading') }}
+    </h2>
+    <p class="section-card__subtitle">{{ localeService.t('contact.subtitle') }}</p>
+    <p class="mt-2 text-sm text-zinc-500">{{ localeService.t('contact.availability') }}</p>
+
+    <div class="mt-14 grid gap-4 sm:grid-cols-3">
+      <a
+        [href]="'mailto:' + email"
+        class="contact-card group"
+      >
+        <span class="contact-card__icon">
+          <app-icon name="email" />
+        </span>
+        <span class="contact-card__label">{{ localeService.t('contact.emailLabel') }}</span>
+        <span class="contact-card__value">{{ email }}</span>
+      </a>
+
+      <a
+        [href]="content.calendarUrl()"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="contact-card group"
+      >
+        <span class="contact-card__icon">
+          <app-icon name="calendar" />
+        </span>
+        <span class="contact-card__label">{{ localeService.t('contact.calendarLabel') }}</span>
+        <span class="contact-card__value">{{ localeService.t('contact.calendarHint') }}</span>
+      </a>
+
+      <a
+        [href]="content.cvUrl()"
+        download
+        class="contact-card group"
+      >
+        <span class="contact-card__icon">
+          <app-icon name="download" />
+        </span>
+        <span class="contact-card__label">{{ localeService.t('contact.cvLabel') }}</span>
+        <span class="contact-card__value">PDF · {{ localeService.locale() }}</span>
+      </a>
+    </div>
+  </div>
+</section>

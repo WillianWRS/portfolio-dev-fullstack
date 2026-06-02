@@ -1,0 +1,50 @@
+<section id="experience" class="section-reveal mt-28 md:mt-36 scroll-mt-28">
+  <div class="section-card">
+    <h2 class="section-card__heading">
+      <app-icon name="briefcase" />
+      {{ localeService.t('experience.heading') }}
+    </h2>
+    <p class="section-card__subtitle">{{ localeService.t('experience.subtitle') }}</p>
+
+    <ol class="experience-timeline mt-14">
+      @for (item of content.experience(); track item.id) {
+        <li class="experience-item">
+          <div class="experience-item__marker" aria-hidden="true"></div>
+          <div class="experience-item__body">
+            <div class="flex flex-wrap items-baseline justify-between gap-2">
+              <div>
+                <h3 class="text-lg font-semibold text-zinc-900">{{ item.role }}</h3>
+                <p class="text-sm font-medium text-zinc-600">{{ item.company }}</p>
+              </div>
+              <div class="flex items-center gap-2">
+                @if (item.current) {
+                  <span class="experience-badge">{{ localeService.t('experience.current') }}</span>
+                }
+                <time class="text-sm text-zinc-500">{{ item.period }}</time>
+              </div>
+            </div>
+
+            <ul class="mt-4 space-y-2 text-sm leading-relaxed text-zinc-600">
+              @for (highlight of item.highlights; track highlight) {
+                <li class="flex gap-2">
+                  <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-zinc-400" aria-hidden="true"></span>
+                  <span>{{ highlight }}</span>
+                </li>
+              }
+            </ul>
+
+            <ul class="mt-4 flex flex-wrap gap-2" [attr.aria-label]="item.company">
+              @for (stack of item.stacks; track stack) {
+                <li
+                  class="rounded-full border border-zinc-200 bg-zinc-50 px-2.5 py-1 font-mono text-xs text-zinc-600"
+                >
+                  {{ stack }}
+                </li>
+              }
+            </ul>
+          </div>
+        </li>
+      }
+    </ol>
+  </div>
+</section>

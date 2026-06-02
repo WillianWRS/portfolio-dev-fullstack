@@ -1,0 +1,24 @@
+<section id="testimonials" class="section-reveal mt-28 md:mt-36 scroll-mt-28">
+  <div class="section-card">
+    <h2 class="section-card__heading">
+      <app-icon name="quote" />
+      {{ localeService.t('testimonials.heading') }}
+    </h2>
+    <p class="section-card__subtitle">{{ localeService.t('testimonials.subtitle') }}</p>
+
+    <div class="mt-14 grid gap-6 md:grid-cols-3">
+      @for (item of content.testimonials(); track item.id) {
+        <figure class="testimonial-card">
+          <blockquote class="testimonial-card__quote">
+            <app-icon name="quote" />
+            <p>{{ item.quote }}</p>
+          </blockquote>
+          <figcaption class="testimonial-card__author">
+            <span class="font-semibold text-zinc-900">{{ item.author }}</span>
+            <span class="text-sm text-zinc-500">{{ item.role }} · {{ item.company }}</span>
+          </figcaption>
+        </figure>
+      }
+    </div>
+  </div>
+</section>

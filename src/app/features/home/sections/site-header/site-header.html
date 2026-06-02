@@ -6,9 +6,16 @@
   WRS
 </a>
 
-<div
-  class="fixed top-6 right-6 z-20 flex max-w-[calc(100vw-3rem)] flex-wrap items-center justify-end gap-2"
+<nav
+  class="site-nav fixed top-6 left-1/2 z-20 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-zinc-300/80 bg-zinc-950/50 px-1.5 py-1 backdrop-blur-sm lg:flex"
+  [attr.aria-label]="localeService.t('nav.mainAria')"
 >
+  @for (item of navItems; track item.id) {
+    <a [href]="item.href" class="site-nav__link">{{ localeService.t(item.labelKey) }}</a>
+  }
+</nav>
+
+<div class="fixed top-6 right-6 z-20">
   <div
     class="relative inline-grid grid-cols-2 rounded-full border border-zinc-300/80 bg-zinc-950/50 p-0.5 backdrop-blur-sm"
     role="group"
@@ -39,30 +46,4 @@
       EN
     </button>
   </div>
-
-  <button
-    type="button"
-    [class]="effectsToggleButtonClass()"
-    [attr.aria-label]="localeService.t('effects.toggleAria')"
-    [attr.aria-expanded]="effectsMenuOpen()"
-    aria-controls="effects-menu"
-    (click)="effectsMenuToggle.emit()"
-  >
-    <app-icon name="sparkles" />
-  </button>
-
-  @if (effectsMenuOpen()) {
-    <div id="effects-menu" class="flex flex-wrap items-center justify-end gap-2" role="group">
-      @for (effect of effectOptions; track effect) {
-        <button
-          type="button"
-          [class]="effectButtonClass(effect)"
-          [attr.aria-pressed]="selectedEffect() === effect"
-          (click)="effectSelect.emit(effect)"
-        >
-          {{ effectLabel(effect) }}
-        </button>
-      }
-    </div>
-  }
 </div>

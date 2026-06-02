@@ -19,9 +19,184 @@
     inset: 0;
     background-color: rgb(9 9 11 / 0.95);
   }
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 1;
+    height: 6rem;
+    background: linear-gradient(to bottom, transparent, rgb(9 9 11));
+    pointer-events: none;
+  }
 }
 
 .profile-zone__content {
   position: relative;
   z-index: 1;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 100;
+  border-radius: 0.5rem;
+  background: rgb(250 250 250);
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgb(9 9 11);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+:host ::ng-deep .section-card {
+  border-radius: 1.5rem;
+  background: rgb(250 250 250);
+  padding: 2.5rem 1.5rem;
+  color: rgb(24 24 27);
+  box-shadow: 0 0 0 1px rgb(228 228 231 / 0.7);
+
+  @media (min-width: 768px) {
+    padding: 4rem 2.5rem;
+  }
+}
+
+:host ::ng-deep .section-card__heading {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: rgb(24 24 27);
+}
+
+:host ::ng-deep .section-card__subtitle {
+  margin-top: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgb(82 82 91);
+}
+
+:host ::ng-deep .about-card {
+  border-radius: 1rem;
+  border: 1px solid rgb(228 228 231);
+  background: rgb(255 255 255);
+  padding: 1.25rem 1.5rem;
+}
+
+:host ::ng-deep .about-card__title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: rgb(24 24 27);
+}
+
+:host ::ng-deep .about-card__text {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: rgb(82 82 91);
+}
+
+:host ::ng-deep .testimonial-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid rgb(228 228 231);
+  background: rgb(255 255 255);
+  padding: 1.5rem;
+}
+
+:host ::ng-deep .testimonial-card__quote {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: rgb(63 63 70);
+}
+
+:host ::ng-deep .testimonial-card__author {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+:host ::ng-deep .contact-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-radius: 1rem;
+  border: 1px solid rgb(228 228 231);
+  background: rgb(255 255 255);
+  padding: 1.25rem 1.5rem;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+:host ::ng-deep .contact-card:hover {
+  border-color: rgb(161 161 170);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.06);
+  transform: translateY(-2px);
+}
+
+:host ::ng-deep .contact-card__icon {
+  color: rgb(82 82 91);
+}
+
+:host ::ng-deep .contact-card__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgb(113 113 122);
+}
+
+:host ::ng-deep .contact-card__value {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: rgb(24 24 27);
+}
+
+:host ::ng-deep .section-reveal {
+  animation: sectionReveal both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 35%;
+}
+
+@keyframes sectionReveal {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@supports not (animation-timeline: view()) {
+  :host ::ng-deep .section-reveal {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host ::ng-deep .section-reveal {
+    animation: none;
+  }
+
+  :host ::ng-deep .contact-card:hover {
+    transform: none;
+  }
 }

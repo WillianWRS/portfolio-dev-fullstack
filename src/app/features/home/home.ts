@@ -2,16 +2,19 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
-  signal,
   viewChild,
 } from '@angular/core';
-import type { BackgroundEffect } from '../../core/models/effects.model';
 import { LocaleService } from '../../core/services/locale.service';
 import { BackgroundEffects } from './effects/background-effects/background-effects';
+import { About } from './sections/about/about';
+import { Contact } from './sections/contact/contact';
+import { Experience } from './sections/experience/experience';
 import { Profile } from './sections/profile/profile';
 import { Projects } from './sections/projects/projects';
+import { SiteFooter } from './sections/site-footer/site-footer';
 import { SiteHeader } from './sections/site-header/site-header';
 import { Stacks } from './sections/stacks/stacks';
+import { Testimonials } from './sections/testimonials/testimonials';
 
 @Component({
   selector: 'app-home',
@@ -20,8 +23,13 @@ import { Stacks } from './sections/stacks/stacks';
     BackgroundEffects,
     SiteHeader,
     Profile,
+    About,
+    Experience,
     Projects,
     Stacks,
+    Testimonials,
+    Contact,
+    SiteFooter,
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
@@ -32,20 +40,7 @@ export class Home {
 
   private readonly backgroundEffects = viewChild(BackgroundEffects);
 
-  protected readonly selectedEffect = signal<BackgroundEffect>('stars');
-  protected readonly effectsMenuOpen = signal(false);
-
   protected onMainClick(): void {
     this.backgroundEffects()?.handleMainClick();
-  }
-
-  protected toggleEffectsMenu(): void {
-    this.effectsMenuOpen.update((open) => !open);
-  }
-
-  protected selectEffect(effect: BackgroundEffect): void {
-    this.selectedEffect.set(effect);
-    this.effectsMenuOpen.set(false);
-    this.backgroundEffects()?.onEffectChange(effect);
   }
 }

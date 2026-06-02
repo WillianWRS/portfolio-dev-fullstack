@@ -1,93 +1,194 @@
-<section class="mt-28 md:mt-36">
-  <div class="rounded-3xl bg-zinc-50 px-6 py-16 text-zinc-900 ring-1 ring-zinc-200/70 md:px-10">
-    <h2 class="flex items-center gap-2.5 text-xl font-medium tracking-tight text-zinc-900">
+<section id="projects" class="section-reveal mt-28 md:mt-36 scroll-mt-28">
+  <div class="section-card">
+    <h2 class="section-card__heading">
       <app-icon name="folder" />
       {{ localeService.t('projects.heading') }}
     </h2>
-    <p class="mt-3 text-base text-zinc-600">
-      {{ localeService.t('projects.subtitle') }}
-    </p>
+    <p class="section-card__subtitle">{{ localeService.t('projects.subtitle') }}</p>
 
-    <div class="mt-14 grid gap-12 lg:grid-cols-2 lg:gap-16 lg:items-start">
-      <div
-        id="project-panel"
-        class="min-w-0"
-        role="tabpanel"
-        [attr.aria-labelledby]="'project-tab-' + selectedIndex()"
-      >
-        @let selected = content.projects()[selectedIndex()];
-        <figure
-          class="project-showcase__media group relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-200 ring-1 ring-zinc-200/80"
+    <div class="mt-8 flex flex-wrap gap-2" role="group" [attr.aria-label]="localeService.t('projects.heading')">
+      @for (filter of filters; track filter) {
+        <button
+          type="button"
+          class="project-filter"
+          [class.project-filter--active]="activeFilter() === filter"
+          [attr.aria-pressed]="activeFilter() === filter"
+          (click)="setFilter(filter)"
         >
-          <img
-            [src]="selected.imageUrl"
-            [alt]="selected.title"
-            class="project-showcase__image h-full w-full object-cover"
-            width="800"
-            height="600"
-          />
-          <figcaption
-            class="project-showcase__overlay absolute inset-0 flex items-end bg-black/0 p-6 transition-colors duration-300 group-hover:bg-black/50"
-          >
-            <p
-              class="translate-y-2 text-base leading-relaxed text-transparent transition-all duration-300 group-hover:translate-y-0 group-hover:text-white"
-            >
-              {{ selected.description }}
-            </p>
-          </figcaption>
-        </figure>
+          {{ filterLabel(filter) }}
+        </button>
+      }
+    </div>
 
-        <ul class="mt-5 flex flex-wrap gap-2" aria-label="Tecnologias do projeto">
-          @for (stack of selected.stacks; track stack) {
-            <li
-              class="rounded-full border border-zinc-200 bg-white px-3 py-1 font-mono text-xs tracking-wide text-zinc-600"
+    @if (filteredProjects().length === 0) {
+      <p class="mt-10 text-sm text-zinc-500">{{ localeService.t('projects.underConstruction') }}</p>
+    } @else {
+      <div class="mt-14 grid gap-12 lg:grid-cols-2 lg:gap-16 lg:items-start">
+        @let selected = selectedProject();
+        <div
+          id="project-panel"
+          class="min-w-0"
+          role="tabpanel"
+          [attr.aria-labelledby]="'project-tab-' + selectedIndex()"
+        >
+          <div class="mb-4 flex flex-wrap items-center gap-2">
+            <span class="project-status" [class]="statusClass(selected.status)">{{ selected.statusLabel }}</span>
+            <span class="project-meta">{{ selected.categoryLabel }} · {{ selected.year }}</span>
+            <span class="project-meta">{{ selected.role }}</span>
+          </div>
+
+          <figure
+            class="project-showcase__media group relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-200 ring-1 ring-zinc-200/80"
+          >
+            <img
+              [src]="selected.imageUrl"
+              [alt]="selected.title"
+              class="project-showcase__image h-full w-full object-cover"
+              width="800"
+              height="600"
+            />
+            <figcaption
+              class="project-showcase__overlay absolute inset-0 flex items-end bg-black/0 p-6 transition-colors duration-300 group-hover:bg-black/50"
             >
-              {{ stack }}
-            </li>
+              <p
+                class="translate-y-2 text-base leading-relaxed text-transparent transition-all duration-300 group-hover:translate-y-0 group-hover:text-white"
+              >
+                {{ selected.description }}
+              </p>
+            </figcaption>
+          </figure>
+
+          @if (selected.metrics.length > 0) {
+            <ul class="mt-5 grid grid-cols-3 gap-3">
+              @for (metric of selected.metrics; track metric.label) {
+                <li class="project-metric">
+                  <span class="project-metric__value">{{ metric.value }}</span>
+                  <span class="project-metric__label">{{ metric.label }}</span>
+                </li>
+              }
+            </ul>
           }
-        </ul>
 
-        <div class="mt-6 flex flex-wrap gap-3">
-          <button
-            type="button"
-            class="project-action-btn inline-flex items-center gap-2 rounded-full border border-zinc-900 bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-zinc-50"
-          >
-            <app-icon name="github" />
-            GitHub
-          </button>
-          <button
-            type="button"
-            disabled
-            class="project-action-btn inline-flex items-center gap-2 rounded-full border border-zinc-900 bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-zinc-50"
-          >
-            <app-icon name="external-link" />
-            {{ localeService.t('projects.access') }}
-          </button>
+          <ul class="mt-5 flex flex-wrap gap-2" aria-label="Tecnologias do projeto">
+            @for (stack of selected.stacks; track stack) {
+              <li
+                class="rounded-full border border-zinc-200 bg-white px-3 py-1 font-mono text-xs tracking-wide text-zinc-600"
+              >
+                {{ stack }}
+              </li>
+            }
+          </ul>
+
+          <div class="mt-6 flex flex-wrap gap-3">
+            @if (selected.githubUrl) {
+              <a
+                [href]="selected.githubUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="project-action-btn inline-flex items-center gap-2 rounded-full border border-zinc-900 bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-zinc-50"
+              >
+                <app-icon name="github" />
+                {{ localeService.t('projects.github') }}
+              </a>
+            } @else if (selected.status === 'private') {
+              <span class="text-sm text-zinc-500">{{ localeService.t('projects.privateNote') }}</span>
+            }
+
+            @if (selected.liveUrl) {
+              <a
+                [href]="selected.liveUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="project-action-btn inline-flex items-center gap-2 rounded-full border border-zinc-900 bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-zinc-50"
+              >
+                <app-icon name="external-link" />
+                {{ localeService.t('projects.access') }}
+              </a>
+            }
+
+            @if (selected.hasCaseStudy) {
+              <button
+                type="button"
+                class="project-action-btn project-action-btn--outline inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-900"
+                (click)="openCaseStudy()"
+              >
+                {{ localeService.t('projects.caseStudy') }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <div class="project-list lg:pt-2" role="tablist" [attr.aria-label]="localeService.t('projects.heading')">
+          @for (project of filteredProjects(); track project.id; let index = $index; let last = $last) {
+            <button
+              type="button"
+              role="tab"
+              [id]="'project-tab-' + index"
+              [attr.aria-selected]="selectedIndex() === index"
+              [attr.aria-controls]="'project-panel'"
+              class="project-tab"
+              [class.project-tab--selected]="selectedIndex() === index"
+              (click)="selectProject(index)"
+            >
+              <span class="project-tab__icon" aria-hidden="true">
+                <app-icon name="arrow-right" />
+              </span>
+              <span class="project-tab__label">{{ project.title }}</span>
+              @if (project.featured) {
+                <span class="project-tab__featured" aria-hidden="true">★</span>
+              }
+            </button>
+            @if (!last) {
+              <div class="h-px w-full bg-zinc-300/90" aria-hidden="true"></div>
+            }
+          }
         </div>
       </div>
+    }
+  </div>
 
-      <div class="project-list lg:pt-2" role="tablist" [attr.aria-label]="localeService.t('projects.heading')">
-        @for (project of content.projects(); track project.title; let index = $index; let last = $last) {
+  @if (caseStudyOpen() && selectedProject().caseStudy; as caseStudy) {
+    <div
+      class="case-study-backdrop"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="selectedProject()!.title"
+      (click)="closeCaseStudy()"
+    >
+      <div class="case-study-modal" (click)="$event.stopPropagation()">
+        <div class="flex items-start justify-between gap-4">
+          <h3 class="text-xl font-semibold text-zinc-900">{{ selectedProject()!.title }}</h3>
           <button
             type="button"
-            role="tab"
-            [id]="'project-tab-' + index"
-            [attr.aria-selected]="selectedIndex() === index"
-            [attr.aria-controls]="'project-panel'"
-            class="project-tab"
-            [class.project-tab--selected]="selectedIndex() === index"
-            (click)="selectProject(index)"
+            class="case-study-close"
+            [attr.aria-label]="localeService.t('projects.closeCaseStudy')"
+            (click)="closeCaseStudy()"
           >
-            <span class="project-tab__icon" aria-hidden="true">
-              <app-icon name="arrow-right" />
-            </span>
-            <span class="project-tab__label">{{ project.title }}</span>
+            <app-icon name="x" />
           </button>
-          @if (!last) {
-            <div class="h-px w-full bg-zinc-300/90" aria-hidden="true"></div>
-          }
-        }
+        </div>
+
+        <div class="mt-6 space-y-5 text-sm leading-relaxed text-zinc-600">
+          <div>
+            <h4 class="mb-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+              {{ localeService.t('projects.caseProblem') }}
+            </h4>
+            <p>{{ caseStudy.problem }}</p>
+          </div>
+          <div>
+            <h4 class="mb-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+              {{ localeService.t('projects.caseSolution') }}
+            </h4>
+            <p>{{ caseStudy.solution }}</p>
+          </div>
+          <div>
+            <h4 class="mb-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+              {{ localeService.t('projects.caseOutcome') }}
+            </h4>
+            <p>{{ caseStudy.outcome }}</p>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  }
 </section>

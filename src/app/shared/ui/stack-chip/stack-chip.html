@@ -1,5 +1,6 @@
 <span
   class="stack-chip inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3.5 py-2 text-sm font-medium text-zinc-700 shadow-sm"
+  [attr.title]="proficiencyLabel() || null"
 >
   <img
     [src]="iconUrl()"
@@ -10,5 +11,13 @@
     loading="lazy"
     (error)="onIconError($event)"
   />
-  {{ name() }}
+  <span>{{ name() }}</span>
+  @if (proficiencyLabel()) {
+    <span
+      class="stack-chip__badge rounded-full px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+      [class]="proficiencyClass()"
+    >
+      {{ proficiencyShort() }}
+    </span>
+  }
 </span>

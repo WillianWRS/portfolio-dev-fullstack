@@ -1,0 +1,35 @@
+<footer class="site-footer mt-28 border-t border-zinc-900 pt-10">
+  <div class="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+    <div class="space-y-3">
+      <p class="font-display text-sm font-semibold tracking-widest text-zinc-300">WRS</p>
+      <p class="max-w-md text-sm leading-relaxed text-zinc-600">{{ localeService.t('footer.text') }}</p>
+      <p class="text-xs text-zinc-700">{{ localeService.t('footer.updated') }}</p>
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <nav class="flex flex-wrap gap-4" aria-label="Social links">
+        @for (link of socialLinks; track link.label) {
+          <a
+            [href]="link.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 text-sm text-zinc-500 transition-colors hover:text-zinc-200"
+          >
+            <app-icon [name]="link.icon" />
+            {{ link.label }}
+          </a>
+        }
+      </nav>
+
+      <a
+        [href]="content.githubRepoUrl()"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 text-sm text-zinc-500 transition-colors hover:text-zinc-200"
+      >
+        <app-icon name="github" />
+        {{ localeService.t('footer.viewSource') }}
+      </a>
+    </div>
+  </div>
+</footer>

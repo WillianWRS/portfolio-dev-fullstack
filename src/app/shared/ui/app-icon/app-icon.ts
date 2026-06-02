@@ -10,7 +10,14 @@ export type AppIconName =
   | 'check'
   | 'clipboard'
   | 'external-link'
-  | 'arrow-right';
+  | 'arrow-right'
+  | 'briefcase'
+  | 'user'
+  | 'quote'
+  | 'download'
+  | 'x'
+  | 'calendar'
+  | 'message';
 
 @Component({
   selector: 'app-icon',

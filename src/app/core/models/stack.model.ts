@@ -1,8 +1,10 @@
 export type StackCategoryId = 'backend' | 'frontend' | 'database' | 'ai';
+export type StackProficiency = 'daily' | 'familiar' | 'learning';
 
 export interface StackItem {
   name: string;
   iconSlug: string;
+  proficiency: StackProficiency;
 }
 
 export interface StackCategorySource {
@@ -15,5 +17,12 @@ export interface StackCategorySource {
 export interface StackCategoryView {
   id: StackCategoryId;
   label: string;
-  items: StackItem[];
+  items: StackItemView[];
+}
+
+export interface StackItemView {
+  name: string;
+  iconSlug: string;
+  proficiency: StackProficiency;
+  proficiencyLabel: string;
 }

@@ -1,18 +1,22 @@
 <section id="stacks" class="section-reveal mt-28 md:mt-36 scroll-mt-28">
   <div class="section-card">
     <h2 class="section-card__heading">
-      <app-icon name="settings" />
+      <span class="section-card__icon-wrap section-card__icon-wrap--stacks">
+        <app-icon name="settings" />
+      </span>
       {{ localeService.t('stacks.heading') }}
     </h2>
     <p class="section-card__subtitle">{{ localeService.t('stacks.subtitle') }}</p>
 
-    <div class="mt-14 grid gap-12 sm:grid-cols-2">
+    <div class="stacks-categories mt-14">
       @for (category of content.stackCategories(); track category.id) {
-        <div class="min-w-0">
-          <h3 class="text-sm font-semibold uppercase tracking-wider text-zinc-500">
-            {{ category.label }}
-          </h3>
-          <ul class="mt-5 flex flex-wrap gap-2.5" [attr.aria-label]="category.label">
+        <article class="stacks-row" [class]="'stacks-row--' + category.id">
+          <header class="stacks-row__header">
+            <span class="stacks-row__dot" aria-hidden="true"></span>
+            <h3 class="stacks-row__title">{{ category.label }}</h3>
+            <span class="stacks-row__count">{{ category.items.length }}</span>
+          </header>
+          <ul class="stacks-row__list" [attr.aria-label]="category.label">
             @for (item of category.items; track item.name) {
               <li>
                 <app-stack-chip
@@ -24,7 +28,7 @@
               </li>
             }
           </ul>
-        </div>
+        </article>
       }
     </div>
   </div>

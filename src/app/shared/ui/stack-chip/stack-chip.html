@@ -1,20 +1,20 @@
 <span
-  class="stack-chip inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-white px-3.5 py-2 text-sm font-medium text-zinc-700 shadow-sm"
+  class="stack-chip inline-flex items-center gap-2.5 rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-base font-medium text-zinc-700 shadow-sm"
   [attr.title]="proficiencyLabel() || null"
 >
   <img
     [src]="iconUrl()"
     alt=""
-    class="stack-chip__icon h-5 w-5 shrink-0 object-contain"
-    width="20"
-    height="20"
+    class="stack-chip__icon h-6 w-6 shrink-0 object-contain"
+    width="24"
+    height="24"
     loading="lazy"
     (error)="onIconError($event)"
   />
   <span>{{ name() }}</span>
   @if (proficiencyLabel()) {
     <span
-      class="stack-chip__badge rounded-full px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+      class="stack-chip__badge rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide"
       [class]="proficiencyClass()"
     >
       {{ proficiencyShort() }}

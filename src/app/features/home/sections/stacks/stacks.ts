@@ -9,6 +9,7 @@ import { PortfolioContentService } from '../../../../core/services/portfolio-con
   standalone: true,
   imports: [AppIcon, StackChip],
   templateUrl: './stacks.html',
+  styleUrl: './stacks.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Stacks {

@@ -45,7 +45,7 @@ Decisões registradas em [`docs/adr/`](docs/adr/).
 
 | Comando | Descrição |
 |---------|-----------|
-| `npm start` | Servidor de desenvolvimento |
+| `npm start` | Servidor de desenvolvimento (`hmr: false` — `@defer` com lazy load real) |
 | `npm run build` | Build de produção com SSR/prerender |
 | `npm test` | Testes unitários (Vitest) |
 | `npm run test:ci` | Testes + cobertura + thresholds (CI) |

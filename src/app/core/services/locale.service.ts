@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import { afterNextRender, computed, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import {
@@ -11,6 +12,7 @@ import { translate, type TranslationKey } from '../i18n/translations';
 @Injectable({ providedIn: 'root' })
 export class LocaleService {
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly document = inject(DOCUMENT);
 
   private readonly localeSignal = signal<Locale>(DEFAULT_LOCALE);
 
@@ -51,6 +53,6 @@ export class LocaleService {
       return;
     }
 
-    document.documentElement.lang = localeToHtmlLang(this.locale());
+    this.document.documentElement.lang = localeToHtmlLang(this.locale());
   }
 }

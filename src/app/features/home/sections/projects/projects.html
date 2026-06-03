@@ -154,6 +154,7 @@
       aria-modal="true"
       [attr.aria-label]="selectedProject()!.title"
       (click)="closeCaseStudy()"
+      (keydown.escape)="closeCaseStudy()"
     >
       <div class="case-study-modal" (click)="$event.stopPropagation()">
         <div class="flex items-start justify-between gap-4">

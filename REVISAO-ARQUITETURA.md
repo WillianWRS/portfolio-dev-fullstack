@@ -197,11 +197,13 @@ Prioridades: **P0** (alto impacto, fazer primeiro) · **P1** (importante) · **P
 
 > Validação: `npm run test:ci`, `npm run build`, `npm run e2e:ci` (5 testes e2e) verdes.
 
-### Fase 4 — Refino e DX (P2)
-11. Regras de ESLint mais rígidas + flags de TS.
-12. `APP_CONFIG` / environments e SEO dinâmico (`Title`/`Meta`).
-13. `DOCUMENT` token, centralização de constantes de efeitos, throttling de eventos.
-14. PWA, sitemap/robots/manifest e documentação/ADRs.
+### Fase 4 — Refino e DX (P2) — ✅ CONCLUÍDA
+11. ✅ ESLint endurecido (`prefer-on-push`, `consistent-type-imports`, `templateAccessibility`, `no-unused-vars`) + `eslint-config-prettier`. TS: `noUnusedLocals`, `noUnusedParameters`, `forceConsistentCasingInFileNames`. Scripts `format` / `format:check`.
+12. ✅ `APP_CONFIG` + `src/environments/` (com `fileReplacements` em produção). `SeoService` atualiza `Title`/`Meta`/OG/Twitter e JSON-LD conforme locale.
+13. ✅ `LocaleService` usa token `DOCUMENT`. `EFFECTS_CONFIG` centralizado. `StarsField` com listener `passive` + throttle via `requestAnimationFrame`. Clique no `main` só no fundo (`target === currentTarget`).
+14. ✅ `public/robots.txt`, `sitemap.xml`, `manifest.webmanifest`. README com diagrama Mermaid + tabela de camadas. ADRs em `docs/adr/` (001–003).
+
+> Validação: `npm run lint`, `npm run test:ci`, `npm run build` verdes.
 
 ---
 
@@ -216,12 +218,12 @@ Prioridades: **P0** (alto impacto, fazer primeiro) · **P1** (importante) · **P
 - [x] Coordenação de efeitos desacoplada via serviço/sinais.
 - [x] Cobertura de testes com thresholds no CI + e2e/a11y.
 - [x] Express com compressão e headers de segurança; headers de cache/segurança no Firebase Hosting.
-- [ ] SEO dinâmico/localizado + sitemap/robots/manifest.
-- [ ] ESLint/TS endurecidos; Prettier integrado.
-- [ ] README com arquitetura e ADRs.
+- [x] SEO dinâmico/localizado + sitemap/robots/manifest.
+- [x] ESLint/TS endurecidos; Prettier integrado.
+- [x] README com arquitetura e ADRs.
 
 ---
 
 ## 6. Observação final
 
-Nenhuma mudança de código foi aplicada — este documento é apenas o **plano**. Quando você aprovar, recomendo executar **fase a fase**, com o CI verde a cada etapa, para garantir que cada melhoria seja segura e reversível. Posso começar pela **Fase 1** assim que você der o comando.
+**Todas as quatro fases do plano foram implementadas.** O projeto atinge o checklist de estado-alvo definido neste documento. Melhorias opcionais futuras: `@angular/service-worker` (PWA offline), CSP com nonces no edge, e elevar thresholds de cobertura gradualmente.

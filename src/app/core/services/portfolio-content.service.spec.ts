@@ -1,6 +1,7 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CV_URL_BR, CV_URL_EN, PROFILE_NAME } from '@core/content/profile.content';
+import { APP_CONFIG } from '@core/config/app-config.token';
+import { environment } from '../../../environments/environment';
 import { LocaleService } from './locale.service';
 import { PortfolioContentService } from './portfolio-content.service';
 
@@ -10,7 +11,10 @@ describe('PortfolioContentService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: PLATFORM_ID, useValue: 'browser' }],
+      providers: [
+        { provide: PLATFORM_ID, useValue: 'browser' },
+        { provide: APP_CONFIG, useValue: environment.appConfig },
+      ],
     });
 
     content = TestBed.inject(PortfolioContentService);
@@ -18,7 +22,7 @@ describe('PortfolioContentService', () => {
   });
 
   it('exposes profile data localized to the active locale', () => {
-    expect(content.profile().name).toBe(PROFILE_NAME);
+    expect(content.profile().name).toBe(environment.appConfig.profileName);
     expect(content.profile().title).toContain('Full Stack');
 
     locale.setLocale('EN');
@@ -27,10 +31,10 @@ describe('PortfolioContentService', () => {
   });
 
   it('switches CV URL by locale', () => {
-    expect(content.cvUrl()).toBe(CV_URL_BR);
+    expect(content.cvUrl()).toBe(environment.appConfig.cvUrlBr);
 
     locale.setLocale('EN');
-    expect(content.cvUrl()).toBe(CV_URL_EN);
+    expect(content.cvUrl()).toBe(environment.appConfig.cvUrlEn);
   });
 
   it('maps projects with localized labels', () => {

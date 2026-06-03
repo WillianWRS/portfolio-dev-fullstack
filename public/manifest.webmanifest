@@ -1,0 +1,23 @@
+{
+  "name": "Portfólio WRS — Willian Robert Scabora",
+  "short_name": "WRS Portfolio",
+  "description": "Portfólio Full Stack — Angular, Java e arquitetura de software.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#09090b",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "/favicon2.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/foto.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

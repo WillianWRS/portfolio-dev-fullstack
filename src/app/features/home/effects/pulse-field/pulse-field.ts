@@ -5,11 +5,13 @@ import {
   signal,
   ViewEncapsulation,
 } from '@angular/core';
+import { EFFECTS_CONFIG } from '@core/effects/effects.config';
 import type { RipplePulse } from '@core/models/effects.model';
 import { createRipplePulses } from '@core/effects/particle.factory';
 
 @Component({
-  selector: 'app-pulse-field',  templateUrl: './pulse-field.html',
+  selector: 'app-pulse-field',
+  templateUrl: './pulse-field.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -18,7 +20,7 @@ export class PulseField {
 
   constructor() {
     afterNextRender(() => {
-      this.ripplePulses.set(createRipplePulses(14));
+      this.ripplePulses.set(createRipplePulses(EFFECTS_CONFIG.pulse.count));
     });
   }
 }

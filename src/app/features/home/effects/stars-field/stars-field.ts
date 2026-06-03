@@ -2,7 +2,7 @@ import {
   afterNextRender,
   ChangeDetectionStrategy,
   Component,
-  HostListener,
+  DestroyRef,
   inject,
   input,
   PLATFORM_ID,
@@ -10,6 +10,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { EFFECTS_CONFIG } from '@core/effects/effects.config';
 import type { ConstellationOrb, MeteorStreak, StarParticle } from '@core/models/effects.model';
 import {
   createConstellationOrbs,
@@ -19,12 +20,14 @@ import {
 } from '@core/effects/particle.factory';
 
 @Component({
-  selector: 'app-stars-field',  templateUrl: './stars-field.html',
+  selector: 'app-stars-field',
+  templateUrl: './stars-field.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StarsField {
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly active = input(true);
 
@@ -38,24 +41,28 @@ export class StarsField {
   protected readonly triggeredMeteors = signal<MeteorStreak[]>([]);
 
   private triggeredMeteorSeq = 0;
+  private pointerRafId = 0;
+  private pendingPointerX = 0;
+  private pendingPointerY = 0;
 
   constructor() {
     afterNextRender(() => {
-      this.starParticles.set(createStarParticles(55));
-      this.constellationOrbs.set(createConstellationOrbs(7));
-      this.meteorStreaks.set(createMeteorStreaks(6));
+      const { stars } = EFFECTS_CONFIG;
+      this.starParticles.set(createStarParticles(stars.particleCount));
+      this.constellationOrbs.set(createConstellationOrbs(stars.constellationOrbCount));
+      this.meteorStreaks.set(createMeteorStreaks(stars.meteorCount));
+
+      if (isPlatformBrowser(this.platformId)) {
+        const onPointerMove = (event: PointerEvent) => this.schedulePointerUpdate(event);
+        document.addEventListener('pointermove', onPointerMove, { passive: true });
+        this.destroyRef.onDestroy(() => {
+          document.removeEventListener('pointermove', onPointerMove);
+          if (this.pointerRafId) {
+            cancelAnimationFrame(this.pointerRafId);
+          }
+        });
+      }
     });
-  }
-
-  @HostListener('document:pointermove', ['$event'])
-  protected onDocumentPointerMove(event: PointerEvent): void {
-    if (!this.active() || !isPlatformBrowser(this.platformId)) {
-      return;
-    }
-
-    this.cursorOrbX.set(event.clientX);
-    this.cursorOrbY.set(event.clientY);
-    this.cursorOrbActive.set(true);
   }
 
   spawnTriggeredMeteor(): void {
@@ -65,8 +72,9 @@ export class StarsField {
 
     const id = ++this.triggeredMeteorSeq;
     const meteor = createTriggeredMeteor(id);
+    const { triggeredMeteorDurationMinMs } = EFFECTS_CONFIG.stars;
     const durationMs = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      ? 350
+      ? triggeredMeteorDurationMinMs
       : meteor.duration * 1000;
 
     this.triggeredMeteors.update((meteors) => [...meteors, meteor]);
@@ -77,6 +85,26 @@ export class StarsField {
   resetInteraction(): void {
     this.triggeredMeteors.set([]);
     this.cursorOrbActive.set(false);
+  }
+
+  private schedulePointerUpdate(event: PointerEvent): void {
+    if (!this.active()) {
+      return;
+    }
+
+    this.pendingPointerX = event.clientX;
+    this.pendingPointerY = event.clientY;
+
+    if (this.pointerRafId) {
+      return;
+    }
+
+    this.pointerRafId = requestAnimationFrame(() => {
+      this.pointerRafId = 0;
+      this.cursorOrbX.set(this.pendingPointerX);
+      this.cursorOrbY.set(this.pendingPointerY);
+      this.cursorOrbActive.set(true);
+    });
   }
 
   private removeTriggeredMeteor(meteorId: number): void {

@@ -35,7 +35,12 @@ export class Home {
 
   private readonly effects = inject(EffectsCoordinatorService);
 
-  protected onMainClick(): void {
+  /** Easter egg: meteoro ao clicar no fundo do main, sem capturar cliques em filhos. */
+  protected onMainClick(event: MouseEvent): void {
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
     this.effects.registerInteraction();
   }
 }

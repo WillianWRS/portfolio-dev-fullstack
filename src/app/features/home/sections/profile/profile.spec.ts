@@ -1,5 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PLATFORM_ID } from '@angular/core';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTestAppConfig } from '@app/testing/test-providers';
 import { PROFILE_EMAIL } from '@core/content/profile.content';
 import { Profile } from './profile';
 
@@ -9,7 +10,7 @@ describe('Profile', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Profile],
-      providers: [{ provide: PLATFORM_ID, useValue: 'browser' }],
+      providers: [{ provide: PLATFORM_ID, useValue: 'browser' }, provideTestAppConfig()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Profile);

@@ -1,13 +1,18 @@
-export const PROFILE_NAME = 'Willian Robert Scabora';
+import { environment } from '../../../environments/environment';
 
-export const PROFILE_EMAIL = 'willian-scabora@hotmail.com';
+const { appConfig } = environment;
 
-export const PROFILE_PHOTO_URL = '/foto.png';
+/** Dados de identidade — fonte única em `environment.appConfig` (token `APP_CONFIG`). */
+export const PROFILE_NAME = appConfig.profileName;
 
-export const CV_URL_BR = '/cv-wrs-pt.pdf';
+export const PROFILE_EMAIL = appConfig.profileEmail;
 
-export const CV_URL_EN = '/cv-wrs-en.pdf';
+export const PROFILE_PHOTO_URL = appConfig.profilePhotoUrl;
 
-export const CALENDAR_URL = 'https://cal.com/willian-scabora/30min';
+export const CV_URL_BR = appConfig.cvUrlBr;
 
-export const GITHUB_REPO_URL = 'https://github.com/WillianWRS/portfolio-dev-fullstack';
+export const CV_URL_EN = appConfig.cvUrlEn;
+
+export const CALENDAR_URL = appConfig.calendarUrl;
+
+export const GITHUB_REPO_URL = appConfig.githubRepoUrl;

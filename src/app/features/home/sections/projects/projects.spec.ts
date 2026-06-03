@@ -1,5 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PLATFORM_ID } from '@angular/core';
+import { type ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTestAppConfig } from '@app/testing/test-providers';
 import { Projects } from './projects';
 
 describe('Projects', () => {
@@ -8,7 +9,7 @@ describe('Projects', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Projects],
-      providers: [{ provide: PLATFORM_ID, useValue: 'browser' }],
+      providers: [{ provide: PLATFORM_ID, useValue: 'browser' }, provideTestAppConfig()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Projects);

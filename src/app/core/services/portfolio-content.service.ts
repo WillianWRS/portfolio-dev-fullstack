@@ -1,14 +1,7 @@
 import { computed, inject, Injectable } from '@angular/core';
+import { APP_CONFIG } from '@core/config/app-config.token';
 import { EXPERIENCE_SOURCE } from '../content/experience.content';
 import { PROJECTS_SOURCE } from '../content/projects.content';
-import {
-  CALENDAR_URL,
-  CV_URL_BR,
-  CV_URL_EN,
-  GITHUB_REPO_URL,
-  PROFILE_NAME,
-  PROFILE_PHOTO_URL,
-} from '../content/profile.content';
 import { STACK_CATEGORIES_SOURCE } from '../content/stacks.content';
 import { TESTIMONIALS_SOURCE } from '../content/testimonials.content';
 import type { ExperienceView } from '../models/experience.model';
@@ -27,16 +20,17 @@ import { LocaleService } from './locale.service';
 @Injectable({ providedIn: 'root' })
 export class PortfolioContentService {
   private readonly localeService = inject(LocaleService);
+  private readonly appConfig = inject(APP_CONFIG);
 
   readonly profile = computed(() => {
     const locale = this.localeService.locale();
 
     return {
-      name: PROFILE_NAME,
+      name: this.appConfig.profileName,
       title: translate(locale, 'profile.title'),
       headline: translate(locale, 'profile.headline'),
       bio: translate(locale, 'profile.bio'),
-      photoUrl: PROFILE_PHOTO_URL,
+      photoUrl: this.appConfig.profilePhotoUrl,
     };
   });
 
@@ -44,16 +38,16 @@ export class PortfolioContentService {
     const locale = this.localeService.locale();
     const prefix = translate(locale, 'photo.altPrefix');
 
-    return `${prefix} ${PROFILE_NAME}`;
+    return `${prefix} ${this.appConfig.profileName}`;
   });
 
   readonly cvUrl = computed(() =>
-    this.localeService.locale() === 'BR' ? CV_URL_BR : CV_URL_EN,
+    this.localeService.locale() === 'BR' ? this.appConfig.cvUrlBr : this.appConfig.cvUrlEn,
   );
 
-  readonly calendarUrl = computed(() => CALENDAR_URL);
+  readonly calendarUrl = computed(() => this.appConfig.calendarUrl);
 
-  readonly githubRepoUrl = computed(() => GITHUB_REPO_URL);
+  readonly githubRepoUrl = computed(() => this.appConfig.githubRepoUrl);
 
   readonly projects = computed<ProjectView[]>(() => {
     const locale = this.localeService.locale();

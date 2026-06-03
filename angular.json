@@ -78,7 +78,30 @@
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test"
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "coverage": true,
+            "coverageInclude": ["src/app/**/*.ts"],
+            "coverageExclude": [
+              "**/*.spec.ts",
+              "**/*.test.ts",
+              "**/content/*.content.ts",
+              "**/i18n/translations.ts"
+            ],
+            "coverageReporters": ["text-summary", "lcov"]
+          },
+          "configurations": {
+            "ci": {
+              "watch": false,
+              "coverage": true,
+              "coverageThresholds": {
+                "statements": 45,
+                "branches": 40,
+                "functions": 45,
+                "lines": 45
+              }
+            }
+          }
         }
       }
     }

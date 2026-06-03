@@ -189,9 +189,13 @@ Prioridades: **P0** (alto impacto, fazer primeiro) · **P1** (importante) · **P
 
 > Validação: `npm run lint`, `npm run build` (prerender) verdes. Bundle inicial reduzido (`main` 116,9 kB vs 129,7 kB da Fase 1); `background-effects` agora isolado em chunk lazy próprio.
 
-### Fase 3 — Qualidade e confiabilidade (P1)
-9. Suite de testes unitários de serviços e componentes + thresholds de cobertura no CI.
-10. Testes e2e + acessibilidade (Playwright + axe).
+### Fase 3 — Qualidade e confiabilidade (P1) — ✅ CONCLUÍDA
+9. ✅ Suite de testes unitários: serviços (`LocaleService`, `ClipboardService`, `EffectsCoordinatorService`, `PortfolioContentService`, `StackIconService`), `particle.factory`, componentes (`Projects`, `Profile`, `StackChip`) + conteúdo existente. **36 testes** no total.
+10. ✅ Cobertura com `@vitest/coverage-v8`, thresholds no `angular.json` (`test:ci`: statements/lines/functions ≥45%, branches ≥40%) e script `npm run test:ci` no CI.
+11. ✅ E2E com Playwright (`e2e/home.spec.ts`) e acessibilidade com `@axe-core/playwright` (`e2e/accessibility.spec.ts`). CI: build → `playwright install` → `e2e:ci` (servidor estático via `http-server`).
+12. ✅ Correções de contraste (WCAG) em links sociais e rodapé detectadas pelo axe.
+
+> Validação: `npm run test:ci`, `npm run build`, `npm run e2e:ci` (5 testes e2e) verdes.
 
 ### Fase 4 — Refino e DX (P2)
 11. Regras de ESLint mais rígidas + flags de TS.
@@ -210,7 +214,7 @@ Prioridades: **P0** (alto impacto, fazer primeiro) · **P1** (importante) · **P
 - [x] Sem `standalone: true` redundante; OnPush em todos os componentes.
 - [x] Path aliases configurados e imports limpos.
 - [x] Coordenação de efeitos desacoplada via serviço/sinais.
-- [ ] Cobertura de testes com thresholds no CI + e2e/a11y.
+- [x] Cobertura de testes com thresholds no CI + e2e/a11y.
 - [x] Express com compressão e headers de segurança; headers de cache/segurança no Firebase Hosting.
 - [ ] SEO dinâmico/localizado + sitemap/robots/manifest.
 - [ ] ESLint/TS endurecidos; Prettier integrado.

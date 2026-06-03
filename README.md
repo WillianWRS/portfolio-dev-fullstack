@@ -18,13 +18,17 @@ src/app/
 | `npm start` | Servidor de desenvolvimento |
 | `npm run build` | Build de produção com SSR |
 | `npm test` | Testes unitários (Vitest) |
+| `npm run test:ci` | Testes + cobertura + thresholds (CI) |
+| `npm run e2e` | Testes e2e e acessibilidade (Playwright + axe) |
 | `npm run lint` | ESLint (TypeScript + templates) |
 | `npm run icons:sync` | Baixa ícones de stack para `public/icons/stacks/` |
 
 ## Qualidade
 
 - TypeScript e templates em modo **strict**
-- CI em `.github/workflows/ci.yml` (lint, test, build)
+- CI em `.github/workflows/ci.yml` (lint, testes com cobertura, build, e2e + axe)
+- Cobertura mínima configurada em `angular.json` (`test:ci`)
+- E2E: `e2e/home.spec.ts` (idioma, navegação) e `e2e/accessibility.spec.ts` (WCAG via axe)
 - Conteúdo e traduções desacoplados do componente `Home`
 - Efeitos visuais inicializados no cliente (`afterNextRender`) para evitar problemas de hidratação
 - Locale persistido em `localStorage` (`portfolio.locale`)

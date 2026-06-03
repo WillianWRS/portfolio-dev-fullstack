@@ -1,18 +1,20 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
+  inject,
   input,
   viewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import type { BackgroundEffect } from '../../../../core/models/effects.model';
+import type { BackgroundEffect } from '@core/models/effects.model';
+import { EffectsCoordinatorService } from '@core/services/effects-coordinator.service';
 import { BubblesField } from '../bubbles-field/bubbles-field';
 import { PulseField } from '../pulse-field/pulse-field';
 import { StarsField } from '../stars-field/stars-field';
 
 @Component({
   selector: 'app-background-effects',
-  standalone: true,
   imports: [BubblesField, StarsField, PulseField],
   templateUrl: './background-effects.html',
   styleUrl: '../effects-animations.scss',
@@ -23,17 +25,23 @@ import { StarsField } from '../stars-field/stars-field';
 export class BackgroundEffects {
   readonly effect = input.required<BackgroundEffect>();
 
+  private readonly coordinator = inject(EffectsCoordinatorService);
   private readonly starsField = viewChild(StarsField);
 
-  handleMainClick(): void {
-    if (this.effect() === 'stars') {
-      this.starsField()?.spawnTriggeredMeteor();
-    }
-  }
+  constructor() {
+    let isInitialRun = true;
 
-  onEffectChange(effect: BackgroundEffect): void {
-    if (effect !== 'stars') {
-      this.starsField()?.resetInteraction();
-    }
+    effect(() => {
+      this.coordinator.interaction();
+
+      if (isInitialRun) {
+        isInitialRun = false;
+        return;
+      }
+
+      if (this.effect() === 'stars') {
+        this.starsField()?.spawnTriggeredMeteor();
+      }
+    });
   }
 }

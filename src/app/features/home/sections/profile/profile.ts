@@ -1,15 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { AppIcon } from '../../../../shared/ui/app-icon/app-icon';
-import { PROFILE_EMAIL } from '../../../../core/content/profile.content';
-import { SOCIAL_LINKS } from '../../../../core/content/social.content';
-import { ClipboardService } from '../../../../core/services/clipboard.service';
-import { LocaleService } from '../../../../core/services/locale.service';
-import { PortfolioContentService } from '../../../../core/services/portfolio-content.service';
+import { AppIcon } from '@shared/ui/app-icon/app-icon';
+import { PROFILE_EMAIL } from '@core/content/profile.content';
+import { SOCIAL_LINKS } from '@core/content/social.content';
+import { ClipboardService } from '@core/services/clipboard.service';
+import { LocaleService } from '@core/services/locale.service';
+import { PortfolioContentService } from '@core/services/portfolio-content.service';
 
 @Component({
-  selector: 'app-profile',
-  standalone: true,
-  imports: [AppIcon],
+  selector: 'app-profile',  imports: [AppIcon],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

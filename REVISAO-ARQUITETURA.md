@@ -114,9 +114,9 @@ Prioridades: **P0** (alto impacto, fazer primeiro) · **P1** (importante) · **P
 **Evidência:** `src/server.ts`, `firebase.json`.
 **Esforço:** Baixo/Médio.
 
-#### 3.11. Coerência da estratégia de deploy
-**Problema:** coexistem `firebase.json` (hosting estático apontando para `dist/.../browser` com rewrite SPA para `index.html`) e SSR via Express (`outputMode: server`). O rewrite para `/index.html` ignora o SSR/prerender por rota.
-**Recomendação:** decidir claramente entre (a) **prerender estático** (Firebase Hosting, mais simples e barato para portfólio) ou (b) **SSR dinâmico** (Cloud Functions/Run). Ajustar `angular.json` (`outputMode`), `firebase.json` e `server.ts` de forma coerente e documentar.
+#### 3.11. Coerência da estratégia de deploy — ✅ DECIDIDO/DOCUMENTADO
+**Decisão:** o alvo principal é **prerender estático servido pelo Firebase Hosting**. Como há uma única rota, o `build` (`outputMode: server` + `RenderMode.Prerender`) gera o `index.html` pré-renderizado em `dist/.../browser`, que o Firebase serve com o rewrite SPA. O servidor Express (`server.ts`) permanece como caminho **opcional de SSR dinâmico** (Cloud Run/Functions) e foi endurecido (`compression` + headers de segurança). Headers de cache/segurança configurados em `firebase.json` para o caminho estático.
+**Próximo passo opcional:** se o SSR dinâmico nunca for usado, migrar `outputMode` para `static` e remover o servidor para simplificar.
 **Esforço:** Médio.
 
 ---
@@ -179,11 +179,15 @@ Prioridades: **P0** (alto impacto, fazer primeiro) · **P1** (importante) · **P
 
 > Validação: `npm run lint`, `npm run build` (prerender) e dev server verdes. Chunks lazy gerados por seção; `__nghDeferData__` confirma SSR + hidratação incremental.
 
-### Fase 2 — Consistência e estrutura (P1)
-5. Remover `standalone: true` redundante e adicionar OnPush em `LoadingScreen`.
-6. Path aliases (`@core`, `@shared`, `@features`).
-7. Desacoplar coordenação de efeitos (serviço/sinais).
-8. Definir e alinhar estratégia de deploy (SSR vs prerender) + hardening do Express.
+### Fase 2 — Consistência e estrutura (P1) — ✅ CONCLUÍDA
+5. ✅ Removido `standalone: true` redundante de todos os componentes (OnPush do `LoadingScreen` já feito na Fase 1).
+6. ✅ Path aliases (`@core`, `@shared`, `@features`) em `tsconfig.json` + imports refatorados.
+7. ✅ Coordenação de efeitos desacoplada via `EffectsCoordinatorService` (signals): `Home` apenas sinaliza interação; `BackgroundEffects` reage via `effect()`. Removida a cadeia imperativa e o `viewChild(BackgroundEffects)` de `Home`; removido o `onEffectChange` morto.
+8. ✅ Hardening do servidor SSR (`compression` + headers de segurança) e headers no Firebase Hosting (cache imutável para assets versionados + segurança). Estratégia documentada (ver §3.11).
+9. ✅ **Limpeza de diretórios vazios/sem uso**: removidos `sections/hero-section`, `sections/projects-section`, `sections/stacks-section`.
+10. ✅ **Avaliação de nomenclatura**: nomes de componentes já seguem o style guide do Angular 20+ e estão claros/consistentes (`Home`, `Profile`, `Projects`, `SiteHeader`, `BackgroundEffects`, `StarsField`, `AppIcon`, `StackChip`…). Nenhuma renomeação necessária — evitada para não gerar churn/risco desnecessário.
+
+> Validação: `npm run lint`, `npm run build` (prerender) verdes. Bundle inicial reduzido (`main` 116,9 kB vs 129,7 kB da Fase 1); `background-effects` agora isolado em chunk lazy próprio.
 
 ### Fase 3 — Qualidade e confiabilidade (P1)
 9. Suite de testes unitários de serviços e componentes + thresholds de cobertura no CI.
@@ -203,11 +207,11 @@ Prioridades: **P0** (alto impacto, fazer primeiro) · **P1** (importante) · **P
 - [x] `@defer` cobrindo conteúdo abaixo da dobra; bundle inicial enxuto.
 - [x] Sem loader artificial bloqueando o LCP.
 - [x] 100% das queries em signal queries (`viewChild`/`viewChildren`).
-- [ ] Sem `standalone: true` redundante; OnPush em todos os componentes.
-- [ ] Path aliases configurados e imports limpos.
-- [ ] Coordenação de efeitos desacoplada via serviço/sinais.
+- [x] Sem `standalone: true` redundante; OnPush em todos os componentes.
+- [x] Path aliases configurados e imports limpos.
+- [x] Coordenação de efeitos desacoplada via serviço/sinais.
 - [ ] Cobertura de testes com thresholds no CI + e2e/a11y.
-- [ ] Estratégia de deploy única e coerente; Express com compressão e headers de segurança.
+- [x] Express com compressão e headers de segurança; headers de cache/segurança no Firebase Hosting.
 - [ ] SEO dinâmico/localizado + sitemap/robots/manifest.
 - [ ] ESLint/TS endurecidos; Prettier integrado.
 - [ ] README com arquitetura e ADRs.

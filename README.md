@@ -29,7 +29,15 @@ src/app/
 - Efeitos visuais inicializados no cliente (`afterNextRender`) para evitar problemas de hidratação
 - Locale persistido em `localStorage` (`portfolio.locale`)
 
-## SSR
+## SSR / Deploy
+
+O alvo principal é **prerender estático no Firebase Hosting**: `npm run build` gera o
+`index.html` pré-renderizado em `dist/portfolio-dev-fullstack/browser`, servido pelo Firebase
+(headers de cache/segurança em `firebase.json`). As seções abaixo da dobra usam
+`@defer (hydrate on viewport)` (hidratação incremental: conteúdo no SSR, JS adiado).
+
+Servidor Node/Express (`server.ts`) é um caminho **opcional** de SSR dinâmico, com
+`compression` e headers de segurança:
 
 ```bash
 npm run build

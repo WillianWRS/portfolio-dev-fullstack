@@ -20,9 +20,7 @@ export type AppIconName =
   | 'message';
 
 @Component({
-  selector: 'app-icon',
-  standalone: true,
-  templateUrl: './app-icon.html',
+  selector: 'app-icon',  templateUrl: './app-icon.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'inline-flex shrink-0',

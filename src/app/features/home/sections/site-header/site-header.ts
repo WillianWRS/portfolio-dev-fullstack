@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import type { TranslationKey } from '../../../../core/i18n/translations';
-import { LocaleService } from '../../../../core/services/locale.service';
-import type { Locale } from '../../../../core/models/locale.model';
+import type { TranslationKey } from '@core/i18n/translations';
+import { LocaleService } from '@core/services/locale.service';
+import type { Locale } from '@core/models/locale.model';
 
 interface NavItem {
   id: string;
@@ -11,9 +11,7 @@ interface NavItem {
 }
 
 @Component({
-  selector: 'app-site-header',
-  standalone: true,
-  imports: [RouterLink],
+  selector: 'app-site-header',  imports: [RouterLink],
   templateUrl: './site-header.html',
   styleUrl: './site-header.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

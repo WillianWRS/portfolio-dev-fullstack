@@ -1,11 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
-import type { StackProficiency } from '../../../core/models/stack.model';
-import { StackIconService } from '../../../core/services/stack-icon.service';
+import type { StackProficiency } from '@core/models/stack.model';
+import { StackIconService } from '@core/services/stack-icon.service';
 
 @Component({
-  selector: 'app-stack-chip',
-  standalone: true,
-  templateUrl: './stack-chip.html',
+  selector: 'app-stack-chip',  templateUrl: './stack-chip.html',
   styleUrl: './stack-chip.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

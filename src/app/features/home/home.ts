@@ -1,10 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  viewChild,
-} from '@angular/core';
-import { LocaleService } from '../../core/services/locale.service';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { LocaleService } from '@core/services/locale.service';
+import { EffectsCoordinatorService } from '@core/services/effects-coordinator.service';
 import { BackgroundEffects } from './effects/background-effects/background-effects';
 import { About } from './sections/about/about';
 import { Contact } from './sections/contact/contact';
@@ -18,7 +14,6 @@ import { Testimonials } from './sections/testimonials/testimonials';
 
 @Component({
   selector: 'app-home',
-  standalone: true,
   imports: [
     BackgroundEffects,
     SiteHeader,
@@ -38,9 +33,9 @@ import { Testimonials } from './sections/testimonials/testimonials';
 export class Home {
   protected readonly localeService = inject(LocaleService);
 
-  private readonly backgroundEffects = viewChild(BackgroundEffects);
+  private readonly effects = inject(EffectsCoordinatorService);
 
   protected onMainClick(): void {
-    this.backgroundEffects()?.handleMainClick();
+    this.effects.registerInteraction();
   }
 }

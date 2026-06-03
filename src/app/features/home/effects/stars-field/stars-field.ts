@@ -10,18 +10,16 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import type { ConstellationOrb, MeteorStreak, StarParticle } from '../../../../core/models/effects.model';
+import type { ConstellationOrb, MeteorStreak, StarParticle } from '@core/models/effects.model';
 import {
   createConstellationOrbs,
   createMeteorStreaks,
   createStarParticles,
   createTriggeredMeteor,
-} from '../../../../core/effects/particle.factory';
+} from '@core/effects/particle.factory';
 
 @Component({
-  selector: 'app-stars-field',
-  standalone: true,
-  templateUrl: './stars-field.html',
+  selector: 'app-stars-field',  templateUrl: './stars-field.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

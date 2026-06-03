@@ -1,12 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AppIcon } from '../../../../shared/ui/app-icon/app-icon';
-import { SOCIAL_LINKS } from '../../../../core/content/social.content';
-import { LocaleService } from '../../../../core/services/locale.service';
+import { AppIcon } from '@shared/ui/app-icon/app-icon';
+import { SOCIAL_LINKS } from '@core/content/social.content';
+import { LocaleService } from '@core/services/locale.service';
 
 @Component({
-  selector: 'app-about',
-  standalone: true,
-  imports: [AppIcon],
+  selector: 'app-about',  imports: [AppIcon],
   templateUrl: './about.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

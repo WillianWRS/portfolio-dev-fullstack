@@ -4,7 +4,9 @@
 >
   <a class="skip-link" href="#main-content">{{ localeService.t('skipToContent') }}</a>
 
-  <app-background-effects #backgroundEffects effect="stars" />
+  @defer (on idle) {
+    <app-background-effects effect="stars" />
+  }
 
   <app-site-header />
 
@@ -17,13 +19,47 @@
     </section>
 
     <div class="mx-auto w-[70%] px-6 md:px-8">
-      <app-about />
-      <app-experience />
-      <app-projects />
-      <app-stacks />
-      <app-testimonials />
-      <app-contact />
-      <app-site-footer />
+      @defer (hydrate on viewport) {
+        <app-about />
+      } @placeholder {
+        <div id="about" class="section-placeholder mt-28 scroll-mt-28 md:mt-36" aria-hidden="true"></div>
+      }
+
+      @defer (hydrate on viewport) {
+        <app-experience />
+      } @placeholder {
+        <div id="experience" class="section-placeholder mt-28 scroll-mt-28 md:mt-36" aria-hidden="true"></div>
+      }
+
+      @defer (hydrate on viewport) {
+        <app-projects />
+      } @placeholder {
+        <div id="projects" class="section-placeholder mt-28 scroll-mt-28 md:mt-36" aria-hidden="true"></div>
+      }
+
+      @defer (hydrate on viewport) {
+        <app-stacks />
+      } @placeholder {
+        <div id="stacks" class="section-placeholder mt-28 scroll-mt-28 md:mt-36" aria-hidden="true"></div>
+      }
+
+      @defer (hydrate on viewport) {
+        <app-testimonials />
+      } @placeholder {
+        <div id="testimonials" class="section-placeholder mt-28 scroll-mt-28 md:mt-36" aria-hidden="true"></div>
+      }
+
+      @defer (hydrate on viewport) {
+        <app-contact />
+      } @placeholder {
+        <div id="contact" class="section-placeholder mt-28 scroll-mt-28 md:mt-36" aria-hidden="true"></div>
+      }
+
+      @defer (hydrate on viewport) {
+        <app-site-footer />
+      } @placeholder {
+        <div class="section-placeholder section-placeholder--footer mt-28 md:mt-36" aria-hidden="true"></div>
+      }
     </div>
   </div>
 </main>

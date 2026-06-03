@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   input,
-  ViewChild,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import type { BackgroundEffect } from '../../../../core/models/effects.model';
@@ -23,17 +23,17 @@ import { StarsField } from '../stars-field/stars-field';
 export class BackgroundEffects {
   readonly effect = input.required<BackgroundEffect>();
 
-  @ViewChild(StarsField) private readonly starsField?: StarsField;
+  private readonly starsField = viewChild(StarsField);
 
   handleMainClick(): void {
     if (this.effect() === 'stars') {
-      this.starsField?.spawnTriggeredMeteor();
+      this.starsField()?.spawnTriggeredMeteor();
     }
   }
 
   onEffectChange(effect: BackgroundEffect): void {
     if (effect !== 'stars') {
-      this.starsField?.resetInteraction();
+      this.starsField()?.resetInteraction();
     }
   }
 }

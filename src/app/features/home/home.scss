@@ -50,6 +50,16 @@
   color: rgb(9 9 11);
 }
 
+/* Reserva de espaço para blocos @defer ainda não renderizados (apenas no
+   cenário client-only; com prerender o conteúdo real já vem no HTML). */
+.section-placeholder {
+  min-height: 50vh;
+}
+
+.section-placeholder--footer {
+  min-height: 12rem;
+}
+
 .skip-link:focus {
   top: 1rem;
 }

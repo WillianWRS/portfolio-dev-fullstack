@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { LocaleService } from '@core/services/locale.service';
 import { EffectsCoordinatorService } from '@core/services/effects-coordinator.service';
 import { BackgroundEffects } from './effects/background-effects/background-effects';
-import { About } from './sections/about/about';
 import { Contact } from './sections/contact/contact';
 import { Experience } from './sections/experience/experience';
 import { Profile } from './sections/profile/profile';
@@ -18,9 +17,8 @@ import { Testimonials } from './sections/testimonials/testimonials';
     BackgroundEffects,
     SiteHeader,
     Profile,
-    About,
-    Experience,
     Projects,
+    Experience,
     Stacks,
     Testimonials,
     Contact,

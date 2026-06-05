@@ -10,7 +10,6 @@ export type TranslationKey =
   | 'effect.bubble'
   | 'effect.sky'
   | 'effect.pulse'
-  | 'nav.about'
   | 'nav.experience'
   | 'nav.projects'
   | 'nav.stacks'
@@ -19,15 +18,6 @@ export type TranslationKey =
   | 'recruiter.modeOn'
   | 'recruiter.modeOff'
   | 'recruiter.toggleAria'
-  | 'about.heading'
-  | 'about.subtitle'
-  | 'about.highlight1Title'
-  | 'about.highlight1Text'
-  | 'about.highlight2Title'
-  | 'about.highlight2Text'
-  | 'about.highlight3Title'
-  | 'about.highlight3Text'
-  | 'about.opensource'
   | 'experience.heading'
   | 'experience.subtitle'
   | 'experience.current'
@@ -85,7 +75,6 @@ const BR: Record<TranslationKey, string> = {
   'effect.bubble': 'Efeito bolha',
   'effect.sky': 'Efeito céu',
   'effect.pulse': 'Efeito pulso',
-  'nav.about': 'Sobre',
   'nav.experience': 'Experiência',
   'nav.projects': 'Projetos',
   'nav.stacks': 'Stacks',
@@ -94,19 +83,6 @@ const BR: Record<TranslationKey, string> = {
   'recruiter.modeOn': 'Modo recrutador',
   'recruiter.modeOff': 'Modo apresentação',
   'recruiter.toggleAria': 'Alternar modo recrutador',
-  'about.heading': 'Como eu trabalho',
-  'about.subtitle':
-    'Combino profundidade técnica com comunicação clara para entregar software que escala e se mantém.',
-  'about.highlight1Title': 'Arquitetura pragmática',
-  'about.highlight1Text':
-    'Escolho padrões que resolvem o problema real — DDD, Clean Architecture e microsserviços quando fazem sentido, sem over-engineering.',
-  'about.highlight2Title': 'Qualidade contínua',
-  'about.highlight2Text':
-    'Testes automatizados, code review rigoroso e CI/CD são parte do fluxo, não etapas opcionais antes do deploy.',
-  'about.highlight3Title': 'Colaboração com produto',
-  'about.highlight3Text':
-    'Traduzo requisitos de negócio em soluções técnicas, antecipo riscos e comunico trade-offs de forma acessível.',
-  'about.opensource': 'Contribuições open source e projetos pessoais disponíveis em',
   'experience.heading': 'Experiência',
   'experience.subtitle': 'Trajetória profissional em empresas de produto digital.',
   'experience.current': 'Atual',
@@ -167,7 +143,6 @@ const EN: Record<TranslationKey, string> = {
   'effect.bubble': 'Bubble effect',
   'effect.sky': 'Sky effect',
   'effect.pulse': 'Pulse effect',
-  'nav.about': 'About',
   'nav.experience': 'Experience',
   'nav.projects': 'Projects',
   'nav.stacks': 'Stacks',
@@ -176,19 +151,6 @@ const EN: Record<TranslationKey, string> = {
   'recruiter.modeOn': 'Recruiter mode',
   'recruiter.modeOff': 'Presentation mode',
   'recruiter.toggleAria': 'Toggle recruiter mode',
-  'about.heading': 'How I work',
-  'about.subtitle':
-    'I combine technical depth with clear communication to deliver software that scales and lasts.',
-  'about.highlight1Title': 'Pragmatic architecture',
-  'about.highlight1Text':
-    'I choose patterns that solve the real problem — DDD, Clean Architecture, and microservices when they make sense, without over-engineering.',
-  'about.highlight2Title': 'Continuous quality',
-  'about.highlight2Text':
-    'Automated tests, rigorous code review, and CI/CD are part of the flow, not optional steps before deploy.',
-  'about.highlight3Title': 'Product collaboration',
-  'about.highlight3Text':
-    'I translate business requirements into technical solutions, anticipate risks, and communicate trade-offs accessibly.',
-  'about.opensource': 'Open source contributions and personal projects available on',
   'experience.heading': 'Experience',
   'experience.subtitle': 'Professional journey at digital product companies.',
   'experience.current': 'Current',

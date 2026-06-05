@@ -93,26 +93,6 @@
   color: rgb(82 82 91);
 }
 
-:host ::ng-deep .about-card {
-  border-radius: 1rem;
-  border: 1px solid rgb(228 228 231);
-  background: rgb(255 255 255);
-  padding: 1.25rem 1.5rem;
-}
-
-:host ::ng-deep .about-card__title {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: rgb(24 24 27);
-}
-
-:host ::ng-deep .about-card__text {
-  margin-top: 0.75rem;
-  font-size: 0.875rem;
-  line-height: 1.65;
-  color: rgb(82 82 91);
-}
-
 :host ::ng-deep .testimonial-card {
   display: flex;
   flex-direction: column;

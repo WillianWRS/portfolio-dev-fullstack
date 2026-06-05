@@ -20,9 +20,8 @@ export class SiteHeader {
   protected readonly localeService = inject(LocaleService);
 
   protected readonly navItems: NavItem[] = [
-    { id: 'about', href: '#about', labelKey: 'nav.about' },
-    { id: 'experience', href: '#experience', labelKey: 'nav.experience' },
     { id: 'projects', href: '#projects', labelKey: 'nav.projects' },
+    { id: 'experience', href: '#experience', labelKey: 'nav.experience' },
     { id: 'stacks', href: '#stacks', labelKey: 'nav.stacks' },
     { id: 'contact', href: '#contact', labelKey: 'nav.contact' },
   ];

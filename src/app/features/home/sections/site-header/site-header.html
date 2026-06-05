@@ -9,9 +9,27 @@
 <nav
   class="site-nav fixed top-6 left-1/2 z-20 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-zinc-300/80 bg-zinc-950/50 px-1.5 py-1 backdrop-blur-sm lg:flex"
   [attr.aria-label]="localeService.t('nav.mainAria')"
+  (mouseleave)="onDesktopNavLeave()"
 >
+  <span
+    class="site-nav__indicator"
+    [class.site-nav__indicator--active]="desktopIndicatorActive()"
+    [class.site-nav__indicator--sliding]="desktopIndicatorSliding()"
+    [style.left.px]="desktopIndicator().left"
+    [style.top.px]="desktopIndicator().top"
+    [style.width.px]="desktopIndicator().width"
+    [style.height.px]="desktopIndicator().height"
+    aria-hidden="true"
+  ></span>
+
   @for (item of navItems; track item.id) {
-    <a [href]="item.href" class="site-nav__link">{{ localeService.t(item.labelKey) }}</a>
+    <a
+      [href]="item.href"
+      class="site-nav__link"
+      (mouseenter)="onDesktopNavEnter($event)"
+    >
+      {{ localeService.t(item.labelKey) }}
+    </a>
   }
 </nav>
 
@@ -47,3 +65,55 @@
     </button>
   </div>
 </div>
+
+<button
+  type="button"
+  class="mobile-menu-btn fixed top-6 left-1/2 z-20 inline-flex -translate-x-1/2 items-center gap-2 rounded-full border border-zinc-300/80 bg-zinc-950/50 px-4 py-2 text-sm font-medium text-zinc-200 backdrop-blur-sm transition-colors hover:border-white hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 lg:hidden"
+  [attr.aria-expanded]="mobileMenuOpen()"
+  [attr.aria-label]="localeService.t('nav.menuAria')"
+  (click)="toggleMobileMenu()"
+>
+  @if (mobileMenuOpen()) {
+    <app-icon name="x" />
+    {{ localeService.t('nav.menuClose') }}
+  } @else {
+    <app-icon name="menu" />
+    {{ localeService.t('nav.menuOpen') }}
+  }
+</button>
+
+@if (mobileMenuOpen()) {
+  <div
+    class="mobile-menu-backdrop fixed inset-0 z-[19] bg-black/50 backdrop-blur-sm lg:hidden"
+    aria-hidden="true"
+    (click)="closeMobileMenu()"
+  ></div>
+
+  <nav
+    class="mobile-menu fixed left-1/2 top-20 z-20 w-[min(92vw,20rem)] -translate-x-1/2 rounded-2xl border border-zinc-300/80 bg-zinc-950/95 p-2 backdrop-blur-md lg:hidden"
+    [attr.aria-label]="localeService.t('nav.mainAria')"
+    (mouseleave)="onMobileNavLeave()"
+  >
+    <span
+      class="mobile-menu__indicator"
+      [class.mobile-menu__indicator--active]="mobileIndicatorActive()"
+      [class.mobile-menu__indicator--sliding]="mobileIndicatorSliding()"
+      [style.left.px]="mobileIndicator().left"
+      [style.top.px]="mobileIndicator().top"
+      [style.width.px]="mobileIndicator().width"
+      [style.height.px]="mobileIndicator().height"
+      aria-hidden="true"
+    ></span>
+
+    @for (item of navItems; track item.id) {
+      <a
+        [href]="item.href"
+        class="mobile-menu__link"
+        (mouseenter)="onMobileNavEnter($event)"
+        (click)="closeMobileMenu()"
+      >
+        {{ localeService.t(item.labelKey) }}
+      </a>
+    }
+  </nav>
+}

@@ -28,6 +28,10 @@ export class SeoService {
     this.meta.updateTag({ property: 'og:title', content: seo.title });
     this.meta.updateTag({ property: 'og:description', content: seo.ogDescription });
     this.meta.updateTag({ property: 'og:image', content: imageUrl });
+    this.meta.updateTag({
+      property: 'og:image:alt',
+      content: `${this.appConfig.profileName} — Full Stack Developer`,
+    });
     this.meta.updateTag({ property: 'og:url', content: this.appConfig.siteUrl });
     this.meta.updateTag({ name: 'twitter:title', content: seo.title });
     this.meta.updateTag({ name: 'twitter:description', content: seo.ogDescription });

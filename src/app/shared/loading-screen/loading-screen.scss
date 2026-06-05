@@ -1,3 +1,7 @@
+:host {
+  display: contents;
+}
+
 .loading-screen {
   position: fixed;
   inset: 0;
@@ -16,10 +20,14 @@
   );
   opacity: 1;
   will-change: opacity;
-  /* Artifício puramente visual: o conteúdo já está renderizado embaixo.
-     A cortina se mantém durante o traçado do logo e some sozinha via CSS,
-     liberando interação ao final (sem timers em JS, sem bloquear o LCP). */
-  animation: loadingScreenReveal 0.6s ease 1.5s forwards;
+  animation: loadingScreenReveal 0.4s ease 0.9s forwards;
+}
+
+:host.loading-screen-host--dismissed .loading-screen {
+  animation: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 @keyframes loadingScreenReveal {
@@ -33,12 +41,39 @@
 .loading-screen__content {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
 }
 
 .loading-screen__logo {
   width: min(72vw, 280px);
   height: auto;
   overflow: visible;
+}
+
+.loading-screen__skip {
+  border-radius: 9999px;
+  border: 1px solid rgb(82 82 91);
+  background: rgb(24 24 27 / 0.8);
+  padding: 0.5rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: rgb(228 228 231);
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.loading-screen__skip:hover {
+  border-color: rgb(250 250 250);
+  color: rgb(250 250 250);
+}
+
+.loading-screen__skip:focus-visible {
+  outline: 2px solid rgb(250 250 250);
+  outline-offset: 2px;
 }
 
 .wrs-outline {
@@ -58,7 +93,7 @@
   letter-spacing: 0.28em;
   stroke-dasharray: 420;
   stroke-dashoffset: 420;
-  animation: wrsStrokeProgress 1.5s ease-in-out forwards;
+  animation: wrsStrokeProgress 0.9s ease-in-out forwards;
 }
 
 @keyframes wrsStrokeProgress {
@@ -74,7 +109,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .loading-screen {
-    animation: loadingScreenReveal 0.3s linear 0.4s forwards;
+    animation: loadingScreenReveal 0.25s linear 0.35s forwards;
   }
 
   .wrs-outline {

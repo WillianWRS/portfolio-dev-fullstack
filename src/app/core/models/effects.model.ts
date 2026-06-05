@@ -1,4 +1,4 @@
-export type BackgroundEffect = 'bubbles' | 'stars' | 'pulse';
+export type BackgroundEffect = 'ambient' | 'bubbles' | 'stars' | 'pulse';
 
 export interface Bubble {
   id: number;
@@ -49,6 +49,38 @@ export interface RipplePulse {
   top: number;
   duration: number;
   delay: number;
+  maxScale: number;
+  opacity: number;
+}
+
+export interface WarmGlowOrb {
+  id: number;
+  left: number;
+  top: number;
+  size: number;
+  duration: number;
+  delay: number;
+  opacity: number;
+  warmth: number;
+}
+
+export interface AmbientMote {
+  id: number;
+  left: number;
+  top: number;
+  size: number;
+  duration: number;
+  delay: number;
+  driftX: number;
+  driftY: number;
+  opacity: number;
+}
+
+export interface WarmRipple {
+  id: number;
+  left: number;
+  top: number;
+  duration: number;
   maxScale: number;
   opacity: number;
 }

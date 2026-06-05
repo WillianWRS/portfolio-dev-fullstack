@@ -1,3 +1,13 @@
+/*
+  Design patterns reutilizáveis (definidos em home.scss via ::ng-deep):
+  - .section-card / .section-card--featured / .section-card--contact
+  - .section-card__heading / .section-card__subtitle / .section-card__icon-wrap
+  - .profile-cta (profile.scss)
+  - .contact-card / .contact-card--primary
+  - .testimonial-card
+  - .skip-link
+*/
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,7 +19,7 @@
 
   html,
   body {
-    @apply h-full bg-zinc-950 font-sans text-zinc-100 antialiased;
+    @apply h-full bg-surface-dark font-sans text-zinc-100 antialiased;
   }
 
   ::selection {

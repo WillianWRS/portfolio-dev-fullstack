@@ -3,8 +3,8 @@ import { test, expect } from '@playwright/test';
 test.describe('Página inicial', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
-    // Cortina CSS do loader some após ~2.1s; aguarda para não interferir em cliques.
-    await page.locator('.loading-screen').waitFor({ state: 'hidden', timeout: 5_000 });
+    // Cortina do loader some após ~1.2s; aguarda o perfil para não interferir em cliques.
+    await page.locator('#profile').waitFor({ state: 'visible', timeout: 5_000 });
   });
 
   test('exibe perfil e navegação principal', async ({ page }) => {

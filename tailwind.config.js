@@ -3,6 +3,16 @@ module.exports = {
   content: ['./src/**/*.{html,ts}'],
   theme: {
     extend: {
+      colors: {
+        surface: {
+          dark: '#09090b',
+          card: '#fafafa',
+        },
+        accent: {
+          primary: '#18181b',
+          cta: '#059669',
+        },
+      },
       fontFamily: {
         sans: ['"Plus Jakarta Sans"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         display: ['Fraunces', 'Georgia', 'ui-serif', 'serif'],

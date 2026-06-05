@@ -1,4 +1,7 @@
 @switch (effect()) {
+  @case ('ambient') {
+    <app-ambient-field [active]="effect() === 'ambient'" />
+  }
   @case ('bubbles') {
     <app-bubbles-field />
   }

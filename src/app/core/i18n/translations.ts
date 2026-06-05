@@ -6,28 +6,34 @@ export type TranslationKey =
   | 'profile.bio'
   | 'profile.ctaProjects'
   | 'profile.ctaCv'
+  | 'profile.highlight1'
+  | 'profile.highlight2'
+  | 'profile.highlight3'
   | 'photo.altPrefix'
-  | 'effect.bubble'
-  | 'effect.sky'
-  | 'effect.pulse'
+  | 'nav.about'
   | 'nav.experience'
   | 'nav.projects'
   | 'nav.stacks'
+  | 'nav.testimonials'
   | 'nav.contact'
   | 'nav.mainAria'
-  | 'recruiter.modeOn'
-  | 'recruiter.modeOff'
-  | 'recruiter.toggleAria'
+  | 'nav.menuAria'
+  | 'nav.menuOpen'
+  | 'nav.menuClose'
   | 'experience.heading'
   | 'experience.subtitle'
   | 'experience.current'
+  | 'experience.showMore'
+  | 'experience.showLess'
   | 'projects.heading'
   | 'projects.subtitle'
   | 'projects.underConstruction'
+  | 'projects.comingSoon'
   | 'projects.access'
   | 'projects.github'
   | 'projects.caseStudy'
   | 'projects.closeCaseStudy'
+  | 'projects.stacksAria'
   | 'projects.filterAll'
   | 'projects.filterFullstack'
   | 'projects.filterBackend'
@@ -46,6 +52,7 @@ export type TranslationKey =
   | 'stacks.proficiencyDaily'
   | 'stacks.proficiencyFamiliar'
   | 'stacks.proficiencyLearning'
+  | 'stacks.proficiencyLegend'
   | 'testimonials.heading'
   | 'testimonials.subtitle'
   | 'contact.heading'
@@ -55,13 +62,21 @@ export type TranslationKey =
   | 'contact.calendarHint'
   | 'contact.cvLabel'
   | 'contact.availability'
+  | 'contact.recommended'
   | 'footer.text'
   | 'footer.viewSource'
   | 'footer.updated'
+  | 'footer.socialAria'
+  | 'footer.cta'
   | 'locale.groupAria'
-  | 'effects.toggleAria'
+  | 'loading.aria'
+  | 'loading.srOnly'
+  | 'loading.skip'
   | 'email.copyAria'
   | 'email.toggleAria'
+  | 'email.copied'
+  | 'email.copyFailed'
+  | 'scroll.progressAria'
   | 'skipToContent';
 
 const BR: Record<TranslationKey, string> = {
@@ -71,28 +86,34 @@ const BR: Record<TranslationKey, string> = {
     'Desenvolvedor focado em criar arquiteturas robustas, interfaces limpas e código performático. Trabalho com Angular, Node.js e Java, aplicando princípios de Clean Architecture, Domain-Driven Design e práticas de engenharia que priorizam manutenibilidade, testabilidade e entrega contínua em produção.',
   'profile.ctaProjects': 'Ver projetos',
   'profile.ctaCv': 'Baixar CV',
+  'profile.highlight1': 'Arquitetura limpa e código testável em produção',
+  'profile.highlight2': 'Angular, Java e Node.js com foco em entrega contínua',
+  'profile.highlight3': 'Interfaces acessíveis e performáticas',
   'photo.altPrefix': 'Foto de',
-  'effect.bubble': 'Efeito bolha',
-  'effect.sky': 'Efeito céu',
-  'effect.pulse': 'Efeito pulso',
+  'nav.about': 'Sobre',
   'nav.experience': 'Experiência',
   'nav.projects': 'Projetos',
   'nav.stacks': 'Stacks',
+  'nav.testimonials': 'Depoimentos',
   'nav.contact': 'Contato',
   'nav.mainAria': 'Navegação principal',
-  'recruiter.modeOn': 'Modo recrutador',
-  'recruiter.modeOff': 'Modo apresentação',
-  'recruiter.toggleAria': 'Alternar modo recrutador',
+  'nav.menuAria': 'Abrir menu de seções',
+  'nav.menuOpen': 'Seções',
+  'nav.menuClose': 'Fechar menu',
   'experience.heading': 'Experiência',
   'experience.subtitle': 'Trajetória profissional em empresas de produto digital.',
   'experience.current': 'Atual',
+  'experience.showMore': 'Ver mais',
+  'experience.showLess': 'Ver menos',
   'projects.heading': 'Meus Projetos',
   'projects.subtitle': 'Cases reais e side projects com foco em impacto mensurável.',
   'projects.underConstruction': 'Em construção',
+  'projects.comingSoon': 'Novos cases em breve — acompanhe as atualizações.',
   'projects.access': 'Acessar demo',
   'projects.github': 'GitHub',
   'projects.caseStudy': 'Ver case study',
   'projects.closeCaseStudy': 'Fechar',
+  'projects.stacksAria': 'Tecnologias do projeto',
   'projects.filterAll': 'Todos',
   'projects.filterFullstack': 'Full Stack',
   'projects.filterBackend': 'Backend',
@@ -112,6 +133,7 @@ const BR: Record<TranslationKey, string> = {
   'stacks.proficiencyDaily': 'Produção diária',
   'stacks.proficiencyFamiliar': 'Familiar',
   'stacks.proficiencyLearning': 'Em estudo',
+  'stacks.proficiencyLegend': 'PRO = produção diária · FAM = familiar · NEW = em estudo',
   'testimonials.heading': 'Depoimentos',
   'testimonials.subtitle': 'O que colegas e líderes dizem sobre a colaboração.',
   'contact.heading': 'Vamos conversar',
@@ -122,13 +144,21 @@ const BR: Record<TranslationKey, string> = {
   'contact.calendarHint': '30 min · Google Meet',
   'contact.cvLabel': 'Currículo em PDF',
   'contact.availability': 'Disponível para remoto · BR & EN',
+  'contact.recommended': 'Recomendado',
   'footer.text': 'Construído com Angular 21 e Tailwind CSS.',
   'footer.viewSource': 'Ver código fonte',
   'footer.updated': 'Última atualização: jun/2026',
+  'footer.socialAria': 'Links sociais',
+  'footer.cta': 'Vamos conversar?',
   'locale.groupAria': 'Selecionar idioma',
-  'effects.toggleAria': 'Efeitos de fundo',
+  'loading.aria': 'Carregando portfólio',
+  'loading.srOnly': 'Carregando',
+  'loading.skip': 'Pular',
   'email.copyAria': 'Copiar e-mail',
   'email.toggleAria': 'Mostrar ou ocultar e-mail',
+  'email.copied': 'E-mail copiado',
+  'email.copyFailed': 'Não foi possível copiar o e-mail',
+  'scroll.progressAria': 'Progresso de leitura da página',
   'skipToContent': 'Ir para o conteúdo',
 };
 
@@ -139,28 +169,34 @@ const EN: Record<TranslationKey, string> = {
     'Developer focused on building robust architectures, clean interfaces, and performant code. I work with Angular, Node.js, and Java, applying Clean Architecture, Domain-Driven Design, and engineering practices that prioritize maintainability, testability, and continuous delivery in production.',
   'profile.ctaProjects': 'View projects',
   'profile.ctaCv': 'Download CV',
+  'profile.highlight1': 'Clean architecture and testable code in production',
+  'profile.highlight2': 'Angular, Java, and Node.js focused on continuous delivery',
+  'profile.highlight3': 'Accessible and performant interfaces',
   'photo.altPrefix': 'Photo of',
-  'effect.bubble': 'Bubble effect',
-  'effect.sky': 'Sky effect',
-  'effect.pulse': 'Pulse effect',
+  'nav.about': 'About',
   'nav.experience': 'Experience',
   'nav.projects': 'Projects',
   'nav.stacks': 'Stacks',
+  'nav.testimonials': 'Testimonials',
   'nav.contact': 'Contact',
   'nav.mainAria': 'Main navigation',
-  'recruiter.modeOn': 'Recruiter mode',
-  'recruiter.modeOff': 'Presentation mode',
-  'recruiter.toggleAria': 'Toggle recruiter mode',
+  'nav.menuAria': 'Open sections menu',
+  'nav.menuOpen': 'Sections',
+  'nav.menuClose': 'Close menu',
   'experience.heading': 'Experience',
   'experience.subtitle': 'Professional journey at digital product companies.',
   'experience.current': 'Current',
+  'experience.showMore': 'Show more',
+  'experience.showLess': 'Show less',
   'projects.heading': 'My Projects',
   'projects.subtitle': 'Real cases and side projects focused on measurable impact.',
   'projects.underConstruction': 'Under construction',
+  'projects.comingSoon': 'New case studies coming soon — stay tuned.',
   'projects.access': 'View demo',
   'projects.github': 'GitHub',
   'projects.caseStudy': 'View case study',
   'projects.closeCaseStudy': 'Close',
+  'projects.stacksAria': 'Project technologies',
   'projects.filterAll': 'All',
   'projects.filterFullstack': 'Full Stack',
   'projects.filterBackend': 'Backend',
@@ -179,6 +215,7 @@ const EN: Record<TranslationKey, string> = {
   'stacks.proficiencyDaily': 'Daily production',
   'stacks.proficiencyFamiliar': 'Familiar',
   'stacks.proficiencyLearning': 'Learning',
+  'stacks.proficiencyLegend': 'PRO = daily production · FAM = familiar · NEW = learning',
   'testimonials.heading': 'Testimonials',
   'testimonials.subtitle': 'What colleagues and leaders say about working together.',
   'contact.heading': "Let's talk",
@@ -189,13 +226,21 @@ const EN: Record<TranslationKey, string> = {
   'contact.calendarHint': '30 min · Google Meet',
   'contact.cvLabel': 'Resume PDF',
   'contact.availability': 'Available remote · BR & EN',
+  'contact.recommended': 'Recommended',
   'footer.text': 'Built with Angular 21 and Tailwind CSS.',
   'footer.viewSource': 'View source code',
   'footer.updated': 'Last updated: Jun/2026',
+  'footer.socialAria': 'Social links',
+  'footer.cta': "Let's talk?",
   'locale.groupAria': 'Select language',
-  'effects.toggleAria': 'Background effects',
+  'loading.aria': 'Loading portfolio',
+  'loading.srOnly': 'Loading',
+  'loading.skip': 'Skip',
   'email.copyAria': 'Copy email',
   'email.toggleAria': 'Show or hide email',
+  'email.copied': 'Email copied',
+  'email.copyFailed': 'Could not copy email',
+  'scroll.progressAria': 'Page reading progress',
   'skipToContent': 'Skip to content',
 };
 

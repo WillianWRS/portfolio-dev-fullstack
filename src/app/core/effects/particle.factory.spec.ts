@@ -1,10 +1,14 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
+  createAmbientMote,
+  createAmbientMotes,
   createBubble,
   createBubbles,
   createMeteorStreak,
   createStarParticle,
   createTriggeredMeteor,
+  createTriggeredWarmRipple,
+  createWarmGlowOrb,
   refreshBubble,
 } from './particle.factory';
 
@@ -48,5 +52,23 @@ describe('particle.factory', () => {
     vi.spyOn(Math, 'random').mockReturnValue(0.5);
 
     expect(createBubbles(4)).toHaveLength(4);
+  });
+
+  it('createAmbientMote drifts upward with warm opacity', () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0.5);
+
+    const mote = createAmbientMote(2);
+
+    expect(mote.id).toBe(2);
+    expect(mote.driftY).toBeLessThan(0);
+    expect(mote.opacity).toBeGreaterThan(0);
+  });
+
+  it('createWarmGlowOrb and createTriggeredWarmRipple use coordinates', () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0.4);
+
+    expect(createWarmGlowOrb(1).warmth).toBeGreaterThan(0);
+    expect(createTriggeredWarmRipple(3, 120, 240)).toMatchObject({ id: 3, left: 120, top: 240 });
+    expect(createAmbientMotes(3)).toHaveLength(3);
   });
 });

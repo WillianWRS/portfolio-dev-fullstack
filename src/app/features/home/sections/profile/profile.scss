@@ -278,6 +278,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .profile-hero__title,
+  .profile-hero__subtitle,
+  .profile-hero__headline,
+  .profile-hero__bio,
+  .profile-highlights,
+  .profile-hero__ctas {
+    animation: none;
+  }
+
   .photo-tilt {
     animation: none;
     transform: rotateY(-15deg);
@@ -325,10 +334,52 @@
   }
 }
 
+.profile-hero__title,
+.profile-hero__subtitle,
+.profile-hero__headline,
+.profile-hero__bio,
+.profile-highlights,
+.profile-hero__ctas {
+  animation: profileFadeIn 0.7s ease both;
+}
+
+.profile-hero__subtitle {
+  animation-delay: 0.1s;
+}
+
+.profile-hero__headline {
+  animation-delay: 0.15s;
+}
+
+.profile-hero__bio {
+  animation-delay: 0.2s;
+}
+
+.profile-highlights {
+  animation-delay: 0.28s;
+}
+
+.profile-hero__ctas {
+  animation-delay: 0.35s;
+}
+
+@keyframes profileFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .profile-cta {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  min-height: 2.75rem;
   border-radius: 9999px;
   padding: 0.625rem 1.25rem;
   font-size: 0.875rem;

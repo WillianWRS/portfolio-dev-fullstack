@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { FocusTrapDirective } from '@shared/directives/focus-trap.directive';
 import { AppIcon } from '@shared/ui/app-icon/app-icon';
 import type { ProjectCategory, ProjectView } from '@core/models/project.model';
 import { LocaleService } from '@core/services/locale.service';
@@ -7,7 +8,8 @@ import { PortfolioContentService } from '@core/services/portfolio-content.servic
 type ProjectFilter = 'all' | ProjectCategory;
 
 @Component({
-  selector: 'app-projects',  imports: [AppIcon],
+  selector: 'app-projects',
+  imports: [AppIcon, FocusTrapDirective],
   templateUrl: './projects.html',
   styleUrl: './projects.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,6 +21,8 @@ export class Projects {
   protected readonly activeFilter = signal<ProjectFilter>('all');
   protected readonly selectedIndex = signal(0);
   protected readonly caseStudyOpen = signal(false);
+
+  private readonly caseStudyTrigger = signal<HTMLElement | null>(null);
 
   protected readonly filters: readonly ProjectFilter[] = [
     'all',
@@ -57,27 +61,33 @@ export class Projects {
     this.caseStudyOpen.set(false);
   }
 
-  protected openCaseStudy(): void {
+  protected openCaseStudy(event?: Event): void {
+    const trigger = event?.currentTarget;
+    this.caseStudyTrigger.set(trigger instanceof HTMLElement ? trigger : null);
     this.caseStudyOpen.set(true);
   }
 
   protected closeCaseStudy(): void {
     this.caseStudyOpen.set(false);
+    queueMicrotask(() => this.caseStudyTrigger()?.focus());
+    this.caseStudyTrigger.set(null);
+  }
+
+  protected filterCount(filter: ProjectFilter): number {
+    const projects = this.content.projects();
+
+    if (filter === 'all') {
+      return projects.length;
+    }
+
+    return projects.filter((project) => project.category === filter).length;
   }
 
   protected filterLabel(filter: ProjectFilter): string {
-    switch (filter) {
-      case 'all':
-        return this.localeService.t('projects.filterAll');
-      case 'fullstack':
-        return this.localeService.t('projects.filterFullstack');
-      case 'backend':
-        return this.localeService.t('projects.filterBackend');
-      case 'frontend':
-        return this.localeService.t('projects.filterFrontend');
-      case 'infra':
-        return this.localeService.t('projects.filterInfra');
-    }
+    const label = this.filterLabelBase(filter);
+    const count = this.filterCount(filter);
+
+    return count > 0 ? `${label} (${count})` : label;
   }
 
   protected statusClass(status: ProjectView['status']): string {
@@ -90,6 +100,21 @@ export class Projects {
         return 'project-status--private';
       case 'construction':
         return 'project-status--construction';
+    }
+  }
+
+  private filterLabelBase(filter: ProjectFilter): string {
+    switch (filter) {
+      case 'all':
+        return this.localeService.t('projects.filterAll');
+      case 'fullstack':
+        return this.localeService.t('projects.filterFullstack');
+      case 'backend':
+        return this.localeService.t('projects.filterBackend');
+      case 'frontend':
+        return this.localeService.t('projects.filterFrontend');
+      case 'infra':
+        return this.localeService.t('projects.filterInfra');
     }
   }
 }

@@ -1,10 +1,13 @@
 import { randomBetween } from '../browser/random.util';
 import type {
+  AmbientMote,
   Bubble,
   ConstellationOrb,
   MeteorStreak,
   RipplePulse,
   StarParticle,
+  WarmGlowOrb,
+  WarmRipple,
 } from '../models/effects.model';
 
 export function createBubble(id: number): Bubble {
@@ -108,4 +111,50 @@ export function createMeteorStreaks(count: number): MeteorStreak[] {
 
 export function createRipplePulses(count: number): RipplePulse[] {
   return Array.from({ length: count }, (_, index) => createRipplePulse(index));
+}
+
+export function createAmbientMote(id: number): AmbientMote {
+  return {
+    id,
+    left: randomBetween(0, 100),
+    top: randomBetween(0, 100),
+    size: randomBetween(1, 3),
+    duration: randomBetween(14, 28),
+    delay: randomBetween(-28, 0),
+    driftX: randomBetween(-40, 40),
+    driftY: randomBetween(-90, -30),
+    opacity: randomBetween(0.15, 0.55),
+  };
+}
+
+export function createWarmGlowOrb(id: number): WarmGlowOrb {
+  return {
+    id,
+    left: randomBetween(0, 100),
+    top: randomBetween(0, 100),
+    size: randomBetween(140, 320),
+    duration: randomBetween(22, 38),
+    delay: randomBetween(-36, 0),
+    opacity: randomBetween(0.05, 0.14),
+    warmth: randomBetween(0.6, 1),
+  };
+}
+
+export function createTriggeredWarmRipple(id: number, left: number, top: number): WarmRipple {
+  return {
+    id,
+    left,
+    top,
+    duration: randomBetween(1.1, 1.8),
+    maxScale: randomBetween(3.5, 6),
+    opacity: randomBetween(0.35, 0.6),
+  };
+}
+
+export function createAmbientMotes(count: number): AmbientMote[] {
+  return Array.from({ length: count }, (_, index) => createAmbientMote(index));
+}
+
+export function createWarmGlowOrbs(count: number): WarmGlowOrb[] {
+  return Array.from({ length: count }, (_, index) => createWarmGlowOrb(index));
 }

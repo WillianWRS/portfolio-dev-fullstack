@@ -17,7 +17,8 @@ export type AppIconName =
   | 'download'
   | 'x'
   | 'calendar'
-  | 'message';
+  | 'message'
+  | 'menu';
 
 @Component({
   selector: 'app-icon',  templateUrl: './app-icon.html',

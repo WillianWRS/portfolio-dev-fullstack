@@ -67,6 +67,29 @@
   transform: scale(1.02);
 }
 
+@media (min-width: 768px) and (max-width: 1023px) {
+  .project-list {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+    scroll-snap-type: x mandatory;
+  }
+
+  .project-tab {
+    width: auto;
+    min-width: max-content;
+    padding: 0.75rem 1rem;
+    scroll-snap-align: start;
+    white-space: nowrap;
+  }
+
+  .project-list .h-px {
+    display: none;
+  }
+}
+
 .project-action-btn:not(:disabled) {
   cursor: pointer;
   transition:
@@ -235,17 +258,4 @@
     transform: none;
   }
 
-  .project-showcase__overlay,
-  .project-showcase__overlay p {
-    transition: none;
-  }
-
-  .project-showcase__overlay {
-    background-color: rgb(0 0 0 / 0.5);
-  }
-
-  .project-showcase__overlay p {
-    color: rgb(255 255 255);
-    transform: none;
-  }
 }

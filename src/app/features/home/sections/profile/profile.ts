@@ -21,6 +21,7 @@ export class Profile {
   protected readonly socialLinks = SOCIAL_LINKS;
 
   protected readonly emailCopied = signal(false);
+  protected readonly emailCopyFailed = signal(false);
   protected readonly emailRevealed = signal(false);
 
   protected toggleEmail(): void {
@@ -33,9 +34,12 @@ export class Profile {
 
     const copied = await this.clipboard.copyText(this.emailAddress);
     if (!copied) {
+      this.emailCopyFailed.set(true);
+      setTimeout(() => this.emailCopyFailed.set(false), 3000);
       return;
     }
 
+    this.emailCopyFailed.set(false);
     this.emailCopied.set(true);
     setTimeout(() => this.emailCopied.set(false), 2000);
   }

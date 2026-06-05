@@ -1,0 +1,59 @@
+<div class="ambient-field" aria-hidden="true">
+  <div class="ambient-field__base"></div>
+
+  <div class="ambient-field__mesh">
+    <span class="ambient-gradient ambient-gradient--1"></span>
+    <span class="ambient-gradient ambient-gradient--2"></span>
+    <span class="ambient-gradient ambient-gradient--3"></span>
+  </div>
+
+  <div class="ambient-field__sheen"></div>
+
+  <span
+    class="ambient-cursor-glow"
+    [class.ambient-cursor-glow--active]="cursorGlowActive()"
+    [style.left.px]="cursorGlowX()"
+    [style.top.px]="cursorGlowY()"
+  ></span>
+
+  @for (orb of warmOrbs(); track orb.id) {
+    <span
+      class="ambient-orb"
+      [style.--left]="orb.left + '%'"
+      [style.--top]="orb.top + '%'"
+      [style.--size]="orb.size + 'px'"
+      [style.--duration]="orb.duration + 's'"
+      [style.--delay]="orb.delay + 's'"
+      [style.--opacity]="orb.opacity"
+      [style.--warmth]="orb.warmth"
+    ></span>
+  }
+
+  @for (mote of dustMotes(); track mote.id) {
+    <span
+      class="ambient-mote"
+      [style.--left]="mote.left + '%'"
+      [style.--top]="mote.top + '%'"
+      [style.--size]="mote.size + 'px'"
+      [style.--duration]="mote.duration + 's'"
+      [style.--delay]="mote.delay + 's'"
+      [style.--drift-x]="mote.driftX + 'px'"
+      [style.--drift-y]="mote.driftY + 'px'"
+      [style.--opacity]="mote.opacity"
+    ></span>
+  }
+
+  @for (ripple of triggeredRipples(); track ripple.id) {
+    <span
+      class="ambient-ripple"
+      [style.left.px]="ripple.left"
+      [style.top.px]="ripple.top"
+      [style.--duration]="ripple.duration + 's'"
+      [style.--max-scale]="ripple.maxScale"
+      [style.--opacity]="ripple.opacity"
+    >
+      <span class="ambient-ripple__ring"></span>
+      <span class="ambient-ripple__ring ambient-ripple__ring--inner"></span>
+    </span>
+  }
+</div>

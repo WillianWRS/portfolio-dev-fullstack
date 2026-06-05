@@ -9,11 +9,12 @@
     <div class="mt-14 grid gap-6 md:grid-cols-3">
       @for (item of content.testimonials(); track item.id) {
         <figure class="testimonial-card">
-          <blockquote class="testimonial-card__quote">
+          <blockquote class="testimonial-card__quote" [attr.cite]="item.company">
             <app-icon name="quote" />
             <p>{{ item.quote }}</p>
           </blockquote>
           <figcaption class="testimonial-card__author">
+            <span class="testimonial-card__avatar" aria-hidden="true">{{ initials(item.author) }}</span>
             <span class="font-semibold text-zinc-900">{{ item.author }}</span>
             <span class="text-sm text-zinc-500">{{ item.role }} · {{ item.company }}</span>
           </figcaption>

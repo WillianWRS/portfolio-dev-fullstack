@@ -7,6 +7,7 @@
       {{ localeService.t('stacks.heading') }}
     </h2>
     <p class="section-card__subtitle">{{ localeService.t('stacks.subtitle') }}</p>
+    <p class="mt-2 font-mono text-xs text-zinc-500">{{ localeService.t('stacks.proficiencyLegend') }}</p>
 
     <div class="stacks-categories mt-14">
       @for (category of content.stackCategories(); track category.id) {

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { LocaleService } from '@core/services/locale.service';
 import { EffectsCoordinatorService } from '@core/services/effects-coordinator.service';
+import { ScrollProgress } from './components/scroll-progress/scroll-progress';
 import { BackgroundEffects } from './effects/background-effects/background-effects';
 import { Contact } from './sections/contact/contact';
 import { Experience } from './sections/experience/experience';
@@ -14,6 +15,7 @@ import { Testimonials } from './sections/testimonials/testimonials';
 @Component({
   selector: 'app-home',
   imports: [
+    ScrollProgress,
     BackgroundEffects,
     SiteHeader,
     Profile,
@@ -33,12 +35,12 @@ export class Home {
 
   private readonly effects = inject(EffectsCoordinatorService);
 
-  /** Easter egg: meteoro ao clicar no fundo do main, sem capturar cliques em filhos. */
+  /** Interação no fundo: onda de luz quente no ponto do clique. */
   protected onMainClick(event: MouseEvent): void {
     if (event.target !== event.currentTarget) {
       return;
     }
 
-    this.effects.registerInteraction();
+    this.effects.registerInteraction({ x: event.clientX, y: event.clientY });
   }
 }

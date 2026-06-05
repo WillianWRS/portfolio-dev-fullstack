@@ -19,4 +19,10 @@ describe('EffectsCoordinatorService', () => {
 
     expect(service.interaction()).toBe(2);
   });
+
+  it('stores the interaction point when provided', () => {
+    service.registerInteraction({ x: 120, y: 340 });
+
+    expect(service.interactionPoint()).toEqual({ x: 120, y: 340 });
+  });
 });

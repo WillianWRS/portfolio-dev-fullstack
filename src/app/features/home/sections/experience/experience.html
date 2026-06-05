@@ -25,13 +25,23 @@
             </div>
 
             <ul class="mt-4 space-y-2 text-sm leading-relaxed text-zinc-600">
-              @for (highlight of item.highlights; track highlight) {
+              @for (highlight of visibleHighlights(item); track highlight) {
                 <li class="flex gap-2">
                   <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-zinc-400" aria-hidden="true"></span>
                   <span>{{ highlight }}</span>
                 </li>
               }
             </ul>
+
+            @if (canExpand(item)) {
+              <button
+                type="button"
+                class="mt-3 text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-800"
+                (click)="toggleExpanded(item.id)"
+              >
+                {{ isExpanded(item.id) ? localeService.t('experience.showLess') : localeService.t('experience.showMore') }}
+              </button>
+            }
 
             <ul class="mt-4 flex flex-wrap gap-2" [attr.aria-label]="item.company">
               @for (stack of item.stacks; track stack) {

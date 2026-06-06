@@ -42,4 +42,14 @@ describe('StackChip', () => {
     expect(img.src).toBe('https://cdn.simpleicons.org/angular');
     expect(img.onerror).toBeNull();
   });
+
+  it('renders without an icon when iconSlug is omitted', () => {
+    fixture.componentRef.setInput('name', 'ChatGPT');
+    fixture.componentRef.setInput('iconSlug', undefined);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('img')).toBeNull();
+    expect(fixture.nativeElement.textContent).toContain('ChatGPT');
+    expect(fixture.nativeElement.querySelector('.stack-chip--text-only')).toBeTruthy();
+  });
 });

@@ -3,7 +3,7 @@ export type StackProficiency = 'daily' | 'familiar' | 'learning';
 
 export interface StackItem {
   name: string;
-  iconSlug: string;
+  iconSlug?: string;
   proficiency: StackProficiency;
 }
 
@@ -22,7 +22,7 @@ export interface StackCategoryView {
 
 export interface StackItemView {
   name: string;
-  iconSlug: string;
+  iconSlug?: string;
   proficiency: StackProficiency;
   proficiencyLabel: string;
 }

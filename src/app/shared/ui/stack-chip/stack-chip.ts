@@ -11,12 +11,27 @@ export class StackChip {
   private readonly stackIcons = inject(StackIconService);
 
   readonly name = input.required<string>();
-  readonly iconSlug = input.required<string>();
+  readonly iconSlug = input<string>();
+  readonly size = input<'sm' | 'md'>('md');
   readonly proficiencyLabel = input<string>('');
   readonly proficiency = input<StackProficiency | undefined>();
 
+  protected chipClass(): string {
+    return this.size() === 'sm'
+      ? 'stack-chip stack-chip--sm inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-medium text-zinc-700 shadow-sm'
+      : 'stack-chip inline-flex items-center gap-2.5 rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-base font-medium text-zinc-700 shadow-sm';
+  }
+
+  protected iconClass(): string {
+    return this.size() === 'sm' ? 'stack-chip__icon h-4 w-4 shrink-0 object-contain' : 'stack-chip__icon h-6 w-6 shrink-0 object-contain';
+  }
+
+  protected hasIcon(): boolean {
+    return !!this.iconSlug();
+  }
+
   protected iconUrl(): string {
-    return this.stackIcons.iconUrl(this.iconSlug());
+    return this.stackIcons.iconUrl(this.iconSlug()!);
   }
 
   protected proficiencyShort(): string {
@@ -46,8 +61,13 @@ export class StackChip {
   }
 
   protected onIconError(event: Event): void {
+    const slug = this.iconSlug();
+    if (!slug) {
+      return;
+    }
+
     const img = event.target as HTMLImageElement;
-    img.src = this.stackIcons.cdnIconUrl(this.iconSlug());
+    img.src = this.stackIcons.cdnIconUrl(slug);
     img.onerror = null;
   }
 }

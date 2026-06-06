@@ -5,6 +5,19 @@
     transform 0.2s ease;
 }
 
+.stack-chip--sm {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  letter-spacing: 0.02em;
+}
+
+.stack-chip--sm.stack-chip--text-only {
+  padding-inline: 0.75rem;
+}
+
+.stack-chip--text-only {
+  padding-inline: 1rem;
+}
+
 .stack-chip:hover {
   border-color: rgb(161 161 170);
   box-shadow: 0 2px 8px rgb(0 0 0 / 0.06);

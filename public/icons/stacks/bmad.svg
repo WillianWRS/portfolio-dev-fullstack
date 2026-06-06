@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="BMAD">
+  <rect width="24" height="24" rx="6" fill="#18181b"/>
+  <text
+    x="12"
+    y="15.5"
+    text-anchor="middle"
+    font-family="ui-sans-serif, system-ui, sans-serif"
+    font-size="7"
+    font-weight="700"
+    fill="#fafafa"
+    letter-spacing="0.5"
+  >BMAD</text>
+</svg>

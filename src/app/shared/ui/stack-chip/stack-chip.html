@@ -1,16 +1,19 @@
 <span
-  class="stack-chip inline-flex items-center gap-2.5 rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-base font-medium text-zinc-700 shadow-sm"
+  [class]="chipClass()"
+  [class.stack-chip--text-only]="!hasIcon()"
   [attr.title]="proficiencyLabel() || null"
 >
-  <img
-    [src]="iconUrl()"
-    alt=""
-    class="stack-chip__icon h-6 w-6 shrink-0 object-contain"
-    width="24"
-    height="24"
-    loading="lazy"
-    (error)="onIconError($event)"
-  />
+  @if (hasIcon()) {
+    <img
+      [src]="iconUrl()"
+      alt=""
+      [class]="iconClass()"
+      width="24"
+      height="24"
+      loading="lazy"
+      (error)="onIconError($event)"
+    />
+  }
   <span>{{ name() }}</span>
   @if (proficiencyLabel()) {
     <span

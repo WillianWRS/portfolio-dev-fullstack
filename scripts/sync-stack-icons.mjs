@@ -5,22 +5,23 @@ import { fileURLToPath } from 'node:url';
 const slugs = [
   'java',
   'springboot',
-  'nodedotjs',
-  'nestjs',
-  'go',
-  'apachekafka',
+  'temporal',
   'angular',
   'typescript',
+  'javascript',
   'reactivex',
   'tailwindcss',
   'html5',
   'css3',
   'postgresql',
-  'mongodb',
-  'redis',
-  'h2database',
-  'python',
-  'langchain',
+  'mysql',
+  'docker',
+  'junit',
+  'swagger',
+  'flyway',
+  'openai',
+  'googlegemini',
+  'grok',
   'cursor',
 ];
 
@@ -35,6 +36,9 @@ const cdnSlugByFile = {
 
 const customSources = {
   java: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg',
+  junit: 'https://raw.githubusercontent.com/devicons/devicon/master/icons/junit/junit-plain.svg',
+  openai: 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/openai.svg',
+  grok: 'https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/x.svg',
 };
 
 for (const slug of slugs) {

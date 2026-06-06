@@ -15,6 +15,7 @@ const slugs = [
   'css3',
   'postgresql',
   'mysql',
+  'mongodb',
   'docker',
   'junit',
   'swagger',

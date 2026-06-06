@@ -32,6 +32,7 @@ export const STACK_CATEGORIES_SOURCE: StackCategorySource[] = [
     items: [
       { name: 'PostgreSQL', iconSlug: 'postgresql', proficiency: 'daily' },
       { name: 'MySQL', iconSlug: 'mysql', proficiency: 'daily' },
+      { name: 'MongoDB', iconSlug: 'mongodb', proficiency: 'daily' },
     ],
   },
   {

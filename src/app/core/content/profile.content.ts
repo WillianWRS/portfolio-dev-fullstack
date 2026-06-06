@@ -13,6 +13,6 @@ export const CV_URL_BR = appConfig.cvUrlBr;
 
 export const CV_URL_EN = appConfig.cvUrlEn;
 
-export const CALENDAR_URL = appConfig.calendarUrl;
+export const WHATSAPP_URL = appConfig.whatsappUrl;
 
 export const GITHUB_REPO_URL = appConfig.githubRepoUrl;

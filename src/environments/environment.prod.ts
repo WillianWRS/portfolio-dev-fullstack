@@ -9,7 +9,7 @@ export const environment = {
     profilePhotoUrl: '/foto.png',
     cvUrlBr: '/Willian-Robert-Scabora.pdf',
     cvUrlEn: '/Willian-Robert-Scabora.pdf',
-    calendarUrl: 'https://cal.com/willian-scabora/30min',
+    whatsappUrl: 'https://wa.me/5518996416968',
     githubRepoUrl: 'https://github.com/WillianWRS/portfolio-dev-fullstack',
   } satisfies AppConfig,
 };

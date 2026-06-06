@@ -63,8 +63,8 @@ export type TranslationKey =
   | 'contact.heading'
   | 'contact.subtitle'
   | 'contact.emailLabel'
-  | 'contact.calendarLabel'
-  | 'contact.calendarHint'
+  | 'contact.whatsappLabel'
+  | 'contact.whatsappHint'
   | 'contact.cvLabel'
   | 'contact.availability'
   | 'contact.recommended'
@@ -150,8 +150,8 @@ const BR: Record<TranslationKey, string> = {
   'contact.subtitle':
     'Aberto a oportunidades full stack, consultorias técnicas e projetos desafiadores.',
   'contact.emailLabel': 'E-mail',
-  'contact.calendarLabel': 'Agendar conversa',
-  'contact.calendarHint': '30 min · Google Meet',
+  'contact.whatsappLabel': 'WhatsApp',
+  'contact.whatsappHint': '(18) 99641-6968',
   'contact.cvLabel': 'Currículo em PDF',
   'contact.availability': 'Disponível para remoto · BR & EN',
   'contact.recommended': 'Recomendado',
@@ -237,8 +237,8 @@ const EN: Record<TranslationKey, string> = {
   'contact.subtitle':
     'Open to full stack opportunities, technical consulting, and challenging projects.',
   'contact.emailLabel': 'Email',
-  'contact.calendarLabel': 'Schedule a call',
-  'contact.calendarHint': '30 min · Google Meet',
+  'contact.whatsappLabel': 'WhatsApp',
+  'contact.whatsappHint': '+55 18 99641-6968',
   'contact.cvLabel': 'Resume PDF',
   'contact.availability': 'Available remote · BR & EN',
   'contact.recommended': 'Recommended',

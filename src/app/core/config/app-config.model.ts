@@ -5,6 +5,6 @@ export interface AppConfig {
   profilePhotoUrl: string;
   cvUrlBr: string;
   cvUrlEn: string;
-  calendarUrl: string;
+  whatsappUrl: string;
   githubRepoUrl: string;
 }

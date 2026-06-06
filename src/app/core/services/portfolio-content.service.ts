@@ -45,7 +45,7 @@ export class PortfolioContentService {
     this.localeService.locale() === 'BR' ? this.appConfig.cvUrlBr : this.appConfig.cvUrlEn,
   );
 
-  readonly calendarUrl = computed(() => this.appConfig.calendarUrl);
+  readonly whatsappUrl = computed(() => this.appConfig.whatsappUrl);
 
   readonly githubRepoUrl = computed(() => this.appConfig.githubRepoUrl);
 

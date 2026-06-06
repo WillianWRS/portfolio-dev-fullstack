@@ -11,17 +11,17 @@
 
     <div class="mt-14 grid gap-4 sm:grid-cols-3">
       <a
-        [href]="content.calendarUrl()"
+        [href]="content.whatsappUrl()"
         target="_blank"
         rel="noopener noreferrer"
         class="contact-card contact-card--primary group"
       >
         <span class="contact-card__badge">{{ localeService.t('contact.recommended') }}</span>
         <span class="contact-card__icon">
-          <app-icon name="calendar" />
+          <app-icon name="whatsapp" />
         </span>
-        <span class="contact-card__label">{{ localeService.t('contact.calendarLabel') }}</span>
-        <span class="contact-card__value">{{ localeService.t('contact.calendarHint') }}</span>
+        <span class="contact-card__label">{{ localeService.t('contact.whatsappLabel') }}</span>
+        <span class="contact-card__value">{{ localeService.t('contact.whatsappHint') }}</span>
       </a>
 
       <button type="button" class="contact-card group text-left" (click)="toggleEmail()">

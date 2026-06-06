@@ -17,6 +17,7 @@ export type AppIconName =
   | 'download'
   | 'x'
   | 'calendar'
+  | 'whatsapp'
   | 'message'
   | 'menu';
 

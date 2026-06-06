@@ -42,17 +42,23 @@
 
           <figure
             class="project-showcase__media group relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-200 ring-1 ring-zinc-200/80"
+            [class.project-showcase__media--placeholder]="selected.isPlaceholder"
           >
             <img
               [src]="selected.imageUrl"
-              [alt]="selected.title"
-              class="project-showcase__image h-full w-full object-cover"
+              [alt]="selected.isPlaceholder ? localeService.t('projects.underConstruction') : selected.title"
+              class="project-showcase__image h-full w-full"
+              [class.project-showcase__image--placeholder]="selected.isPlaceholder"
               width="800"
               height="600"
             />
           </figure>
 
-          <p class="project-showcase__description mt-4 text-base leading-relaxed text-zinc-600">
+          <p
+            class="project-showcase__description mt-4 text-base leading-relaxed"
+            [class.text-zinc-600]="!selected.isPlaceholder"
+            [class.project-showcase__description--placeholder]="selected.isPlaceholder"
+          >
             {{ selected.description }}
           </p>
 
@@ -67,16 +73,19 @@
             </ul>
           }
 
-          <ul class="mt-5 flex flex-wrap gap-2" [attr.aria-label]="localeService.t('projects.stacksAria')">
-            @for (stack of selected.stacks; track stack) {
-              <li
-                class="rounded-full border border-zinc-200 bg-white px-3 py-1 font-mono text-xs tracking-wide text-zinc-600"
-              >
-                {{ stack }}
+          <ul class="project-stacks mt-5 flex flex-wrap gap-2" [attr.aria-label]="localeService.t('projects.stacksAria')">
+            @for (stack of selected.stacks; track stack.name) {
+              <li [class.project-stack-chip--placeholder]="selected.isPlaceholder">
+                <app-stack-chip
+                  [name]="stack.name"
+                  [iconSlug]="stack.iconSlug"
+                  size="sm"
+                />
               </li>
             }
           </ul>
 
+          @if (!selected.isPlaceholder) {
           <div class="mt-6 flex flex-wrap gap-3">
             @if (selected.githubUrl) {
               <a
@@ -114,6 +123,9 @@
               </button>
             }
           </div>
+          } @else {
+            <p class="mt-6 text-sm italic text-zinc-500">{{ localeService.t('projects.comingSoon') }}</p>
+          }
         </div>
 
         <div
@@ -136,7 +148,9 @@
               <span class="project-tab__icon" aria-hidden="true">
                 <app-icon name="arrow-right" />
               </span>
-              <span class="project-tab__label">{{ project.title }}</span>
+              <span class="project-tab__label" [class.project-tab__label--placeholder]="project.isPlaceholder">
+                {{ project.title }}
+              </span>
               @if (project.featured) {
                 <span class="project-tab__featured" aria-hidden="true">★</span>
               }

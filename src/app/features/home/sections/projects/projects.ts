@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FocusTrapDirective } from '@shared/directives/focus-trap.directive';
 import { AppIcon } from '@shared/ui/app-icon/app-icon';
+import { StackChip } from '@shared/ui/stack-chip/stack-chip';
 import type { ProjectCategory, ProjectView } from '@core/models/project.model';
 import { LocaleService } from '@core/services/locale.service';
 import { PortfolioContentService } from '@core/services/portfolio-content.service';
@@ -9,7 +10,7 @@ type ProjectFilter = 'all' | ProjectCategory;
 
 @Component({
   selector: 'app-projects',
-  imports: [AppIcon, FocusTrapDirective],
+  imports: [AppIcon, StackChip, FocusTrapDirective],
   templateUrl: './projects.html',
   styleUrl: './projects.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

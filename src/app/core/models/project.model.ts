@@ -1,6 +1,16 @@
 export type ProjectStatus = 'live' | 'demo' | 'private' | 'construction';
 export type ProjectCategory = 'fullstack' | 'backend' | 'frontend' | 'infra';
 
+export interface ProjectStackSource {
+  name: string;
+  iconSlug?: string;
+}
+
+export interface ProjectStackView {
+  name: string;
+  iconSlug?: string;
+}
+
 export interface ProjectMetricSource {
   value: string;
   labelBR: string;
@@ -22,10 +32,12 @@ export interface ProjectSource {
   imageUrl: string;
   descriptionBR: string;
   descriptionEN: string;
-  stacks: readonly string[];
+  stacks: readonly ProjectStackSource[];
   status: ProjectStatus;
   category: ProjectCategory;
   featured?: boolean;
+  placeholder?: boolean;
+  placeholderIndex?: number;
   year: number;
   roleBR: string;
   roleEN: string;
@@ -39,14 +51,15 @@ export interface ProjectView {
   id: string;
   title: string;
   description: string;
-  stacks: string[];
+  stacks: ProjectStackView[];
   imageUrl: string;
   status: ProjectStatus;
   statusLabel: string;
   category: ProjectCategory;
   categoryLabel: string;
   featured: boolean;
-  year: number;
+  isPlaceholder: boolean;
+  year: number | string;
   role: string;
   githubUrl?: string;
   liveUrl?: string;
@@ -57,6 +70,12 @@ export interface ProjectView {
 
 export const PROJECT_PLACEHOLDER_IMAGE = '/settings.png';
 
-export function isProjectUnderConstruction(project: Pick<ProjectSource, 'status' | 'imageUrl'>): boolean {
-  return project.status === 'construction' || project.imageUrl === PROJECT_PLACEHOLDER_IMAGE;
+export function isProjectUnderConstruction(
+  project: Pick<ProjectSource, 'status' | 'imageUrl' | 'placeholder'>,
+): boolean {
+  return (
+    project.placeholder === true ||
+    project.status === 'construction' ||
+    project.imageUrl === PROJECT_PLACEHOLDER_IMAGE
+  );
 }

@@ -4,27 +4,27 @@ import { isProjectUnderConstruction } from '../models/project.model';
 import { translate } from '../i18n/translations';
 
 describe('portfolio content', () => {
-  it('marks construction status projects as under construction', () => {
-    const construction = PROJECTS_SOURCE.find((p) => p.status === 'construction');
-    expect(construction).toBeDefined();
-    expect(isProjectUnderConstruction(construction!)).toBe(true);
+  it('marks placeholder projects as under construction', () => {
+    const placeholder = PROJECTS_SOURCE.find((p) => p.placeholder);
+    expect(placeholder).toBeDefined();
+    expect(isProjectUnderConstruction(placeholder!)).toBe(true);
   });
 
-  it('translates project under construction label per locale', () => {
-    expect(translate('BR', 'projects.underConstruction')).toBe('Em construção');
-    expect(translate('EN', 'projects.underConstruction')).toBe('Under construction');
+  it('translates placeholder description per locale', () => {
+    expect(translate('BR', 'projects.placeholderDescription')).toBe('Espaço para descrição');
+    expect(translate('EN', 'projects.placeholderDescription')).toBe('Space for description');
   });
 
-  it('maps finished projects to localized descriptions', () => {
-    const habit = PROJECTS_SOURCE.find((p) => p.title === 'Habit Builder')!;
-    expect(isProjectUnderConstruction(habit)).toBe(false);
-    expect(habit.descriptionBR).toContain('hábitos');
-    expect(habit.descriptionEN).toContain('Habit manager');
+  it('keeps profissionais as a finished showcase project', () => {
+    const profissionais = PROJECTS_SOURCE.find((p) => p.id === 'profissionais')!;
+    expect(isProjectUnderConstruction(profissionais)).toBe(false);
+    expect(profissionais.descriptionBR).toContain('API REST');
+    expect(profissionais.caseStudy).toBeDefined();
   });
 
-  it('includes case studies for featured projects', () => {
-    const featured = PROJECTS_SOURCE.filter((p) => p.featured);
-    expect(featured.length).toBeGreaterThan(0);
-    expect(featured.every((p) => p.caseStudy)).toBe(true);
+  it('includes case study only for real showcase projects', () => {
+    const realProjects = PROJECTS_SOURCE.filter((p) => !p.placeholder);
+    expect(realProjects.length).toBeGreaterThan(0);
+    expect(realProjects.every((p) => p.caseStudy)).toBe(true);
   });
 });

@@ -60,7 +60,32 @@
 }
 
 .project-showcase__image {
+  object-fit: cover;
   transition: transform 0.5s ease;
+}
+
+.project-showcase__media--placeholder {
+  background: rgb(228 228 231);
+}
+
+.project-showcase__image--placeholder {
+  object-fit: cover;
+  object-position: center;
+}
+
+.project-showcase__description--placeholder {
+  border: 1px dashed rgb(212 212 216);
+  border-radius: 0.75rem;
+  background: rgb(250 250 250);
+  padding: 0.875rem 1rem;
+  font-style: italic;
+  color: rgb(113 113 122);
+}
+
+.project-stack-chip--placeholder ::ng-deep .stack-chip {
+  border-style: dashed;
+  color: rgb(113 113 122);
+  font-style: italic;
 }
 
 .project-showcase__media:hover .project-showcase__image {
@@ -174,6 +199,15 @@
   background: rgb(250 250 250);
   padding: 0.75rem;
   text-align: center;
+}
+
+.project-tab__label--placeholder {
+  font-style: italic;
+  color: rgb(161 161 170);
+}
+
+.project-tab--selected .project-tab__label--placeholder {
+  color: rgb(82 82 91);
 }
 
 .project-metric__value {

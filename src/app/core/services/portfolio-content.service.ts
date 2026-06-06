@@ -124,23 +124,54 @@ export class PortfolioContentService {
     isBR: boolean,
     locale: ReturnType<LocaleService['locale']>,
   ): ProjectView {
+    if (project.placeholder) {
+      const index = project.placeholderIndex ?? 0;
+
+      return {
+        id: project.id,
+        title: `${translate(locale, 'projects.placeholderTitle')}${index > 0 ? ` ${index}` : ''}`,
+        description: translate(locale, 'projects.placeholderDescription'),
+        stacks: [{ name: translate(locale, 'projects.placeholderStack') }],
+        imageUrl: project.imageUrl,
+        status: 'construction',
+        statusLabel: this.statusLabel('construction', locale),
+        category: project.category,
+        categoryLabel: this.categoryLabel(project.category, locale),
+        featured: false,
+        isPlaceholder: true,
+        year: '—',
+        role: translate(locale, 'projects.placeholderRole'),
+        metrics: [
+          {
+            value: '—',
+            label: translate(locale, 'projects.placeholderMetric'),
+          },
+        ],
+        hasCaseStudy: false,
+      };
+    }
+
     const underConstruction = isProjectUnderConstruction(project);
 
     return {
       id: project.id,
       title: project.title,
       description: underConstruction
-        ? translate(locale, 'projects.underConstruction')
+        ? translate(locale, 'projects.placeholderDescription')
         : isBR
           ? project.descriptionBR
           : project.descriptionEN,
-      stacks: [...project.stacks],
+      stacks: project.stacks.map((stack) => ({
+        name: stack.name,
+        iconSlug: stack.iconSlug,
+      })),
       imageUrl: project.imageUrl,
       status: project.status,
       statusLabel: this.statusLabel(project.status, locale),
       category: project.category,
       categoryLabel: this.categoryLabel(project.category, locale),
       featured: project.featured ?? false,
+      isPlaceholder: underConstruction,
       year: project.year,
       role: isBR ? project.roleBR : project.roleEN,
       githubUrl: project.githubUrl,
@@ -156,7 +187,7 @@ export class PortfolioContentService {
             outcome: isBR ? project.caseStudy.outcomeBR : project.caseStudy.outcomeEN,
           }
         : undefined,
-      hasCaseStudy: !!project.caseStudy,
+      hasCaseStudy: !!project.caseStudy && !underConstruction,
     };
   }
 

@@ -41,12 +41,12 @@ describe('PortfolioContentService', () => {
     const projects = content.projects();
     expect(projects.length).toBeGreaterThan(0);
 
-    const construction = projects.find((p) => p.status === 'construction');
-    expect(construction?.description).toBe('Em construção');
+    const construction = projects.find((p) => p.isPlaceholder);
+    expect(construction?.description).toBe('Espaço para descrição');
 
     locale.setLocale('EN');
-    const enConstruction = content.projects().find((p) => p.status === 'construction');
-    expect(enConstruction?.description).toBe('Under construction');
+    const enConstruction = content.projects().find((p) => p.isPlaceholder);
+    expect(enConstruction?.description).toBe('Space for description');
   });
 
   it('maps experience entries for the active locale', () => {

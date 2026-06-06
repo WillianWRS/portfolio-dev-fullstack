@@ -53,29 +53,6 @@
   overflow: visible;
 }
 
-.loading-screen__skip {
-  border-radius: 9999px;
-  border: 1px solid rgb(82 82 91);
-  background: rgb(24 24 27 / 0.8);
-  padding: 0.5rem 1rem;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: rgb(228 228 231);
-  transition:
-    border-color 0.2s ease,
-    color 0.2s ease;
-}
-
-.loading-screen__skip:hover {
-  border-color: rgb(250 250 250);
-  color: rgb(250 250 250);
-}
-
-.loading-screen__skip:focus-visible {
-  outline: 2px solid rgb(250 250 250);
-  outline-offset: 2px;
-}
-
 .wrs-outline {
   fill: none;
   stroke: rgba(250, 250, 250, 0.95);

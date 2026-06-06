@@ -22,11 +22,9 @@ export class LoadingScreen implements OnInit, OnDestroy {
   protected readonly localeService = inject(LocaleService);
 
   protected readonly dismissed = signal(false);
-  protected readonly showSkip = signal(false);
 
   private readonly platformId = inject(PLATFORM_ID);
   private autoDismissTimer: ReturnType<typeof setTimeout> | null = null;
-  private skipTimer: ReturnType<typeof setTimeout> | null = null;
 
   ngOnInit(): void {
     if (!isPlatformBrowser(this.platformId)) {
@@ -34,17 +32,12 @@ export class LoadingScreen implements OnInit, OnDestroy {
       return;
     }
 
-    this.skipTimer = setTimeout(() => this.showSkip.set(true), 800);
     this.autoDismissTimer = setTimeout(() => this.dismiss(), 1200);
   }
 
   ngOnDestroy(): void {
     if (this.autoDismissTimer) {
       clearTimeout(this.autoDismissTimer);
-    }
-
-    if (this.skipTimer) {
-      clearTimeout(this.skipTimer);
     }
   }
 

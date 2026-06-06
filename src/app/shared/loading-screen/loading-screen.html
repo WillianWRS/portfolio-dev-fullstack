@@ -23,12 +23,6 @@
         </text>
       </svg>
       <span class="sr-only">{{ localeService.t('loading.srOnly') }}</span>
-
-      @if (showSkip()) {
-        <button type="button" class="loading-screen__skip" (click)="dismiss()">
-          {{ localeService.t('loading.skip') }}
-        </button>
-      }
     </div>
   </div>
 }

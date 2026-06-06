@@ -1,37 +1,39 @@
 import type { TestimonialSource } from '../models/testimonial.model';
 
+function createEmptyTestimonialSlot(index: number): TestimonialSource {
+  return {
+    id: `testimonial-slot-${index}`,
+    placeholder: true,
+    placeholderIndex: index,
+    author: '',
+    roleBR: '',
+    roleEN: '',
+    contextBR: '',
+    contextEN: '',
+    avatarUrl: '',
+    sourceUrl: '',
+    quoteBR: '',
+    quoteEN: '',
+  };
+}
+
 export const TESTIMONIALS_SOURCE: readonly TestimonialSource[] = [
   {
-    id: 'marina-costa',
-    author: 'Marina Costa',
-    roleBR: 'Engineering Manager',
-    roleEN: 'Engineering Manager',
-    company: 'TechFlow Solutions',
+    id: 'pedro-foganholi',
+    author: 'Pedro Luiz Foganholi',
+    roleBR: 'Desenvolvedor Backend | Java | Spring Boot | Microserviços | MySQL | MongoDB | Docker | Testes',
+    roleEN: 'Backend Developer | Java | Spring Boot | Microservices | MySQL | MongoDB | Docker | Testing',
+    contextBR:
+      '8 de fevereiro de 2023, Pedro Luiz era sênior em relação a Willian mas não supervisionava Willian diretamente',
+    contextEN:
+      'February 8, 2023, Pedro Luiz was senior to Willian but did not directly supervise Willian',
+    avatarUrl: '/pedro.png',
+    sourceUrl: 'https://www.linkedin.com/in/willian-robert-scabora-85a94217b/details/recommendations/',
     quoteBR:
-      'Willian combina visão arquitetural com entrega consistente. Foi peça-chave na migração para microsserviços — sempre propõe soluções pragmáticas sem perder qualidade técnica.',
+      'Trabalho a bastante tempo com Willian onde entramos com não muita diferença de tempo. Nesse período que ficamos nos mesmos projetos vi a força de vontade apresentada por Willian nas tarefas e a humildade para receber criticas construtivas e assim se tornar um profissional melhor. Busca sempre fazer coisas novas e claro, da forma correta para melhor escalabilidade dos projetos em que trabalha.',
     quoteEN:
-      'Willian combines architectural vision with consistent delivery. He was key to our microservices migration — always proposing pragmatic solutions without sacrificing technical quality.',
+      'I have worked with Willian for quite a while; we joined around the same time. During the period we shared projects, I saw the drive Willian brings to tasks and the humility to accept constructive criticism and grow as a professional. He always seeks to do new things the right way, with scalability in mind for the projects he works on.',
   },
-  {
-    id: 'rafael-mendes',
-    author: 'Rafael Mendes',
-    roleBR: 'Tech Lead',
-    roleEN: 'Tech Lead',
-    company: 'DataStream Labs',
-    quoteBR:
-      'Trabalhar com Willian elevou o padrão do time. Code reviews detalhados, documentação clara e domínio tanto de frontend quanto backend. Recomendo sem hesitar.',
-    quoteEN:
-      'Working with Willian raised the team standard. Detailed code reviews, clear documentation, and mastery of both frontend and backend. I recommend him without hesitation.',
-  },
-  {
-    id: 'camila-oliveira',
-    author: 'Camila Oliveira',
-    roleBR: 'Product Owner',
-    roleEN: 'Product Owner',
-    company: 'Inovare Digital',
-    quoteBR:
-      'Raro encontrar um dev que traduz requisitos de negócio em soluções técnicas elegantes. Willian sempre antecipa riscos e comunica trade-offs de forma acessível.',
-    quoteEN:
-      'Rare to find a developer who translates business requirements into elegant technical solutions. Willian always anticipates risks and communicates trade-offs accessibly.',
-  },
+  createEmptyTestimonialSlot(1),
+  createEmptyTestimonialSlot(2),
 ];

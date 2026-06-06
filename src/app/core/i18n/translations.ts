@@ -55,6 +55,11 @@ export type TranslationKey =
   | 'stacks.proficiencyLegend'
   | 'testimonials.heading'
   | 'testimonials.subtitle'
+  | 'testimonials.sourceLinkedIn'
+  | 'testimonials.placeholderTitle'
+  | 'testimonials.placeholderRole'
+  | 'testimonials.placeholderContext'
+  | 'testimonials.placeholderQuote'
   | 'contact.heading'
   | 'contact.subtitle'
   | 'contact.emailLabel'
@@ -136,6 +141,11 @@ const BR: Record<TranslationKey, string> = {
   'stacks.proficiencyLegend': 'PRO = produção diária · FAM = familiar · NEW = em estudo',
   'testimonials.heading': 'Depoimentos',
   'testimonials.subtitle': 'O que colegas e líderes dizem sobre a colaboração.',
+  'testimonials.sourceLinkedIn': 'Recomendação no LinkedIn',
+  'testimonials.placeholderTitle': 'Espaço para depoimento',
+  'testimonials.placeholderRole': 'Espaço para autor / cargo',
+  'testimonials.placeholderContext': 'Aguardando nova recomendação',
+  'testimonials.placeholderQuote': 'Espaço para citação',
   'contact.heading': 'Vamos conversar',
   'contact.subtitle':
     'Aberto a oportunidades full stack, consultorias técnicas e projetos desafiadores.',
@@ -218,6 +228,11 @@ const EN: Record<TranslationKey, string> = {
   'stacks.proficiencyLegend': 'PRO = daily production · FAM = familiar · NEW = learning',
   'testimonials.heading': 'Testimonials',
   'testimonials.subtitle': 'What colleagues and leaders say about working together.',
+  'testimonials.sourceLinkedIn': 'LinkedIn recommendation',
+  'testimonials.placeholderTitle': 'Testimonial slot',
+  'testimonials.placeholderRole': 'Space for author / role',
+  'testimonials.placeholderContext': 'Awaiting new recommendation',
+  'testimonials.placeholderQuote': 'Space for quote',
   'contact.heading': "Let's talk",
   'contact.subtitle':
     'Open to full stack opportunities, technical consulting, and challenging projects.',

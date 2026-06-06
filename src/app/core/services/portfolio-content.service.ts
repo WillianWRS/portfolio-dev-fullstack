@@ -75,13 +75,33 @@ export class PortfolioContentService {
     const locale = this.localeService.locale();
     const isBR = locale === 'BR';
 
-    return TESTIMONIALS_SOURCE.map((item) => ({
-      id: item.id,
-      author: item.author,
-      role: isBR ? item.roleBR : item.roleEN,
-      company: item.company,
-      quote: isBR ? item.quoteBR : item.quoteEN,
-    }));
+    return TESTIMONIALS_SOURCE.map((item) => {
+      if (item.placeholder) {
+        const index = item.placeholderIndex ?? 0;
+
+        return {
+          id: item.id,
+          isPlaceholder: true,
+          author: `${translate(locale, 'testimonials.placeholderTitle')}${index > 0 ? ` ${index}` : ''}`,
+          role: translate(locale, 'testimonials.placeholderRole'),
+          context: translate(locale, 'testimonials.placeholderContext'),
+          avatarUrl: '',
+          sourceUrl: '',
+          quote: translate(locale, 'testimonials.placeholderQuote'),
+        };
+      }
+
+      return {
+        id: item.id,
+        isPlaceholder: false,
+        author: item.author,
+        role: isBR ? item.roleBR : item.roleEN,
+        context: isBR ? item.contextBR : item.contextEN,
+        avatarUrl: item.avatarUrl,
+        sourceUrl: item.sourceUrl,
+        quote: isBR ? item.quoteBR : item.quoteEN,
+      };
+    });
   });
 
   readonly stackCategories = computed<StackCategoryView[]>(() => {

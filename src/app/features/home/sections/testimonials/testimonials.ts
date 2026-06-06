@@ -7,18 +7,10 @@ import { PortfolioContentService } from '@core/services/portfolio-content.servic
   selector: 'app-testimonials',
   imports: [AppIcon],
   templateUrl: './testimonials.html',
+  styleUrl: './testimonials.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Testimonials {
   protected readonly localeService = inject(LocaleService);
   protected readonly content = inject(PortfolioContentService);
-
-  protected initials(author: string): string {
-    return author
-      .split(' ')
-      .map((part) => part.charAt(0))
-      .join('')
-      .slice(0, 2)
-      .toUpperCase();
-  }
 }

@@ -6,18 +6,48 @@
     </h2>
     <p class="section-card__subtitle">{{ localeService.t('testimonials.subtitle') }}</p>
 
-    <div class="mt-14 grid gap-6 md:grid-cols-3">
+    <div class="testimonials-grid mt-14">
       @for (item of content.testimonials(); track item.id) {
-        <figure class="testimonial-card">
-          <blockquote class="testimonial-card__quote" [attr.cite]="item.company">
-            <app-icon name="quote" />
+        <figure
+          class="testimonial-card"
+          [class.testimonial-card--placeholder]="item.isPlaceholder"
+        >
+          <figcaption class="testimonial-card__header">
+            @if (item.isPlaceholder) {
+              <span class="testimonial-card__avatar testimonial-card__avatar--placeholder" aria-hidden="true"></span>
+            } @else {
+              <img
+                class="testimonial-card__avatar"
+                [src]="item.avatarUrl"
+                [alt]="item.author"
+                width="48"
+                height="48"
+                loading="lazy"
+              />
+            }
+            <div class="testimonial-card__identity">
+              <span class="testimonial-card__name">{{ item.author }}</span>
+              <span class="testimonial-card__role">{{ item.role }}</span>
+            </div>
+          </figcaption>
+
+          <p class="testimonial-card__context">{{ item.context }}</p>
+
+          <blockquote class="testimonial-card__quote">
             <p>{{ item.quote }}</p>
           </blockquote>
-          <figcaption class="testimonial-card__author">
-            <span class="testimonial-card__avatar" aria-hidden="true">{{ initials(item.author) }}</span>
-            <span class="font-semibold text-zinc-900">{{ item.author }}</span>
-            <span class="text-sm text-zinc-500">{{ item.role }} · {{ item.company }}</span>
-          </figcaption>
+
+          @if (!item.isPlaceholder) {
+            <a
+              class="testimonial-card__source"
+              [href]="item.sourceUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <app-icon name="linkedin" size="sm" />
+              <span>{{ localeService.t('testimonials.sourceLinkedIn') }}</span>
+            </a>
+          }
         </figure>
       }
     </div>

@@ -82,7 +82,6 @@ export type TranslationKey =
   | 'locale.groupAria'
   | 'loading.aria'
   | 'loading.srOnly'
-  | 'loading.skip'
   | 'email.copyAria'
   | 'email.toggleAria'
   | 'email.copied'
@@ -175,7 +174,6 @@ const BR: Record<TranslationKey, string> = {
   'locale.groupAria': 'Selecionar idioma',
   'loading.aria': 'Carregando portfólio',
   'loading.srOnly': 'Carregando',
-  'loading.skip': 'Pular',
   'email.copyAria': 'Copiar e-mail',
   'email.toggleAria': 'Mostrar ou ocultar e-mail',
   'email.copied': 'E-mail copiado',
@@ -268,7 +266,6 @@ const EN: Record<TranslationKey, string> = {
   'locale.groupAria': 'Select language',
   'loading.aria': 'Loading portfolio',
   'loading.srOnly': 'Loading',
-  'loading.skip': 'Skip',
   'email.copyAria': 'Copy email',
   'email.toggleAria': 'Show or hide email',
   'email.copied': 'Email copied',

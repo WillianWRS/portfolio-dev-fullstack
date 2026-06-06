@@ -19,7 +19,8 @@ export type AppIconName =
   | 'calendar'
   | 'whatsapp'
   | 'message'
-  | 'menu';
+  | 'menu'
+  | 'map-pin';
 
 @Component({
   selector: 'app-icon',  templateUrl: './app-icon.html',

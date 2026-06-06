@@ -25,6 +25,7 @@ export type TranslationKey =
   | 'experience.current'
   | 'experience.showMore'
   | 'experience.showLess'
+  | 'experience.progression'
   | 'projects.heading'
   | 'projects.subtitle'
   | 'projects.underConstruction'
@@ -111,10 +112,11 @@ const BR: Record<TranslationKey, string> = {
   'nav.menuOpen': 'Seções',
   'nav.menuClose': 'Fechar menu',
   'experience.heading': 'Experiência',
-  'experience.subtitle': 'Trajetória profissional em empresas de produto digital.',
+  'experience.subtitle': 'Mais de 8 anos em produtos digitais — de sistemas corporativos à transformação digital.',
   'experience.current': 'Atual',
   'experience.showMore': 'Ver mais',
   'experience.showLess': 'Ver menos',
+  'experience.progression': 'Evolução na empresa',
   'projects.heading': 'Meus Projetos',
   'projects.subtitle': 'Cases reais e side projects com foco em impacto mensurável.',
   'projects.underConstruction': 'Em construção',
@@ -204,10 +206,11 @@ const EN: Record<TranslationKey, string> = {
   'nav.menuOpen': 'Sections',
   'nav.menuClose': 'Close menu',
   'experience.heading': 'Experience',
-  'experience.subtitle': 'Professional journey at digital product companies.',
+  'experience.subtitle': 'Over 8 years in digital products — from corporate systems to digital transformation.',
   'experience.current': 'Current',
   'experience.showMore': 'Show more',
   'experience.showLess': 'Show less',
+  'experience.progression': 'Role progression',
   'projects.heading': 'My Projects',
   'projects.subtitle': 'Real cases and side projects focused on measurable impact.',
   'projects.underConstruction': 'Under construction',

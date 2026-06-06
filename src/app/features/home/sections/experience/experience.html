@@ -8,51 +8,73 @@
 
     <ol class="experience-timeline mt-14">
       @for (item of content.experience(); track item.id) {
-        <li class="experience-item">
-          <div class="experience-item__marker" aria-hidden="true"></div>
-          <div class="experience-item__body">
-            <div class="flex flex-wrap items-baseline justify-between gap-2">
-              <div>
-                <h3 class="text-lg font-semibold text-zinc-900">{{ item.role }}</h3>
-                <p class="text-sm font-medium text-zinc-600">{{ item.company }}</p>
+        <li class="experience-item" [class.experience-item--current]="item.current">
+          <div class="experience-item__marker" aria-hidden="true">
+            @if (item.current) {
+              <span class="experience-item__marker-pulse"></span>
+            }
+          </div>
+
+          <article class="experience-item__body">
+            <header class="experience-item__header">
+              <div class="experience-item__titles">
+                <h3 class="experience-item__role">{{ item.role }}</h3>
+                <p class="experience-item__company">{{ item.company }}</p>
+                @if (item.location) {
+                  <p class="experience-item__location">
+                    <app-icon name="map-pin" size="sm" />
+                    {{ item.location }}
+                  </p>
+                }
               </div>
-              <div class="flex items-center gap-2">
+
+              <div class="experience-item__meta">
                 @if (item.current) {
                   <span class="experience-badge">{{ localeService.t('experience.current') }}</span>
                 }
-                <time class="text-sm text-zinc-500">{{ item.period }}</time>
+                <time class="experience-item__period">{{ item.period }}</time>
               </div>
-            </div>
+            </header>
 
-            <ul class="mt-4 space-y-2 text-sm leading-relaxed text-zinc-600">
+            <ul class="experience-item__highlights">
               @for (highlight of visibleHighlights(item); track highlight) {
-                <li class="flex gap-2">
-                  <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-zinc-400" aria-hidden="true"></span>
-                  <span>{{ highlight }}</span>
-                </li>
+                <li>{{ highlight }}</li>
               }
             </ul>
 
             @if (canExpand(item)) {
               <button
                 type="button"
-                class="mt-3 text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-800"
+                class="experience-item__toggle"
                 (click)="toggleExpanded(item.id)"
               >
                 {{ isExpanded(item.id) ? localeService.t('experience.showLess') : localeService.t('experience.showMore') }}
               </button>
             }
 
-            <ul class="mt-4 flex flex-wrap gap-2" [attr.aria-label]="item.company">
+            @if (item.progression.length) {
+              <div class="experience-progression">
+                <p class="experience-progression__label">{{ localeService.t('experience.progression') }}</p>
+                <ol class="experience-progression__list">
+                  @for (step of item.progression; track step.period) {
+                    <li class="experience-progression__step">
+                      <span class="experience-progression__dot" aria-hidden="true"></span>
+                      <div class="experience-progression__content">
+                        <span class="experience-progression__role">{{ step.role }}</span>
+                        <time class="experience-progression__period">{{ step.period }}</time>
+                      </div>
+                    </li>
+                  }
+                </ol>
+              </div>
+            }
+
+            <ul class="experience-item__stacks" [attr.aria-label]="item.company">
               @for (stack of item.stacks; track stack) {
-                <li
-                  class="rounded-full border border-zinc-200 bg-zinc-50 px-2.5 py-1 font-mono text-xs text-zinc-600"
-                >
-                  {{ stack }}
-                </li>
+                <li>{{ stack }}</li>
               }
             </ul>
-          </div>
+          </article>
         </li>
       }
     </ol>

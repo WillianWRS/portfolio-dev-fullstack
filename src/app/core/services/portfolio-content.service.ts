@@ -65,8 +65,13 @@ export class PortfolioContentService {
       company: item.company,
       role: isBR ? item.roleBR : item.roleEN,
       period: isBR ? item.periodBR : item.periodEN,
+      location: isBR ? (item.locationBR ?? '') : (item.locationEN ?? ''),
       highlights: [...(isBR ? item.highlightsBR : item.highlightsEN)],
       stacks: [...item.stacks],
+      progression: (item.progression ?? []).map((step) => ({
+        role: isBR ? step.roleBR : step.roleEN,
+        period: isBR ? step.periodBR : step.periodEN,
+      })),
       current: item.current ?? false,
     }));
   });

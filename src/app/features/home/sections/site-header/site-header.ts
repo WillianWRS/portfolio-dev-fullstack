@@ -35,7 +35,6 @@ const INDICATOR_INITIAL: NavIndicatorMetrics = { left: 0, top: 0, width: 0, heig
 })
 export class SiteHeader {
   protected readonly localeService = inject(LocaleService);
-
   protected readonly mobileMenuOpen = signal(false);
 
   protected readonly desktopIndicator = signal<NavIndicatorMetrics>(INDICATOR_INITIAL);

@@ -22,25 +22,29 @@ export class Profile {
 
   protected readonly emailCopied = signal(false);
   protected readonly emailCopyFailed = signal(false);
-  protected readonly emailRevealed = signal(false);
 
-  protected toggleEmail(): void {
-    this.emailRevealed.update((revealed) => !revealed);
-  }
+  private emailFeedbackTimer: ReturnType<typeof setTimeout> | null = null;
 
   protected async copyEmail(event: Event): Promise<void> {
     event.preventDefault();
     event.stopPropagation();
 
     const copied = await this.clipboard.copyText(this.emailAddress);
-    if (!copied) {
-      this.emailCopyFailed.set(true);
-      setTimeout(() => this.emailCopyFailed.set(false), 3000);
-      return;
+    this.showEmailFeedback(copied ? 'copied' : 'failed');
+  }
+
+  private showEmailFeedback(result: 'copied' | 'failed'): void {
+    if (this.emailFeedbackTimer) {
+      clearTimeout(this.emailFeedbackTimer);
     }
 
-    this.emailCopyFailed.set(false);
-    this.emailCopied.set(true);
-    setTimeout(() => this.emailCopied.set(false), 2000);
+    this.emailCopied.set(result === 'copied');
+    this.emailCopyFailed.set(result === 'failed');
+
+    this.emailFeedbackTimer = setTimeout(() => {
+      this.emailCopied.set(false);
+      this.emailCopyFailed.set(false);
+      this.emailFeedbackTimer = null;
+    }, 2400);
   }
 }

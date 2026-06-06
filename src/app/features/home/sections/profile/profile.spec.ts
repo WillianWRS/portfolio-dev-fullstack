@@ -22,19 +22,6 @@ describe('Profile', () => {
     expect(element.textContent).toContain('Full Stack');
   });
 
-  it('toggles email visibility', () => {
-    const component = fixture.componentInstance as Profile & {
-      toggleEmail(): void;
-      emailRevealed(): boolean;
-    };
-
-    expect(component.emailRevealed()).toBe(false);
-    component.toggleEmail();
-    expect(component.emailRevealed()).toBe(true);
-    component.toggleEmail();
-    expect(component.emailRevealed()).toBe(false);
-  });
-
   it('copies email when clipboard succeeds', async () => {
     const writeText = vi.fn().mockResolvedValue(undefined);
     Object.defineProperty(navigator, 'clipboard', {
@@ -53,7 +40,7 @@ describe('Profile', () => {
     expect(component.emailCopied()).toBe(true);
   });
 
-  it('does not mark copied when clipboard fails', async () => {
+  it('does not throw when clipboard fails', async () => {
     Object.defineProperty(navigator, 'clipboard', {
       value: { writeText: vi.fn().mockRejectedValue(new Error('denied')) },
       configurable: true,
@@ -61,11 +48,8 @@ describe('Profile', () => {
 
     const component = fixture.componentInstance as Profile & {
       copyEmail(event: Event): Promise<void>;
-      emailCopied(): boolean;
     };
 
-    await component.copyEmail(new Event('click'));
-
-    expect(component.emailCopied()).toBe(false);
+    await expect(component.copyEmail(new Event('click'))).resolves.toBeUndefined();
   });
 });

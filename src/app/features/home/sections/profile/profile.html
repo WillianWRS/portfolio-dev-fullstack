@@ -42,43 +42,30 @@
     <nav class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-zinc-300">
       @for (link of socialLinks; track link.label) {
         @if (link.icon === 'email') {
-          <span class="email-link inline-flex items-center gap-2">
+          <div class="email-link-wrap">
+            @if (emailCopied()) {
+              <span class="email-tooltip email-tooltip--success" role="status" aria-live="polite">
+                {{ localeService.t('email.copied') }}
+              </span>
+            }
+            @if (emailCopyFailed()) {
+              <span class="email-tooltip email-tooltip--error" role="alert" aria-live="assertive">
+                {{ localeService.t('email.copyFailed') }}
+              </span>
+            }
+
             <button
               type="button"
-              class="email-toggle-btn shrink-0 text-zinc-300 transition-colors hover:text-zinc-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 rounded-sm"
-              [attr.aria-label]="localeService.t('email.toggleAria')"
-              [attr.aria-expanded]="emailRevealed()"
-              (click)="toggleEmail()"
+              class="email-link group inline-flex items-center gap-2 rounded-md text-zinc-300 transition-colors hover:text-zinc-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+              [attr.aria-label]="localeService.t('email.copyAria')"
+              (click)="copyEmail($event)"
             >
-              <app-icon name="email" />
+              <span class="email-link__icon inline-flex items-center justify-center">
+                <app-icon name="email" />
+              </span>
+              <span class="email-link__label leading-none">{{ link.label }}</span>
             </button>
-
-            @if (!emailRevealed()) {
-              <span>{{ link.label }}</span>
-            }
-
-            @if (emailRevealed()) {
-              <a
-                [href]="link.url"
-                class="transition-opacity duration-300 ease-out hover:text-zinc-100 motion-reduce:transition-none"
-              >
-                {{ emailAddress }}
-              </a>
-
-              <button
-                type="button"
-                class="email-copy-btn inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-zinc-500/80 text-zinc-300 transition-colors hover:border-zinc-300 hover:text-zinc-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
-                [attr.aria-label]="localeService.t('email.copyAria')"
-                (click)="copyEmail($event)"
-              >
-                @if (emailCopied()) {
-                  <app-icon name="check" size="sm" />
-                } @else {
-                  <app-icon name="clipboard" size="sm" />
-                }
-              </button>
-            }
-          </span>
+          </div>
         } @else {
           <a
             [href]="link.url"
@@ -93,13 +80,6 @@
       }
     </nav>
 
-    <p class="sr-only" aria-live="polite">
-      @if (emailCopied()) {
-        {{ localeService.t('email.copied') }}
-      } @else if (emailCopyFailed()) {
-        {{ localeService.t('email.copyFailed') }}
-      }
-    </p>
   </div>
 
   <div class="photo-slot-wrapper mt-[30px] shrink-0 md:ml-auto">

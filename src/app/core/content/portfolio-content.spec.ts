@@ -15,6 +15,15 @@ describe('portfolio content', () => {
     expect(translate('EN', 'projects.placeholderDescription')).toBe('Space for description');
   });
 
+  it('lists habit builder as the first showcase project', () => {
+    const habitBuilder = PROJECTS_SOURCE[0];
+    expect(habitBuilder.id).toBe('wrs-habit-builder');
+    expect(isProjectUnderConstruction(habitBuilder)).toBe(false);
+    expect(habitBuilder.liveUrl).toBe('https://wrs-habit-builder.web.app/');
+    expect(habitBuilder.githubUrl).toBe('https://github.com/WillianWRS/wrs-habit-builder');
+    expect(habitBuilder.caseStudy).toBeDefined();
+  });
+
   it('keeps profissionais as a finished showcase project', () => {
     const profissionais = PROJECTS_SOURCE.find((p) => p.id === 'profissionais')!;
     expect(isProjectUnderConstruction(profissionais)).toBe(false);

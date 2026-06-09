@@ -1,4 +1,90 @@
 <header class="profile-hero">
+  <div class="profile-hero__content">
+    <div class="profile-hero__intro">
+      <h1
+        class="profile-hero__title font-display text-3xl font-semibold leading-tight tracking-tight text-zinc-50 sm:text-4xl md:text-5xl lg:text-6xl"
+      >
+        {{ content.profile().name }}
+      </h1>
+      <p class="profile-hero__subtitle text-lg text-zinc-300">{{ content.profile().title }}</p>
+      <p class="profile-hero__headline text-sm font-medium tracking-wide text-zinc-300">
+        {{ content.profile().headline }}
+      </p>
+    </div>
+
+    <div class="profile-hero__body">
+      <p class="profile-hero__bio text-base leading-relaxed text-zinc-300">
+        {{ content.profile().bio }}
+      </p>
+
+      <ul class="profile-highlights profile-hero__highlights space-y-2 text-sm text-zinc-300">
+        <li class="flex gap-2">
+          <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-zinc-400" aria-hidden="true"></span>
+          <span>{{ localeService.t('profile.highlight1') }}</span>
+        </li>
+        <li class="flex gap-2">
+          <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-zinc-400" aria-hidden="true"></span>
+          <span>{{ localeService.t('profile.highlight2') }}</span>
+        </li>
+        <li class="flex gap-2">
+          <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-zinc-400" aria-hidden="true"></span>
+          <span>{{ localeService.t('profile.highlight3') }}</span>
+        </li>
+      </ul>
+
+      <div class="profile-hero__ctas flex flex-wrap gap-3">
+        <a href="#projects" class="profile-cta profile-cta--primary">
+          {{ localeService.t('profile.ctaProjects') }}
+        </a>
+        <a [href]="content.cvUrl()" download class="profile-cta profile-cta--secondary">
+          <app-icon name="download" />
+          {{ localeService.t('profile.ctaCv') }}
+        </a>
+      </div>
+
+      <nav class="profile-hero__social flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-zinc-300">
+        @for (link of socialLinks; track link.label) {
+          @if (link.icon === 'email') {
+            <div class="email-link-wrap">
+              @if (emailCopied()) {
+                <span class="email-tooltip email-tooltip--success" role="status" aria-live="polite">
+                  {{ localeService.t('email.copied') }}
+                </span>
+              }
+              @if (emailCopyFailed()) {
+                <span class="email-tooltip email-tooltip--error" role="alert" aria-live="assertive">
+                  {{ localeService.t('email.copyFailed') }}
+                </span>
+              }
+
+              <button
+                type="button"
+                class="email-link group inline-flex items-center gap-2 rounded-md text-zinc-300 transition-colors hover:text-zinc-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+                [attr.aria-label]="localeService.t('email.copyAria')"
+                (click)="copyEmail($event)"
+              >
+                <span class="email-link__icon inline-flex items-center justify-center">
+                  <app-icon name="email" />
+                </span>
+                <span class="email-link__label leading-none">{{ link.label }}</span>
+              </button>
+            </div>
+          } @else {
+            <a
+              [href]="link.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 transition-colors hover:text-zinc-100"
+            >
+              <app-icon [name]="link.icon" />
+              {{ link.label }}
+            </a>
+          }
+        }
+      </nav>
+    </div>
+  </div>
+
   <div class="photo-slot-wrapper profile-hero__photo shrink-0">
     <div class="photo-tilt">
       <div class="photo-frame">
@@ -20,84 +106,4 @@
       </div>
     </div>
   </div>
-
-  <h1
-    class="profile-hero__title font-display text-3xl font-semibold leading-tight tracking-tight text-zinc-50 sm:text-4xl md:text-5xl lg:text-6xl"
-  >
-    {{ content.profile().name }}
-  </h1>
-  <p class="profile-hero__subtitle text-lg text-zinc-300">{{ content.profile().title }}</p>
-  <p class="profile-hero__headline text-sm font-medium tracking-wide text-zinc-300">
-    {{ content.profile().headline }}
-  </p>
-
-  <p class="profile-hero__bio text-base leading-relaxed text-zinc-300">
-    {{ content.profile().bio }}
-  </p>
-
-  <ul class="profile-highlights profile-hero__highlights space-y-2 text-sm text-zinc-300">
-    <li class="flex gap-2">
-      <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-zinc-400" aria-hidden="true"></span>
-      <span>{{ localeService.t('profile.highlight1') }}</span>
-    </li>
-    <li class="flex gap-2">
-      <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-zinc-400" aria-hidden="true"></span>
-      <span>{{ localeService.t('profile.highlight2') }}</span>
-    </li>
-    <li class="flex gap-2">
-      <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-zinc-400" aria-hidden="true"></span>
-      <span>{{ localeService.t('profile.highlight3') }}</span>
-    </li>
-  </ul>
-
-  <div class="profile-hero__ctas flex flex-wrap gap-3">
-    <a href="#projects" class="profile-cta profile-cta--primary">
-      {{ localeService.t('profile.ctaProjects') }}
-    </a>
-    <a [href]="content.cvUrl()" download class="profile-cta profile-cta--secondary">
-      <app-icon name="download" />
-      {{ localeService.t('profile.ctaCv') }}
-    </a>
-  </div>
-
-  <nav class="profile-hero__social flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-zinc-300">
-    @for (link of socialLinks; track link.label) {
-      @if (link.icon === 'email') {
-        <div class="email-link-wrap">
-          @if (emailCopied()) {
-            <span class="email-tooltip email-tooltip--success" role="status" aria-live="polite">
-              {{ localeService.t('email.copied') }}
-            </span>
-          }
-          @if (emailCopyFailed()) {
-            <span class="email-tooltip email-tooltip--error" role="alert" aria-live="assertive">
-              {{ localeService.t('email.copyFailed') }}
-            </span>
-          }
-
-          <button
-            type="button"
-            class="email-link group inline-flex items-center gap-2 rounded-md text-zinc-300 transition-colors hover:text-zinc-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
-            [attr.aria-label]="localeService.t('email.copyAria')"
-            (click)="copyEmail($event)"
-          >
-            <span class="email-link__icon inline-flex items-center justify-center">
-              <app-icon name="email" />
-            </span>
-            <span class="email-link__label leading-none">{{ link.label }}</span>
-          </button>
-        </div>
-      } @else {
-        <a
-          [href]="link.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 transition-colors hover:text-zinc-100"
-        >
-          <app-icon [name]="link.icon" />
-          {{ link.label }}
-        </a>
-      }
-    }
-  </nav>
 </header>

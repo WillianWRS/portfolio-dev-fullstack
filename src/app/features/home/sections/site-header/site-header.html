@@ -13,6 +13,7 @@
 
     <nav
       class="site-nav hidden items-center gap-1 rounded-full border border-zinc-300/80 bg-zinc-950/50 px-1.5 py-1 backdrop-blur-sm md:flex"
+      [class.site-nav--scroll-expanded]="navScrollExpanded()"
       [attr.aria-label]="localeService.t('nav.mainAria')"
       (mouseleave)="onDesktopNavLeave()"
     >

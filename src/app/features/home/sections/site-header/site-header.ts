@@ -1,8 +1,12 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   effect,
   inject,
+  PLATFORM_ID,
   signal,
 } from '@angular/core';
 import type { OnDestroy } from '@angular/core';
@@ -28,6 +32,8 @@ interface NavIndicatorMetrics {
 const INDICATOR_INITIAL: NavIndicatorMetrics = { left: 0, top: 0, width: 0, height: 0 };
 
 const MOBILE_MENU_CLOSE_MS = 280;
+const DESKTOP_MIN_WIDTH_PX = 768;
+const NAV_SCROLL_IDLE_MS = 300;
 
 @Component({
   selector: 'app-site-header',
@@ -40,6 +46,7 @@ export class SiteHeader implements OnDestroy {
   protected readonly localeService = inject(LocaleService);
   protected readonly mobileMenuPresent = signal(false);
   protected readonly mobileMenuOpen = signal(false);
+  protected readonly navScrollExpanded = signal(false);
 
   protected readonly desktopIndicator = signal<NavIndicatorMetrics>(INDICATOR_INITIAL);
   protected readonly desktopIndicatorActive = signal(false);
@@ -61,8 +68,13 @@ export class SiteHeader implements OnDestroy {
   private desktopHoveredLink: HTMLElement | null = null;
   private mobileHoveredLink: HTMLElement | null = null;
   private mobileMenuCloseTimer: ReturnType<typeof setTimeout> | null = null;
+  private navScrollIdleTimer: ReturnType<typeof setTimeout> | null = null;
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor() {
+    afterNextRender(() => this.setupDesktopNavScrollEffect());
+
     effect(() => {
       this.localeService.locale();
 
@@ -122,6 +134,10 @@ export class SiteHeader implements OnDestroy {
   ngOnDestroy(): void {
     if (this.mobileMenuCloseTimer) {
       clearTimeout(this.mobileMenuCloseTimer);
+    }
+
+    if (this.navScrollIdleTimer) {
+      clearTimeout(this.navScrollIdleTimer);
     }
   }
 
@@ -228,5 +244,56 @@ export class SiteHeader implements OnDestroy {
       width: linkRect.width,
       height: linkRect.height,
     };
+  }
+
+  private setupDesktopNavScrollEffect(): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    const desktopQuery = window.matchMedia(`(min-width: ${DESKTOP_MIN_WIDTH_PX}px)`);
+    let lastScrollY = window.scrollY;
+
+    const resetExpanded = () => {
+      this.navScrollExpanded.set(false);
+    };
+
+    const onScroll = () => {
+      if (!desktopQuery.matches) {
+        return;
+      }
+
+      const currentScrollY = window.scrollY;
+      if (currentScrollY === lastScrollY) {
+        return;
+      }
+
+      lastScrollY = currentScrollY;
+      this.navScrollExpanded.set(true);
+
+      if (this.navScrollIdleTimer) {
+        clearTimeout(this.navScrollIdleTimer);
+      }
+
+      this.navScrollIdleTimer = setTimeout(() => {
+        this.navScrollExpanded.set(false);
+        this.navScrollIdleTimer = null;
+      }, NAV_SCROLL_IDLE_MS);
+    };
+
+    const onViewportChange = () => {
+      if (!desktopQuery.matches) {
+        resetExpanded();
+      }
+
+      lastScrollY = window.scrollY;
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    desktopQuery.addEventListener('change', onViewportChange);
+    this.destroyRef.onDestroy(() => {
+      window.removeEventListener('scroll', onScroll);
+      desktopQuery.removeEventListener('change', onViewportChange);
+    });
   }
 }

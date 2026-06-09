@@ -113,6 +113,12 @@
     left: 50%;
     z-index: 20;
     transform: translateX(-50%);
+    transform-origin: top center;
+    transition: transform 0.35s ease;
+  }
+
+  .site-nav--scroll-expanded {
+    transform: translateX(-50%) scale(1.15);
   }
 
   .locale-switch {
@@ -313,6 +319,16 @@
   .site-nav__indicator,
   .mobile-menu__indicator {
     transition: none;
+  }
+
+  @media (min-width: 768px) {
+    .site-nav {
+      transition: none;
+    }
+
+    .site-nav--scroll-expanded {
+      transform: translateX(-50%);
+    }
   }
 
   .site-nav__indicator--active,

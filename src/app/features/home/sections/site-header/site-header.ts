@@ -5,6 +5,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import type { OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AppIcon } from '@shared/ui/app-icon/app-icon';
 import type { TranslationKey } from '@core/i18n/translations';
@@ -26,6 +27,8 @@ interface NavIndicatorMetrics {
 
 const INDICATOR_INITIAL: NavIndicatorMetrics = { left: 0, top: 0, width: 0, height: 0 };
 
+const MOBILE_MENU_CLOSE_MS = 280;
+
 @Component({
   selector: 'app-site-header',
   imports: [RouterLink, AppIcon],
@@ -33,8 +36,9 @@ const INDICATOR_INITIAL: NavIndicatorMetrics = { left: 0, top: 0, width: 0, heig
   styleUrl: './site-header.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SiteHeader {
+export class SiteHeader implements OnDestroy {
   protected readonly localeService = inject(LocaleService);
+  protected readonly mobileMenuPresent = signal(false);
   protected readonly mobileMenuOpen = signal(false);
 
   protected readonly desktopIndicator = signal<NavIndicatorMetrics>(INDICATOR_INITIAL);
@@ -56,6 +60,7 @@ export class SiteHeader {
 
   private desktopHoveredLink: HTMLElement | null = null;
   private mobileHoveredLink: HTMLElement | null = null;
+  private mobileMenuCloseTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor() {
     effect(() => {
@@ -73,7 +78,7 @@ export class SiteHeader {
 
   protected localeButtonClass(locale: Locale): string {
     const base =
-      'relative z-10 inline-flex items-center justify-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50';
+      'relative z-10 inline-flex items-center justify-center gap-1.5 rounded-full px-2 py-1.5 text-sm font-medium transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 lg:px-3';
 
     if (this.localeService.locale() === locale) {
       return `${base} text-zinc-950`;
@@ -87,12 +92,37 @@ export class SiteHeader {
   }
 
   protected toggleMobileMenu(): void {
-    this.mobileMenuOpen.update((open) => !open);
+    if (this.mobileMenuPresent()) {
+      this.closeMobileMenu();
+      return;
+    }
+
+    this.mobileMenuPresent.set(true);
+    requestAnimationFrame(() => this.mobileMenuOpen.set(true));
   }
 
   protected closeMobileMenu(): void {
+    if (!this.mobileMenuPresent()) {
+      return;
+    }
+
     this.mobileMenuOpen.set(false);
     this.hideMobileIndicator();
+
+    if (this.mobileMenuCloseTimer) {
+      clearTimeout(this.mobileMenuCloseTimer);
+    }
+
+    this.mobileMenuCloseTimer = setTimeout(() => {
+      this.mobileMenuPresent.set(false);
+      this.mobileMenuCloseTimer = null;
+    }, MOBILE_MENU_CLOSE_MS);
+  }
+
+  ngOnDestroy(): void {
+    if (this.mobileMenuCloseTimer) {
+      clearTimeout(this.mobileMenuCloseTimer);
+    }
   }
 
   protected onDesktopNavEnter(event: MouseEvent): void {

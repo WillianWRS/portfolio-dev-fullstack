@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { CriticalAssetsService } from '@core/services/critical-assets.service';
 import { LocaleService } from '@core/services/locale.service';
 import { EffectsCoordinatorService } from '@core/services/effects-coordinator.service';
+import { ProgressiveImage } from '@shared/ui/progressive-image/progressive-image';
 import { ScrollProgress } from './components/scroll-progress/scroll-progress';
 import { BackgroundEffects } from './effects/background-effects/background-effects';
 import { Contact } from './sections/contact/contact';
@@ -17,6 +19,7 @@ import { Testimonials } from './sections/testimonials/testimonials';
   imports: [
     ScrollProgress,
     BackgroundEffects,
+    ProgressiveImage,
     SiteHeader,
     Profile,
     Projects,
@@ -32,11 +35,16 @@ import { Testimonials } from './sections/testimonials/testimonials';
 })
 export class Home {
   protected readonly localeService = inject(LocaleService);
+  protected readonly criticalAssets = inject(CriticalAssetsService);
 
   private readonly effects = inject(EffectsCoordinatorService);
 
   /** Interação no fundo: onda de luz quente no ponto do clique. */
   protected onMainClick(event: MouseEvent): void {
+    if (this.criticalAssets.mobileViewport()) {
+      return;
+    }
+
     if (event.target !== event.currentTarget) {
       return;
     }

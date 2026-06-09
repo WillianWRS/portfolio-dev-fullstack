@@ -3,6 +3,7 @@ import { AppIcon } from '@shared/ui/app-icon/app-icon';
 import { PROFILE_EMAIL } from '@core/content/profile.content';
 import { SOCIAL_LINKS } from '@core/content/social.content';
 import { ClipboardService } from '@core/services/clipboard.service';
+import { CriticalAssetsService } from '@core/services/critical-assets.service';
 import { LocaleService } from '@core/services/locale.service';
 import { PortfolioContentService } from '@core/services/portfolio-content.service';
 
@@ -15,6 +16,7 @@ import { PortfolioContentService } from '@core/services/portfolio-content.servic
 export class Profile {
   protected readonly localeService = inject(LocaleService);
   protected readonly content = inject(PortfolioContentService);
+  protected readonly criticalAssets = inject(CriticalAssetsService);
   private readonly clipboard = inject(ClipboardService);
 
   protected readonly emailAddress = PROFILE_EMAIL;

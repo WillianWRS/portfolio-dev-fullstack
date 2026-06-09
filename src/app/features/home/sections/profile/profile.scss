@@ -2,6 +2,118 @@
   perspective: 1200px;
 }
 
+.profile-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.profile-hero__photo {
+  align-self: center;
+  width: 7rem;
+  margin-bottom: 1.25rem;
+}
+
+.profile-hero__title,
+.profile-hero__subtitle,
+.profile-hero__headline {
+  text-align: center;
+}
+
+.profile-hero__subtitle {
+  margin-top: 0.75rem;
+}
+
+.profile-hero__headline {
+  margin-top: 0.5rem;
+}
+
+.profile-hero__bio {
+  margin-top: 1.75rem;
+}
+
+.profile-hero__highlights {
+  margin-top: 2rem;
+}
+
+.profile-hero__ctas {
+  margin-top: 2.5rem;
+}
+
+.profile-hero__social {
+  margin-top: 2rem;
+}
+
+@media (min-width: 768px) {
+  .profile-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 13rem;
+    column-gap: 2rem;
+    row-gap: 0.75rem;
+    align-items: start;
+  }
+
+  .profile-hero__photo {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    align-self: start;
+    justify-self: end;
+    width: 13rem;
+    margin-bottom: 0;
+  }
+
+  .profile-hero__title {
+    grid-column: 1;
+    grid-row: 1;
+    text-align: left;
+  }
+
+  .profile-hero__subtitle {
+    grid-column: 1;
+    grid-row: 2;
+    margin-top: 0.75rem;
+    text-align: left;
+  }
+
+  .profile-hero__headline {
+    grid-column: 1;
+    grid-row: 3;
+    margin-top: 0.5rem;
+    text-align: left;
+  }
+
+  .profile-hero__bio {
+    grid-column: 1;
+    grid-row: 4;
+    margin-top: 2.5rem;
+  }
+
+  .profile-hero__highlights {
+    grid-column: 1;
+    grid-row: 5;
+  }
+
+  .profile-hero__ctas {
+    grid-column: 1;
+    grid-row: 6;
+  }
+
+  .profile-hero__social {
+    grid-column: 1;
+    grid-row: 7;
+  }
+}
+
+@media (min-width: 1024px) {
+  .profile-hero {
+    column-gap: 3rem;
+  }
+
+  .profile-hero__photo {
+    width: 15rem;
+  }
+}
+
 .photo-tilt {
   transform: rotateY(-10deg);
   transform-style: preserve-3d;
@@ -284,8 +396,8 @@
 }
 
 .email-tooltip--success {
-  border-color: rgb(16 185 129 / 0.35);
-  color: rgb(167 243 208);
+  border-color: rgb(255 255 255 / 0.35);
+  color: rgb(250 250 250);
 }
 
 .email-tooltip--error {
@@ -324,6 +436,95 @@
   color: rgb(250 250 250);
 }
 
+@media (max-width: 767px) {
+  .profile-hero__photo {
+    width: 7rem;
+  }
+
+  .profile-hero__photo .photo-slot {
+    aspect-ratio: 1;
+    width: 7rem;
+    height: 7rem;
+    border-radius: 9999px;
+    border: 4px solid rgb(161 161 170 / 0.55);
+    background: rgb(24 24 27);
+  }
+
+  .profile-hero__photo .photo-slot__scanlines {
+    display: none;
+  }
+
+  .photo-slot-wrapper {
+    perspective: none;
+  }
+
+  .photo-tilt {
+    transform: none;
+    transform-style: flat;
+    transition: none;
+    will-change: auto;
+  }
+
+  .photo-frame {
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+
+  .photo-frame::before {
+    content: none;
+  }
+
+  .photo-frame__glow {
+    display: none;
+  }
+
+  .photo-slot {
+    transform: none;
+    transform-style: flat;
+    box-shadow: none;
+  }
+
+  .photo-slot__img {
+    transition: none;
+    transform: none;
+    filter: none;
+  }
+
+  .photo-slot__shine {
+    animation: none;
+    opacity: 0;
+  }
+
+  .photo-slot__corners {
+    display: none;
+  }
+
+  .photo-slot__scanlines {
+    opacity: 0.15;
+  }
+
+  .photo-slot-wrapper:hover .photo-tilt,
+  .photo-slot-wrapper:focus-within .photo-tilt,
+  .photo-slot-wrapper:hover .photo-frame,
+  .photo-slot-wrapper:focus-within .photo-frame,
+  .photo-slot-wrapper:hover .photo-slot,
+  .photo-slot-wrapper:focus-within .photo-slot,
+  .photo-slot-wrapper:hover .photo-slot__img,
+  .photo-slot-wrapper:focus-within .photo-slot__img,
+  .photo-slot-wrapper:hover .photo-slot__shine,
+  .photo-slot-wrapper:focus-within .photo-slot__shine {
+    transform: none;
+    animation: none;
+    opacity: inherit;
+    box-shadow: none;
+    filter: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .email-tooltip {
     animation: none;
@@ -338,68 +539,78 @@
     animation: none;
   }
 
-  .photo-tilt {
-    transform: rotateY(-15deg);
-    transition: transform 0.5s ease;
-  }
+  @media (min-width: 768px) {
+    .photo-tilt {
+      transform: rotateY(-15deg);
+      transition: transform 0.5s ease;
+    }
 
-  .photo-slot-wrapper:hover .photo-tilt,
-  .photo-slot-wrapper:focus-within .photo-tilt {
-    transform: rotateY(0deg);
-  }
+    .photo-slot-wrapper:hover .photo-tilt,
+    .photo-slot-wrapper:focus-within .photo-tilt {
+      transform: rotateY(0deg);
+    }
 
-  .photo-frame::before {
-    animation: none;
-  }
+    .photo-frame::before {
+      animation: none;
+    }
 
-  .photo-frame {
-    transition:
-      transform 0.5s ease,
-      box-shadow 0.5s ease;
-  }
+    .photo-frame {
+      transition:
+        transform 0.5s ease,
+        box-shadow 0.5s ease;
+    }
 
-  .photo-slot__img {
-    transition: filter 0.5s ease;
-  }
+    .photo-slot__img {
+      transition: filter 0.5s ease;
+    }
 
-  .photo-slot-wrapper:hover .photo-frame,
-  .photo-slot-wrapper:focus-within .photo-frame {
-    transform: scale(1.15);
-  }
+    .photo-slot-wrapper:hover .photo-frame,
+    .photo-slot-wrapper:focus-within .photo-frame {
+      transform: scale(1.15);
+    }
 
-  .photo-slot-wrapper:hover .photo-slot__img,
-  .photo-slot-wrapper:focus-within .photo-slot__img {
-    transform: none;
-  }
+    .photo-slot-wrapper:hover .photo-slot__img,
+    .photo-slot-wrapper:focus-within .photo-slot__img {
+      transform: none;
+    }
 
-  .photo-slot-wrapper:hover .photo-slot__shine,
-  .photo-slot-wrapper:focus-within .photo-slot__shine {
-    animation: none;
-    opacity: 0.35;
-    background-position: 50% 0;
+    .photo-slot-wrapper:hover .photo-slot__shine,
+    .photo-slot-wrapper:focus-within .photo-slot__shine {
+      animation: none;
+      opacity: 0.35;
+      background-position: 50% 0;
+    }
   }
-
 }
 
 .profile-hero__title,
 .profile-hero__subtitle,
 .profile-hero__headline,
+.profile-hero__photo,
 .profile-hero__bio,
 .profile-highlights,
 .profile-hero__ctas {
   animation: profileFadeIn 0.7s ease both;
 }
 
+.profile-hero__photo {
+  animation-delay: 0s;
+}
+
+.profile-hero__title {
+  animation-delay: 0.08s;
+}
+
 .profile-hero__subtitle {
-  animation-delay: 0.1s;
+  animation-delay: 0.14s;
 }
 
 .profile-hero__headline {
-  animation-delay: 0.15s;
+  animation-delay: 0.2s;
 }
 
 .profile-hero__bio {
-  animation-delay: 0.2s;
+  animation-delay: 0.28s;
 }
 
 .profile-highlights {

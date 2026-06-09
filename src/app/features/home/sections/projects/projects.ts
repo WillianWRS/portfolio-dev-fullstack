@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { HABIT_BUILDER_IMAGE } from '@core/config/critical-assets.config';
+import type { ProgressiveAsset } from '@core/config/critical-assets.config';
 import { FocusTrapDirective } from '@shared/directives/focus-trap.directive';
 import { AppIcon } from '@shared/ui/app-icon/app-icon';
+import { ProgressiveImage } from '@shared/ui/progressive-image/progressive-image';
 import { StackChip } from '@shared/ui/stack-chip/stack-chip';
 import type { ProjectCategory, ProjectView } from '@core/models/project.model';
 import { LocaleService } from '@core/services/locale.service';
@@ -10,7 +13,7 @@ type ProjectFilter = 'all' | ProjectCategory;
 
 @Component({
   selector: 'app-projects',
-  imports: [AppIcon, StackChip, FocusTrapDirective],
+  imports: [AppIcon, StackChip, FocusTrapDirective, ProgressiveImage],
   templateUrl: './projects.html',
   styleUrl: './projects.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -102,6 +105,14 @@ export class Projects {
       case 'construction':
         return 'project-status--construction';
     }
+  }
+
+  protected progressiveImageAsset(project: ProjectView): ProgressiveAsset | null {
+    if (project.id === 'wrs-habit-builder') {
+      return HABIT_BUILDER_IMAGE;
+    }
+
+    return null;
   }
 
   private filterLabelBase(filter: ProjectFilter): string {

@@ -5,7 +5,7 @@
 .loading-screen {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: 99999;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,23 +19,15 @@
     transparent 72%
   );
   opacity: 1;
-  will-change: opacity;
-  animation: loadingScreenReveal 0.4s ease 0.9s forwards;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
 }
 
-:host.loading-screen-host--dismissed .loading-screen {
-  animation: none;
+.loading-screen--hidden {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-}
-
-@keyframes loadingScreenReveal {
-  to {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-  }
 }
 
 .loading-screen__content {
@@ -44,18 +36,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
+}
+
+.loading-screen__logo-slot {
+  width: min(72vw, 280px);
+  aspect-ratio: 3 / 1;
+  display: grid;
+  place-items: center;
 }
 
 .loading-screen__logo {
-  width: min(72vw, 280px);
+  width: 100%;
   height: auto;
   overflow: visible;
 }
 
 .wrs-outline {
   fill: none;
-  stroke: rgba(250, 250, 250, 0.95);
   stroke-width: 2.5;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -68,30 +65,58 @@
   font-size: 52px;
   font-weight: 600;
   letter-spacing: 0.28em;
-  stroke-dasharray: 420;
-  stroke-dashoffset: 420;
-  animation: wrsStrokeProgress 0.9s ease-in-out forwards;
 }
 
-@keyframes wrsStrokeProgress {
+.wrs-outline--draw {
+  stroke: rgb(250 250 250);
+  stroke-dasharray: 420;
+  stroke-dashoffset: 420;
+  animation:
+    wrsStrokeDraw 0.9s ease-in-out forwards,
+    wrsDrawHide 0.3s ease 0.82s forwards;
+}
+
+.wrs-outline--loop {
+  stroke-dasharray: none;
+  stroke-dashoffset: 0;
+  opacity: 0;
+  animation: wrsLoopReveal 0.35s ease 0.88s forwards;
+}
+
+@keyframes wrsStrokeDraw {
   0% {
     stroke-dashoffset: 420;
     opacity: 0.35;
   }
+
   100% {
     stroke-dashoffset: 0;
     opacity: 1;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .loading-screen {
-    animation: loadingScreenReveal 0.25s linear 0.35s forwards;
+@keyframes wrsDrawHide {
+  to {
+    opacity: 0;
   }
+}
 
-  .wrs-outline {
+@keyframes wrsLoopReveal {
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wrs-outline--draw {
     animation: none;
     stroke-dashoffset: 0;
+    opacity: 0;
+  }
+
+  .wrs-outline--loop {
+    animation: none;
     opacity: 1;
+    stroke: rgb(161 161 170);
   }
 }

@@ -28,8 +28,34 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;1,9..144,600&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
     rel="stylesheet"
   >
+  <style>
+    html.app-loading,
+    html.app-loading body {
+      overflow: hidden;
+    }
+
+    #app-bootstrap-loading {
+      position: fixed;
+      inset: 0;
+      z-index: 100000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #040506;
+      background-image: radial-gradient(
+        circle 26.4vmin at 50% 50%,
+        rgb(12 12 14) 0%,
+        rgb(8 9 10 / 0.85) 38%,
+        rgb(5 6 7 / 0.45) 58%,
+        transparent 72%
+      );
+    }
+
+  </style>
+  <script>document.documentElement.classList.add('app-loading');</script>
 </head>
 <body>
+  <div id="app-bootstrap-loading" aria-hidden="true"></div>
   <app-root></app-root>
 </body>
 </html>

@@ -6,16 +6,25 @@
 
   <a class="skip-link" href="#main-content">{{ localeService.t('skipToContent') }}</a>
 
-  @defer (on idle) {
-    <app-background-effects effect="ambient" />
+  @if (!criticalAssets.mobileViewport()) {
+    @defer (on idle) {
+      <app-background-effects effect="ambient" />
+    }
   }
 
   <app-site-header />
 
   <div id="main-content" class="relative z-10">
     <section id="profile" class="profile-zone scroll-mt-28">
-      <div class="profile-zone__wall" aria-hidden="true"></div>
-      <div class="page-container profile-zone__content py-20 md:py-28">
+      <div class="profile-zone__wall" aria-hidden="true">
+        <app-progressive-image
+          [srcFull]="criticalAssets.wallAsset().full"
+          [srcLq]="criticalAssets.wallAsset().lq"
+          alt=""
+          [cover]="true"
+        />
+      </div>
+      <div class="page-container profile-zone__content pt-8 pb-20 md:py-28">
         <app-profile />
       </div>
     </section>

@@ -39,7 +39,7 @@ export const PROJECTS_SOURCE: readonly ProjectSource[] = [
   {
     id: 'wrs-habit-builder',
     title: 'Habit Builder',
-    imageUrl: '/habit%20builder%20project.png',
+    imageUrl: '/habit-builder.webp',
     descriptionBR:
       'App web para construir e acompanhar hábitos no dia a dia: painel Hoje com progresso, metas mínimas, sequências e frequência por dia da semana — sem login, com dados no navegador e deploy em produção.',
     descriptionEN:

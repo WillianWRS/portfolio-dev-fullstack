@@ -1,28 +1,67 @@
-@if (!dismissed()) {
-  <div
-    class="loading-screen"
-    role="status"
-    aria-live="polite"
-    [attr.aria-label]="localeService.t('loading.aria')"
-  >
-    <div class="loading-screen__content">
-      <svg
-        class="loading-screen__logo"
-        viewBox="0 0 240 80"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-      >
-        <text
-          x="50%"
-          y="54%"
-          text-anchor="middle"
-          dominant-baseline="middle"
-          class="wrs-outline"
+<div
+  class="loading-screen"
+  [class.loading-screen--hidden]="dismissed()"
+  role="status"
+  aria-live="polite"
+  [attr.aria-hidden]="dismissed()"
+  [attr.aria-label]="localeService.t('loading.aria')"
+>
+  <div class="loading-screen__content">
+    <div class="loading-screen__logo-slot" aria-hidden="true">
+      @if (animationReady()) {
+        <svg
+          class="loading-screen__logo"
+          viewBox="0 0 240 80"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          WRS
-        </text>
-      </svg>
-      <span class="sr-only">{{ localeService.t('loading.srOnly') }}</span>
+          <defs>
+            <linearGradient
+              id="wrsBeamGradient"
+              gradientUnits="userSpaceOnUse"
+              x1="0"
+              y1="40"
+              x2="72"
+              y2="40"
+            >
+              <stop offset="0%" stop-color="rgb(161 161 170)" />
+              <stop offset="38%" stop-color="rgb(161 161 170)" />
+              <stop offset="50%" stop-color="rgb(255 255 255)" />
+              <stop offset="62%" stop-color="rgb(161 161 170)" />
+              <stop offset="100%" stop-color="rgb(161 161 170)" />
+              <animateTransform
+                attributeName="gradientTransform"
+                type="translate"
+                from="-260 0"
+                to="260 0"
+                dur="2.6s"
+                begin="0.9s"
+                repeatCount="indefinite"
+              />
+            </linearGradient>
+          </defs>
+          <text
+            x="50%"
+            y="54%"
+            text-anchor="middle"
+            dominant-baseline="middle"
+            class="wrs-outline wrs-outline--draw"
+          >
+            WRS
+          </text>
+          <text
+            x="50%"
+            y="54%"
+            text-anchor="middle"
+            dominant-baseline="middle"
+            class="wrs-outline wrs-outline--loop"
+            stroke="url(#wrsBeamGradient)"
+          >
+            WRS
+          </text>
+        </svg>
+      }
     </div>
+
+    <span class="sr-only">{{ localeService.t('loading.srOnly') }}</span>
   </div>
-}
+</div>

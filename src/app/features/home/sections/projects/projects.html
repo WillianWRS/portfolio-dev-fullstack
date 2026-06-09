@@ -44,18 +44,40 @@
             class="project-showcase__media group relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-200 ring-1 ring-zinc-200/80"
             [class.project-showcase__media--placeholder]="selected.isPlaceholder"
           >
-            <img
-              [src]="selected.imageUrl"
-              [alt]="selected.isPlaceholder ? localeService.t('projects.underConstruction') : selected.title"
-              class="project-showcase__image h-full w-full"
-              [class.project-showcase__image--placeholder]="selected.isPlaceholder"
-              width="800"
-              height="600"
-            />
+            @if (progressiveImageAsset(selected); as progressive) {
+              <app-progressive-image
+                class="h-full w-full"
+                [srcFull]="progressive.full"
+                [srcLq]="progressive.lq"
+                [alt]="selected.title"
+                imgClass="project-showcase__image"
+                [cover]="true"
+                [width]="800"
+                [height]="600"
+              />
+            } @else {
+              <img
+                [src]="selected.imageUrl"
+                [alt]="selected.isPlaceholder ? localeService.t('projects.underConstruction') : selected.title"
+                class="project-showcase__image h-full w-full"
+                [class.project-showcase__image--placeholder]="selected.isPlaceholder"
+                width="800"
+                height="600"
+              />
+            }
+
+            <div class="project-showcase__hover-layer" aria-hidden="true">
+              <p
+                class="project-showcase__hover-description"
+                [class.project-showcase__hover-description--placeholder]="selected.isPlaceholder"
+              >
+                {{ selected.description }}
+              </p>
+            </div>
           </figure>
 
           <p
-            class="project-showcase__description mt-4 text-base leading-relaxed"
+            class="project-showcase__description project-showcase__description--below mt-4 text-base leading-relaxed"
             [class.text-zinc-600]="!selected.isPlaceholder"
             [class.project-showcase__description--placeholder]="selected.isPlaceholder"
           >

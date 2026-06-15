@@ -32,7 +32,6 @@ export type TranslationKey =
   | 'projects.comingSoon'
   | 'projects.placeholderTitle'
   | 'projects.placeholderDescription'
-  | 'projects.placeholderRole'
   | 'projects.placeholderStack'
   | 'projects.placeholderMetric'
   | 'projects.access'
@@ -122,12 +121,11 @@ const BR: Record<TranslationKey, string> = {
   'projects.comingSoon': 'Novos cases em breve — acompanhe as atualizações.',
   'projects.placeholderTitle': 'Espaço vazio',
   'projects.placeholderDescription': 'Espaço para descrição',
-  'projects.placeholderRole': 'Espaço para papel / contribuição',
   'projects.placeholderStack': 'Espaço para stack',
   'projects.placeholderMetric': 'Espaço para métrica',
   'projects.access': 'Acesse aqui',
   'projects.github': 'GitHub',
-  'projects.caseStudy': 'Ver case study',
+  'projects.caseStudy': 'Caso de estudo',
   'projects.closeCaseStudy': 'Fechar',
   'projects.stacksAria': 'Tecnologias do projeto',
   'projects.filterAll': 'Todos',
@@ -215,7 +213,6 @@ const EN: Record<TranslationKey, string> = {
   'projects.comingSoon': 'New case studies coming soon — stay tuned.',
   'projects.placeholderTitle': 'Empty slot',
   'projects.placeholderDescription': 'Space for description',
-  'projects.placeholderRole': 'Space for role / contribution',
   'projects.placeholderStack': 'Space for stack',
   'projects.placeholderMetric': 'Space for metric',
   'projects.access': 'Access here',

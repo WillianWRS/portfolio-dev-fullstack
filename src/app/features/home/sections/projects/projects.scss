@@ -291,24 +291,33 @@
   position: fixed;
   inset: 0;
   z-index: 50;
-  display: flex;
-  justify-content: center;
-  padding: 1.5rem;
   overflow-y: auto;
   overscroll-behavior: contain;
+  padding: 1rem;
   background: rgb(0 0 0 / 0.65);
   backdrop-filter: blur(4px);
 }
 
 .case-study-modal {
   width: min(100%, 36rem);
-  margin: auto;
-  flex-shrink: 0;
+  margin-inline: auto;
   border-radius: 1.25rem;
   border: 1px solid rgb(228 228 231);
   background: rgb(250 250 250);
   padding: 1.5rem;
   box-shadow: 0 24px 48px rgb(0 0 0 / 0.25);
+}
+
+@media (max-width: 767px) {
+  .case-study-backdrop {
+    padding-top: calc(4.475rem + env(safe-area-inset-top, 0px) + 0.75rem);
+  }
+}
+
+@media (min-width: 768px) {
+  .case-study-backdrop {
+    padding: 6rem 2rem 2rem;
+  }
 }
 
 .case-study-close {

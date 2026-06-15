@@ -30,8 +30,6 @@ function createEmptySlot(index: number): ProjectSource {
     status: 'construction',
     category: 'fullstack',
     year: 2026,
-    roleBR: '',
-    roleEN: '',
   };
 }
 
@@ -52,27 +50,27 @@ export const PROJECTS_SOURCE: readonly ProjectSource[] = [
     category: 'frontend',
     featured: true,
     year: 2026,
-    roleBR: 'Desenvolvedor Frontend',
-    roleEN: 'Frontend Developer',
     githubUrl: 'https://github.com/WillianWRS/wrs-habit-builder',
     liveUrl: 'https://wrs-habit-builder.web.app/',
     metrics: [
       { value: 'Hoje', labelBR: 'painel diário', labelEN: 'daily dashboard' },
       { value: 'SSR', labelBR: 'prerender Angular', labelEN: 'Angular prerender' },
       { value: 'JSON', labelBR: 'backup exportável', labelEN: 'exportable backup' },
-      { value: '< 3s', labelBR: 'marcar hábito', labelEN: 'to mark habit' },
+      { value: 'PWA', labelBR: 'app instalável', labelEN: 'installable app' },
+      { value: 'Tema', labelBR: 'customizável', labelEN: 'customizable' },
+      { value: 'Progresso', labelBR: 'acompanhável', labelEN: 'trackable' },
     ],
     caseStudy: {
       problemBR:
-        'Ferramentas genéricas ou planilhas fazem pessoas abandonar hábitos por falta de gatilho no momento certo, metas ambiciosas demais e feedback punitivo quando um dia é perdido — o streak que zera desencoraja retomar a rotina.',
+        'Ferramentas genéricas ou planilhas fazem pessoas abandonar hábitos por falta de gatilho no momento certo, metas ambiciosas demais e feedback punitivo quando um dia é perdido — sequências que apagam o histórico e punem quem tenta voltar à rotina.',
       problemEN:
         'Generic tools or spreadsheets make people abandon habits due to missing cues at the right moment, overly ambitious goals, and punitive feedback when a day is missed — fragile streaks discourage getting back on track.',
       solutionBR:
-        'Habit Builder aplica intenções de implementação e ações mínimas em cada hábito, com painel Hoje para marcar em um toque, biblioteca com filtros, sequências com reset suave após faltas, tema claro/escuro e persistência versionada em localStorage com backup JSON — Angular 21, signals, SSR e Firebase Hosting.',
+        'Habit Builder aplica intenções de implementação e ações mínimas em cada hábito, com painel Hoje para marcar em um toque (incluindo swipe no mobile), biblioteca com filtros, páginas dedicadas de criar/editar e detalhe por hábito. A métrica central é adesão (%) — consistência no período, não perfeição diária. Sequências são calculadas sobre um log imutável: quebra suave com freeze semanal automático, recorde e total preservados, níveis visuais de progresso. Inclui heatmap mensal, notas diárias, lembretes locais, layer de foto para compartilhamento, tema claro/escuro e persistência local-first em IndexedDB com migrações versionadas e backup JSON — Angular 21, signals, PWA instalável, prerender/SSR e Firebase Hosting.',
       solutionEN:
         'Habit Builder applies implementation intentions and minimum actions per habit, with a Today dashboard for one-tap check-ins, a filterable habit library, streaks with soft reset after misses, light/dark theme, and versioned localStorage persistence with JSON backup — Angular 21, signals, SSR, and Firebase Hosting.',
       outcomeBR:
-        'App em produção com UX mobile-first, onboarding sem fricção (sem conta) e demo online pronta para revisão técnica: arquitetura por features, estado previsível com signals e produto usado no dia a dia (dogfooding).',
+        'App em produção com UX mobile-first, entrada sem conta e fluxo pensado para uso real no dia a dia. Arquitetura por features, estado previsível com signals, regras de domínio testadas e pipeline de CI (lint, testes e build). Base pronta para beta e evolução com backend.',
       outcomeEN:
         'Production app with mobile-first UX, frictionless onboarding (no account), and an online demo ready for technical review: feature-based architecture, predictable state with signals, and real daily use (dogfooding).',
     },
@@ -92,8 +90,6 @@ export const PROJECTS_SOURCE: readonly ProjectSource[] = [
     category: 'backend',
     featured: true,
     year: 2024,
-    roleBR: 'Desenvolvedor Backend',
-    roleEN: 'Backend Developer',
     githubUrl: 'https://github.com/WillianWRS/profissionais',
     metrics: [
       { value: 'REST', labelBR: 'API documentada', labelEN: 'documented API' },

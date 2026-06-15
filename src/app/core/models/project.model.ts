@@ -39,8 +39,6 @@ export interface ProjectSource {
   placeholder?: boolean;
   placeholderIndex?: number;
   year: number;
-  roleBR: string;
-  roleEN: string;
   githubUrl?: string;
   liveUrl?: string;
   metrics?: readonly ProjectMetricSource[];
@@ -60,7 +58,6 @@ export interface ProjectView {
   featured: boolean;
   isPlaceholder: boolean;
   year: number | string;
-  role: string;
   githubUrl?: string;
   liveUrl?: string;
   metrics: { value: string; label: string }[];

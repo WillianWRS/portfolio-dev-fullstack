@@ -145,7 +145,6 @@ export class PortfolioContentService {
         featured: false,
         isPlaceholder: true,
         year: '—',
-        role: translate(locale, 'projects.placeholderRole'),
         metrics: [
           {
             value: '—',
@@ -178,7 +177,6 @@ export class PortfolioContentService {
       featured: project.featured ?? false,
       isPlaceholder: underConstruction,
       year: project.year,
-      role: isBR ? project.roleBR : project.roleEN,
       githubUrl: project.githubUrl,
       liveUrl: project.liveUrl,
       metrics: (project.metrics ?? []).map((metric) => ({

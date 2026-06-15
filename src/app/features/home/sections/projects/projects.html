@@ -37,7 +37,6 @@
           <div class="mb-4 flex flex-wrap items-center gap-2">
             <span class="project-status" [class]="statusClass(selected.status)">{{ selected.statusLabel }}</span>
             <span class="project-meta">{{ selected.categoryLabel }} · {{ selected.year }}</span>
-            <span class="project-meta">{{ selected.role }}</span>
           </div>
 
           <figure
@@ -185,60 +184,60 @@
       </div>
     }
   </div>
+</section>
 
-  @if (caseStudyOpen() && selectedProject().caseStudy; as caseStudy) {
-    <div
-      class="case-study-backdrop"
-      role="dialog"
-      aria-modal="true"
-      [attr.aria-labelledby]="'case-study-title'"
-      (click)="closeCaseStudy()"
-      (keydown.escape)="closeCaseStudy()"
-    >
-      <div class="case-study-modal" appFocusTrap (click)="$event.stopPropagation()">
-        <div class="flex items-start justify-between gap-4">
-          <h3 id="case-study-title" class="text-xl font-semibold text-zinc-900">
-            {{ selectedProject()!.title }}
-          </h3>
-          <button
-            type="button"
-            class="case-study-close"
-            [attr.aria-label]="localeService.t('projects.closeCaseStudy')"
-            (click)="closeCaseStudy()"
-          >
-            <app-icon name="x" />
-          </button>
+@if (caseStudyOpen() && selectedProject().caseStudy; as caseStudy) {
+  <div
+    class="case-study-backdrop"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-labelledby]="'case-study-title'"
+    (click)="closeCaseStudy()"
+    (keydown.escape)="closeCaseStudy()"
+  >
+    <div class="case-study-modal" appFocusTrap (click)="$event.stopPropagation()">
+      <div class="flex items-start justify-between gap-4">
+        <h3 id="case-study-title" class="text-xl font-semibold text-zinc-900">
+          {{ selectedProject()!.title }}
+        </h3>
+        <button
+          type="button"
+          class="case-study-close"
+          [attr.aria-label]="localeService.t('projects.closeCaseStudy')"
+          (click)="closeCaseStudy()"
+        >
+          <app-icon name="x" />
+        </button>
+      </div>
+
+      <img
+        [src]="selectedProject()!.imageUrl"
+        [alt]="selectedProject()!.title"
+        class="mt-5 aspect-[16/9] w-full rounded-xl object-cover"
+        width="640"
+        height="360"
+      />
+
+      <div class="mt-6 space-y-5 text-sm leading-relaxed text-zinc-600">
+        <div>
+          <h4 class="mb-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+            {{ localeService.t('projects.caseProblem') }}
+          </h4>
+          <p>{{ caseStudy.problem }}</p>
         </div>
-
-        <img
-          [src]="selectedProject()!.imageUrl"
-          [alt]="selectedProject()!.title"
-          class="mt-5 aspect-[16/9] w-full rounded-xl object-cover"
-          width="640"
-          height="360"
-        />
-
-        <div class="mt-6 space-y-5 text-sm leading-relaxed text-zinc-600">
-          <div>
-            <h4 class="mb-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-              {{ localeService.t('projects.caseProblem') }}
-            </h4>
-            <p>{{ caseStudy.problem }}</p>
-          </div>
-          <div>
-            <h4 class="mb-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-              {{ localeService.t('projects.caseSolution') }}
-            </h4>
-            <p>{{ caseStudy.solution }}</p>
-          </div>
-          <div>
-            <h4 class="mb-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
-              {{ localeService.t('projects.caseOutcome') }}
-            </h4>
-            <p>{{ caseStudy.outcome }}</p>
-          </div>
+        <div>
+          <h4 class="mb-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+            {{ localeService.t('projects.caseSolution') }}
+          </h4>
+          <p>{{ caseStudy.solution }}</p>
+        </div>
+        <div>
+          <h4 class="mb-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+            {{ localeService.t('projects.caseOutcome') }}
+          </h4>
+          <p>{{ caseStudy.outcome }}</p>
         </div>
       </div>
     </div>
-  }
-</section>
+  </div>
+}

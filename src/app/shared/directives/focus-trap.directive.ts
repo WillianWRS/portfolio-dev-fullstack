@@ -35,7 +35,7 @@ export class FocusTrapDirective implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     const focusable = this.getFocusableElements();
-    focusable[0]?.focus();
+    focusable[0]?.focus({ preventScroll: true });
     document.addEventListener('keydown', this.onKeydown);
   }
 

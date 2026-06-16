@@ -24,6 +24,15 @@ describe('portfolio content', () => {
     expect(habitBuilder.caseStudy).toBeDefined();
   });
 
+  it('lists project math as the second showcase project', () => {
+    const projectMath = PROJECTS_SOURCE[1];
+    expect(projectMath.id).toBe('project-math');
+    expect(isProjectUnderConstruction(projectMath)).toBe(false);
+    expect(projectMath.liveUrl).toBe('https://project-math-c9545.web.app/');
+    expect(projectMath.githubUrl).toBe('https://github.com/WillianWRS/project-math');
+    expect(projectMath.caseStudy).toBeUndefined();
+  });
+
   it('keeps profissionais as a finished showcase project', () => {
     const profissionais = PROJECTS_SOURCE.find((p) => p.id === 'profissionais')!;
     expect(isProjectUnderConstruction(profissionais)).toBe(false);
@@ -31,9 +40,12 @@ describe('portfolio content', () => {
     expect(profissionais.caseStudy).toBeDefined();
   });
 
-  it('includes case study only for real showcase projects', () => {
-    const realProjects = PROJECTS_SOURCE.filter((p) => !p.placeholder);
-    expect(realProjects.length).toBeGreaterThan(0);
-    expect(realProjects.every((p) => p.caseStudy)).toBe(true);
+  it('includes case study only for portfolio projects that document a full case', () => {
+    const withCaseStudy = PROJECTS_SOURCE.filter((p) => !p.placeholder);
+    const documented = withCaseStudy.filter((p) => p.caseStudy);
+
+    expect(documented.length).toBeGreaterThan(0);
+    expect(documented.every((p) => p.caseStudy)).toBe(true);
+    expect(withCaseStudy.some((p) => !p.caseStudy)).toBe(true);
   });
 });

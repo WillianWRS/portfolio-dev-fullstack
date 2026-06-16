@@ -12,6 +12,8 @@ const PROJECT_STACK_ICON_SLUGS: Record<string, string> = {
   Swagger: 'swagger',
   JUnit: 'junit',
   TypeScript: 'typescript',
+  React: 'react',
+  Vite: 'vite',
   'Tailwind CSS': 'tailwindcss',
   'Firebase Hosting': 'firebase',
   Vitest: 'vitest',
@@ -74,6 +76,33 @@ export const PROJECTS_SOURCE: readonly ProjectSource[] = [
       outcomeEN:
         'Production app with mobile-first UX, frictionless onboarding (no account), and an online demo ready for technical review: feature-based architecture, predictable state with signals, and real daily use (dogfooding).',
     },
+  },
+  {
+    id: 'project-math',
+    title: 'Project Math',
+    imageUrl: '/project-math.png',
+    descriptionBR:
+      'Jogo de cálculo mental mobile first: você resolve operações em cadeia — cada acerto vira o próximo número base — enquanto o tempo aperta. Uma tela, foco total, estado de flow. Dificuldade sobe pela pressão do timer, não por contas impossíveis. Visual gamificado, fundo animado e feedback tátil nas respostas.',
+    descriptionEN:
+      'Mobile-first mental math game: solve chained operations — each correct answer becomes the next base number — while time runs out. One screen, total focus, flow state. Difficulty rises through timer pressure, not impossible equations. Gamified visuals, animated background, and tactile feedback on every answer.',
+    stacks: ['React', 'TypeScript', 'Vite', 'Tailwind CSS', 'Firebase Hosting'].map((name) => ({
+      name,
+      iconSlug: PROJECT_STACK_ICON_SLUGS[name],
+    })),
+    status: 'live',
+    category: 'frontend',
+    featured: true,
+    year: 2026,
+    githubUrl: 'https://github.com/WillianWRS/project-math',
+    liveUrl: 'https://project-math-c9545.web.app/',
+    metrics: [
+      { value: 'Cálculo', labelBR: 'encadeado', labelEN: 'chained' },
+      { value: 'Flow', labelBR: 'imediato', labelEN: 'immediate' },
+      { value: 'Pressão', labelBR: 'crescente', labelEN: 'rising' },
+      { value: 'Feedback', labelBR: 'instantâneo', labelEN: 'instant' },
+      { value: 'Visual', labelBR: 'imersivo', labelEN: 'immersive' },
+      { value: 'Recorde', labelBR: 'pessoal', labelEN: 'personal' },
+    ],
   },
   {
     id: 'profissionais',

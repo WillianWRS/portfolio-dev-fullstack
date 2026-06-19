@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import type { OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AppIcon } from '@shared/ui/app-icon/app-icon';
 import type { TranslationKey } from '@core/i18n/translations';
 import { LocaleService } from '@core/services/locale.service';
 import type { Locale } from '@core/models/locale.model';
@@ -37,7 +36,7 @@ const NAV_SCROLL_IDLE_MS = 300;
 
 @Component({
   selector: 'app-site-header',
-  imports: [RouterLink, AppIcon],
+  imports: [RouterLink],
   templateUrl: './site-header.html',
   styleUrl: './site-header.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

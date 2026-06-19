@@ -41,21 +41,25 @@
 
     <button
       type="button"
-      class="mobile-menu-btn inline-flex items-center justify-center border border-zinc-300/80 bg-zinc-950/50 text-sm font-medium text-zinc-200 backdrop-blur-sm transition-colors hover:border-white hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 md:hidden"
+      class="mobile-menu-btn md:hidden"
       [attr.aria-expanded]="mobileMenuOpen()"
       [attr.aria-label]="mobileMenuOpen() ? localeService.t('nav.menuClose') : localeService.t('nav.menuOpen')"
       (click)="toggleMobileMenu()"
     >
-      @if (mobileMenuPresent()) {
-        <app-icon name="x" />
-      } @else {
-        <app-icon name="menu" />
-      }
+      <span
+        class="mobile-menu-btn__icon"
+        [class.mobile-menu-btn__icon--open]="mobileMenuOpen()"
+        aria-hidden="true"
+      >
+        <span class="mobile-menu-btn__bar"></span>
+        <span class="mobile-menu-btn__bar"></span>
+        <span class="mobile-menu-btn__bar"></span>
+      </span>
     </button>
 
     <div class="locale-switch">
       <div
-        class="relative inline-grid grid-cols-2 rounded-full border border-zinc-300/80 bg-zinc-950/50 p-0.5 backdrop-blur-sm"
+        class="locale-switch__track"
         role="group"
         [attr.aria-label]="localeService.t('locale.groupAria')"
       >

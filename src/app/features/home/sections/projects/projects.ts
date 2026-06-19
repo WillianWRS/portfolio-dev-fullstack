@@ -128,7 +128,7 @@ export class Projects {
       return;
     }
 
-    this.navigateToIndex(this.selectedIndex() + 1, 'right');
+    this.navigateToIndex(this.selectedIndex() + 1, 'left');
   }
 
   protected prevProject(): void {
@@ -136,7 +136,7 @@ export class Projects {
       return;
     }
 
-    this.navigateToIndex(this.selectedIndex() - 1, 'left');
+    this.navigateToIndex(this.selectedIndex() - 1, 'right');
   }
 
   protected openCaseStudy(event?: Event): void {

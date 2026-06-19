@@ -11,6 +11,7 @@ export type AppIconName =
   | 'clipboard'
   | 'external-link'
   | 'arrow-right'
+  | 'arrow-left'
   | 'briefcase'
   | 'user'
   | 'quote'

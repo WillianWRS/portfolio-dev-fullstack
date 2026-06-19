@@ -6,21 +6,7 @@
     </h2>
     <p class="section-card__subtitle">{{ localeService.t('projects.subtitle') }}</p>
 
-    <div class="mt-8 flex flex-wrap gap-2" role="group" [attr.aria-label]="localeService.t('projects.heading')">
-      @for (filter of filters; track filter) {
-        <button
-          type="button"
-          class="project-filter"
-          [class.project-filter--active]="activeFilter() === filter"
-          [attr.aria-pressed]="activeFilter() === filter"
-          (click)="setFilter(filter)"
-        >
-          {{ filterLabel(filter) }}
-        </button>
-      }
-    </div>
-
-    @if (filteredProjects().length === 0) {
+    @if (displayProjects().length === 0) {
       <div class="projects-empty">
         <p class="projects-empty__title">{{ localeService.t('projects.underConstruction') }}</p>
         <p class="projects-empty__hint">{{ localeService.t('projects.comingSoon') }}</p>
@@ -28,143 +14,90 @@
     } @else {
       <div class="mt-14 grid gap-12 lg:grid-cols-2 lg:gap-16 lg:items-start">
         @let selected = selectedProject();
+
         <div
           id="project-panel"
           class="min-w-0"
-          role="tabpanel"
-          [attr.aria-labelledby]="'project-tab-' + selectedIndex()"
+          role="region"
+          [attr.aria-label]="selected.title"
+          aria-live="polite"
         >
-          <div class="mb-4 flex flex-wrap items-center gap-2">
-            <span class="project-status" [class]="statusClass(selected.status)">{{ selected.statusLabel }}</span>
-            <span class="project-meta">{{ selected.categoryLabel }} · {{ selected.year }}</span>
-          </div>
-
-          <figure
-            class="project-showcase__media group relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-200 ring-1 ring-zinc-200/80"
-            [class.project-showcase__media--placeholder]="selected.isPlaceholder"
-          >
-            @if (progressiveImageAsset(selected); as progressive) {
-              <app-progressive-image
-                class="h-full w-full"
-                [srcFull]="progressive.full"
-                [srcLq]="progressive.lq"
-                [alt]="selected.title"
-                imgClass="project-showcase__image"
-                [cover]="true"
-                [width]="800"
-                [height]="600"
-              />
-            } @else {
-              <img
-                [src]="selected.imageUrl"
-                [alt]="selected.isPlaceholder ? localeService.t('projects.underConstruction') : selected.title"
-                class="project-showcase__image h-full w-full"
-                [class.project-showcase__image--placeholder]="selected.isPlaceholder"
-                width="800"
-                height="600"
-              />
-            }
-
-            <div class="project-showcase__hover-layer" aria-hidden="true">
-              <p
-                class="project-showcase__hover-description"
-                [class.project-showcase__hover-description--placeholder]="selected.isPlaceholder"
-              >
-                {{ selected.description }}
-              </p>
-            </div>
-          </figure>
-
-          <p
-            class="project-showcase__description project-showcase__description--below mt-4 text-base leading-relaxed"
-            [class.text-zinc-600]="!selected.isPlaceholder"
-            [class.project-showcase__description--placeholder]="selected.isPlaceholder"
-          >
-            {{ selected.description }}
-          </p>
-
-          @if (selected.metrics.length > 0) {
-            <ul class="project-metrics mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              @for (metric of selected.metrics; track metric.label) {
-                <li class="project-metric">
-                  <span class="project-metric__value">{{ metric.value }}</span>
-                  <span class="project-metric__label">{{ metric.label }}</span>
-                </li>
+          <div class="project-mobile-carousel md:contents">
+            <div
+              class="project-mobile-carousel__viewport max-md:overflow-hidden md:contents"
+              [class.project-mobile-carousel__viewport--animating]="isAnimating()"
+            >
+              @if (isAnimating() && transitionOutgoingProject(); as outgoing) {
+                @let incoming = transitionIncomingProject()!;
+                <div
+                  class="project-mobile-carousel__track"
+                  [class.project-mobile-carousel__track--next]="slideDirection() === 'next'"
+                  [class.project-mobile-carousel__track--prev]="slideDirection() === 'prev'"
+                >
+                  @if (slideDirection() === 'next') {
+                    <div class="project-mobile-carousel__panel">
+                      <ng-container *ngTemplateOutlet="projectPanel; context: { project: outgoing }" />
+                    </div>
+                    <div class="project-mobile-carousel__panel">
+                      <ng-container *ngTemplateOutlet="projectPanel; context: { project: incoming }" />
+                    </div>
+                  } @else {
+                    <div class="project-mobile-carousel__panel">
+                      <ng-container *ngTemplateOutlet="projectPanel; context: { project: incoming }" />
+                    </div>
+                    <div class="project-mobile-carousel__panel">
+                      <ng-container *ngTemplateOutlet="projectPanel; context: { project: outgoing }" />
+                    </div>
+                  }
+                </div>
+              } @else {
+                <div class="project-mobile-carousel__panel md:contents">
+                  <ng-container *ngTemplateOutlet="projectPanel; context: { project: selected }" />
+                </div>
               }
-            </ul>
-          }
+            </div>
 
-          <ul class="project-stacks mt-5 flex flex-wrap gap-2" [attr.aria-label]="localeService.t('projects.stacksAria')">
-            @for (stack of selected.stacks; track stack.name) {
-              <li [class.project-stack-chip--placeholder]="selected.isPlaceholder">
-                <app-stack-chip
-                  [name]="stack.name"
-                  [iconSlug]="stack.iconSlug"
-                  size="sm"
-                />
-              </li>
-            }
-          </ul>
-
-          @if (!selected.isPlaceholder) {
-          <div class="mt-6 flex flex-wrap gap-3">
-            @if (selected.githubUrl) {
-              <a
-                [href]="selected.githubUrl"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="project-action-btn inline-flex items-center gap-2 rounded-full border border-zinc-900 bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-zinc-50"
-              >
-                <app-icon name="github" />
-                {{ localeService.t('projects.github') }}
-              </a>
-            } @else if (selected.status === 'private') {
-              <span class="text-sm text-zinc-500">{{ localeService.t('projects.privateNote') }}</span>
-            }
-
-            @if (selected.liveUrl) {
-              <a
-                [href]="selected.liveUrl"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="project-action-btn inline-flex items-center gap-2 rounded-full border border-zinc-900 bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-zinc-50"
-              >
-                <app-icon name="external-link" />
-                {{ localeService.t('projects.access') }}
-              </a>
-            }
-
-            @if (selected.hasCaseStudy) {
-              <button
-                type="button"
-                class="project-action-btn project-action-btn--outline inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-900"
-                (click)="openCaseStudy($event)"
-              >
-                {{ localeService.t('projects.caseStudy') }}
-              </button>
+            @if (displayProjects().length > 1) {
+              <div class="project-carousel-nav project-carousel-nav--persist md:hidden">
+                <button
+                  type="button"
+                  class="project-carousel-nav__btn project-carousel-nav__btn--prev"
+                  [attr.aria-label]="localeService.t('projects.prevProject')"
+                  [disabled]="isAnimating() || !canGoPrev()"
+                  (click)="prevProject()"
+                >
+                  <app-icon name="arrow-left" />
+                </button>
+                <button
+                  type="button"
+                  class="project-carousel-nav__btn project-carousel-nav__btn--next"
+                  [attr.aria-label]="localeService.t('projects.nextProject')"
+                  [disabled]="isAnimating() || !canGoNext()"
+                  (click)="nextProject()"
+                >
+                  <app-icon name="arrow-right" />
+                </button>
+              </div>
             }
           </div>
-          } @else {
-            <p class="mt-6 text-sm italic text-zinc-500">{{ localeService.t('projects.comingSoon') }}</p>
-          }
         </div>
 
         <div
-          class="project-list lg:pt-2"
+          class="project-list max-md:hidden lg:pt-2"
           role="tablist"
           [attr.aria-label]="localeService.t('projects.heading')"
           [attr.aria-orientation]="'vertical'"
         >
-          @for (project of filteredProjects(); track project.id; let index = $index; let last = $last) {
+          @for (project of projects(); track project.id; let index = $index; let last = $last) {
             <button
               type="button"
               role="tab"
               [id]="'project-tab-' + index"
-              [attr.aria-selected]="selectedIndex() === index"
+              [attr.aria-selected]="selectedProjectId() === project.id"
               [attr.aria-controls]="'project-panel'"
               class="project-tab"
-              [class.project-tab--selected]="selectedIndex() === index"
-              (click)="selectProject(index)"
+              [class.project-tab--selected]="selectedProjectId() === project.id"
+              (click)="selectProject(project.id)"
             >
               <span class="project-tab__icon" aria-hidden="true">
                 <app-icon name="arrow-right" />
@@ -185,6 +118,125 @@
     }
   </div>
 </section>
+
+<ng-template #projectPanel let-project="project">
+  <h3 class="mb-3 text-xl font-semibold text-zinc-900 md:hidden">{{ project.title }}</h3>
+
+  <div class="mb-4 flex flex-wrap items-center gap-2">
+    <span class="project-status" [class]="statusClass(project.status)">{{ project.statusLabel }}</span>
+    <span class="project-meta">{{ project.categoryLabel }} · {{ project.year }}</span>
+  </div>
+
+  <figure
+    class="project-showcase__media group relative aspect-[4/3] overflow-hidden rounded-2xl bg-zinc-200 ring-1 ring-zinc-200/80"
+    [class.project-showcase__media--placeholder]="project.isPlaceholder"
+  >
+    @if (progressiveImageAsset(project); as progressive) {
+      <app-progressive-image
+        class="h-full w-full"
+        [srcFull]="progressive.full"
+        [srcLq]="progressive.lq"
+        [alt]="project.title"
+        imgClass="project-showcase__image"
+        [cover]="true"
+        [width]="800"
+        [height]="600"
+      />
+    } @else {
+      <img
+        [src]="project.imageUrl"
+        [alt]="project.isPlaceholder ? localeService.t('projects.underConstruction') : project.title"
+        class="project-showcase__image h-full w-full"
+        [class.project-showcase__image--placeholder]="project.isPlaceholder"
+        width="800"
+        height="600"
+        decoding="async"
+      />
+    }
+
+    <div class="project-showcase__hover-layer" aria-hidden="true">
+      <p
+        class="project-showcase__hover-description"
+        [class.project-showcase__hover-description--placeholder]="project.isPlaceholder"
+      >
+        {{ project.description }}
+      </p>
+    </div>
+  </figure>
+
+  <p
+    class="project-showcase__description project-showcase__description--below mt-4 text-base leading-relaxed"
+    [class.text-zinc-600]="!project.isPlaceholder"
+    [class.project-showcase__description--placeholder]="project.isPlaceholder"
+  >
+    {{ project.description }}
+  </p>
+
+  @if (project.metrics.length > 0) {
+    <ul class="project-metrics mt-5 grid gap-3 max-md:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3">
+      @for (metric of project.metrics; track metric.label) {
+        <li class="project-metric">
+          <span class="project-metric__value">{{ metric.value }}</span>
+          <span class="project-metric__label">{{ metric.label }}</span>
+        </li>
+      }
+    </ul>
+  }
+
+  <ul class="project-stacks mt-5 flex flex-wrap gap-2" [attr.aria-label]="localeService.t('projects.stacksAria')">
+    @for (stack of project.stacks; track stack.name) {
+      <li [class.project-stack-chip--placeholder]="project.isPlaceholder">
+        <app-stack-chip
+          [name]="stack.name"
+          [iconSlug]="stack.iconSlug"
+          size="sm"
+        />
+      </li>
+    }
+  </ul>
+
+  @if (!project.isPlaceholder) {
+    <div class="mt-6 flex flex-wrap gap-3">
+      @if (project.githubUrl) {
+        <a
+          [href]="project.githubUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="project-action-btn inline-flex items-center gap-2 rounded-full border border-zinc-900 bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-zinc-50"
+        >
+          <app-icon name="github" />
+          {{ localeService.t('projects.github') }}
+        </a>
+      } @else if (project.status === 'private') {
+        <span class="text-sm text-zinc-500">{{ localeService.t('projects.privateNote') }}</span>
+      }
+
+      @if (project.liveUrl) {
+        <a
+          [href]="project.liveUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="project-action-btn inline-flex items-center gap-2 rounded-full border border-zinc-900 bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-zinc-50"
+        >
+          <app-icon name="external-link" />
+          {{ localeService.t('projects.access') }}
+        </a>
+      }
+
+      @if (project.hasCaseStudy) {
+        <button
+          type="button"
+          class="project-action-btn project-action-btn--outline inline-flex items-center gap-2 rounded-full border border-zinc-300 bg-white px-5 py-2.5 text-sm font-semibold text-zinc-900"
+          (click)="openCaseStudy($event)"
+        >
+          {{ localeService.t('projects.caseStudy') }}
+        </button>
+      }
+    </div>
+  } @else {
+    <p class="mt-6 text-sm italic text-zinc-500">{{ localeService.t('projects.comingSoon') }}</p>
+  }
+</ng-template>
 
 @if (caseStudyOpen() && selectedProject().caseStudy; as caseStudy) {
   <div

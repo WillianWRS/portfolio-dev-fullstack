@@ -196,24 +196,166 @@
   background-color: rgb(244 244 245);
 }
 
-.project-filter {
+.project-carousel-nav__btn {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 0.42);
   border-radius: 9999px;
-  border: 1px solid rgb(228 228 231);
-  background: rgb(255 255 255);
-  padding: 0.375rem 0.875rem;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: rgb(82 82 91);
+  background: linear-gradient(
+    145deg,
+    rgb(255 255 255 / 0.42) 0%,
+    rgb(255 255 255 / 0.16) 42%,
+    rgb(255 255 255 / 0.24) 100%
+  );
+  color: rgb(24 24 27);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.58),
+    inset 0 -1px 0 rgb(255 255 255 / 0.1),
+    0 4px 18px rgb(0 0 0 / 0.14),
+    0 1px 2px rgb(0 0 0 / 0.08);
+  backdrop-filter: blur(14px) saturate(165%);
+  -webkit-backdrop-filter: blur(14px) saturate(165%);
+  transform: translateY(-50%);
   transition:
-    background-color 0.2s ease,
+    background 0.2s ease,
     border-color 0.2s ease,
-    color 0.2s ease;
+    box-shadow 0.2s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
-.project-filter--active {
-  border-color: rgb(24 24 27);
-  background: rgb(24 24 27);
-  color: rgb(250 250 250);
+.project-carousel-nav__btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.34) 0%, transparent 48%);
+  pointer-events: none;
+}
+
+.project-carousel-nav__btn svg {
+  position: relative;
+  z-index: 1;
+}
+
+.project-carousel-nav__btn:hover:not(:disabled) {
+  border-color: rgb(255 255 255 / 0.58);
+  background: linear-gradient(
+    145deg,
+    rgb(255 255 255 / 0.52) 0%,
+    rgb(255 255 255 / 0.22) 42%,
+    rgb(255 255 255 / 0.32) 100%
+  );
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.68),
+    inset 0 -1px 0 rgb(255 255 255 / 0.12),
+    0 6px 22px rgb(0 0 0 / 0.18),
+    0 2px 4px rgb(0 0 0 / 0.1);
+}
+
+.project-carousel-nav__btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.project-carousel-nav__btn:focus {
+  outline: none;
+}
+
+.project-carousel-nav__btn:focus-visible {
+  outline: 2px solid rgb(161 161 170);
+  outline-offset: 2px;
+}
+
+.project-carousel-nav__btn:active:not(:disabled) {
+  transform: translateY(-50%) scale(0.96);
+}
+
+.project-carousel-nav__btn--prev {
+  left: 0.625rem;
+}
+
+.project-carousel-nav__btn--next {
+  right: 0.625rem;
+}
+
+@media (max-width: 767px) {
+  .project-mobile-carousel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .project-mobile-carousel__viewport {
+    grid-row: 1;
+    grid-column: 1;
+    min-width: 0;
+  }
+
+  .project-carousel-nav--persist {
+    position: relative;
+    grid-row: 1;
+    grid-column: 1;
+    z-index: 5;
+    align-self: start;
+    width: 100%;
+    margin-top: 5.75rem;
+    aspect-ratio: 4 / 3;
+    pointer-events: none;
+  }
+
+  .project-carousel-nav--persist .project-carousel-nav__btn {
+    pointer-events: auto;
+  }
+
+  .project-mobile-carousel__track {
+    display: flex;
+    width: 200%;
+  }
+
+  .project-mobile-carousel__panel {
+    flex: 0 0 50%;
+    min-width: 0;
+  }
+
+  .project-mobile-carousel__track--next {
+    animation: project-slide-next 0.38s ease forwards;
+  }
+
+  .project-mobile-carousel__track--prev {
+    transform: translateX(-50%);
+    animation: project-slide-prev 0.38s ease forwards;
+  }
+
+  .project-mobile-carousel__viewport--animating {
+    pointer-events: none;
+  }
+}
+
+@keyframes project-slide-next {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes project-slide-prev {
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
 }
 
 .project-status {
@@ -361,6 +503,19 @@
 
   .project-showcase__hover-description {
     transition: none;
+  }
+
+  .project-carousel-nav__btn {
+    transition: none;
+  }
+
+  .project-carousel-nav__btn:active {
+    transform: translateY(-50%);
+  }
+
+  .project-mobile-carousel__track--next,
+  .project-mobile-carousel__track--prev {
+    animation: none;
   }
 
   @media (min-width: 1024px) and (hover: hover) {

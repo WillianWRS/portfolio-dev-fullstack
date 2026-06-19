@@ -16,39 +16,45 @@ describe('Projects', () => {
     fixture.detectChanges();
   });
 
-  it('creates the section with project filters', () => {
-    const filters = fixture.nativeElement.querySelectorAll('.project-filter');
-    expect(filters.length).toBe(5);
+  it('creates the section with project showcase', () => {
+    expect(fixture.nativeElement.querySelector('#project-panel')).toBeTruthy();
   });
 
-  it('filters projects by category', () => {
+  it('navigates projects without wrapping at the edges', () => {
     const component = fixture.componentInstance as Projects & {
-      setFilter(filter: 'backend'): void;
-      activeFilter(): string;
-      filteredProjects(): { category: string }[];
-    };
-
-    component.setFilter('backend');
-    fixture.detectChanges();
-
-    expect(component.activeFilter()).toBe('backend');
-    expect(component.filteredProjects().every((p) => p.category === 'backend')).toBe(true);
-  });
-
-  it('resets selection and case study when changing filter', () => {
-    const component = fixture.componentInstance as Projects & {
-      setFilter(filter: 'frontend'): void;
-      openCaseStudy(): void;
-      caseStudyOpen(): boolean;
+      nextProject(): void;
+      prevProject(): void;
       selectedIndex(): number;
+      displayProjects(): { id: string }[];
+      canGoNext(): boolean;
+      canGoPrev(): boolean;
     };
 
-    component.openCaseStudy();
-    component.setFilter('frontend');
+    const total = component.displayProjects().length;
+    expect(total).toBeGreaterThan(1);
+
+    expect(component.canGoPrev()).toBe(false);
+    expect(component.canGoNext()).toBe(true);
+
+    component.nextProject();
+    fixture.detectChanges();
+    expect(component.selectedIndex()).toBe(1);
+
+    component.prevProject();
+    fixture.detectChanges();
+    expect(component.selectedIndex()).toBe(0);
+
+    for (let index = 0; index < total - 1; index += 1) {
+      component.nextProject();
+    }
     fixture.detectChanges();
 
-    expect(component.caseStudyOpen()).toBe(false);
-    expect(component.selectedIndex()).toBe(0);
+    expect(component.selectedIndex()).toBe(total - 1);
+    expect(component.canGoNext()).toBe(false);
+
+    component.nextProject();
+    fixture.detectChanges();
+    expect(component.selectedIndex()).toBe(total - 1);
   });
 
   it('maps status to CSS class', () => {

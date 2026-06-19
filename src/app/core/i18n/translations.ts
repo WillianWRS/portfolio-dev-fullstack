@@ -39,6 +39,8 @@ export type TranslationKey =
   | 'projects.caseStudy'
   | 'projects.closeCaseStudy'
   | 'projects.stacksAria'
+  | 'projects.prevProject'
+  | 'projects.nextProject'
   | 'projects.filterAll'
   | 'projects.filterFullstack'
   | 'projects.filterBackend'
@@ -128,6 +130,8 @@ const BR: Record<TranslationKey, string> = {
   'projects.caseStudy': 'Caso de estudo',
   'projects.closeCaseStudy': 'Fechar',
   'projects.stacksAria': 'Tecnologias do projeto',
+  'projects.prevProject': 'Projeto anterior',
+  'projects.nextProject': 'Próximo projeto',
   'projects.filterAll': 'Todos',
   'projects.filterFullstack': 'Full Stack',
   'projects.filterBackend': 'Backend',
@@ -220,6 +224,8 @@ const EN: Record<TranslationKey, string> = {
   'projects.caseStudy': 'View case study',
   'projects.closeCaseStudy': 'Close',
   'projects.stacksAria': 'Project technologies',
+  'projects.prevProject': 'Previous project',
+  'projects.nextProject': 'Next project',
   'projects.filterAll': 'All',
   'projects.filterFullstack': 'Full Stack',
   'projects.filterBackend': 'Backend',

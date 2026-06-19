@@ -27,34 +27,17 @@
               class="project-mobile-carousel__viewport max-md:overflow-hidden md:contents"
               [class.project-mobile-carousel__viewport--animating]="isAnimating()"
             >
-              @if (isAnimating() && transitionOutgoingProject(); as outgoing) {
-                @let incoming = transitionIncomingProject()!;
-                <div
-                  class="project-mobile-carousel__track"
-                  [class.project-mobile-carousel__track--next]="slideDirection() === 'next'"
-                  [class.project-mobile-carousel__track--prev]="slideDirection() === 'prev'"
-                >
-                  @if (slideDirection() === 'next') {
-                    <div class="project-mobile-carousel__panel">
-                      <ng-container *ngTemplateOutlet="projectPanel; context: { project: outgoing }" />
-                    </div>
-                    <div class="project-mobile-carousel__panel">
-                      <ng-container *ngTemplateOutlet="projectPanel; context: { project: incoming }" />
-                    </div>
-                  } @else {
-                    <div class="project-mobile-carousel__panel">
-                      <ng-container *ngTemplateOutlet="projectPanel; context: { project: incoming }" />
-                    </div>
-                    <div class="project-mobile-carousel__panel">
-                      <ng-container *ngTemplateOutlet="projectPanel; context: { project: outgoing }" />
-                    </div>
-                  }
-                </div>
-              } @else {
-                <div class="project-mobile-carousel__panel md:contents">
-                  <ng-container *ngTemplateOutlet="projectPanel; context: { project: selected }" />
-                </div>
-              }
+              <div
+                class="project-mobile-carousel__panel md:contents"
+                [class.project-mobile-carousel__panel--no-transition]="instantTransition()"
+                [class.project-mobile-carousel__panel--exit-right]="fadeStep() === 'exit' && fadeDirection() === 'right'"
+                [class.project-mobile-carousel__panel--exit-left]="fadeStep() === 'exit' && fadeDirection() === 'left'"
+                [class.project-mobile-carousel__panel--enter-right]="fadeStep() === 'enter' && fadeDirection() === 'right'"
+                [class.project-mobile-carousel__panel--enter-left]="fadeStep() === 'enter' && fadeDirection() === 'left'"
+                (transitionend)="onPanelTransitionEnd($event)"
+              >
+                <ng-container *ngTemplateOutlet="projectPanel; context: { project: selected }" />
+              </div>
             </div>
 
             @if (displayProjects().length > 1) {

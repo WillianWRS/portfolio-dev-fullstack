@@ -20,7 +20,7 @@ import type { ProjectView } from '@core/models/project.model';
 import { LocaleService } from '@core/services/locale.service';
 import { PortfolioContentService } from '@core/services/portfolio-content.service';
 
-const SLIDE_DURATION_MS = 380;
+const FADE_DURATION_MS = 220;
 const MOBILE_MEDIA_QUERY = '(max-width: 767px)';
 const MOBILE_PROJECT_IDS = ['wrs-habit-builder', 'project-math', 'profissionais'] as const;
 
@@ -41,13 +41,14 @@ export class Projects {
   protected readonly selectedProjectId = signal<string | null>(null);
   protected readonly caseStudyOpen = signal(false);
   protected readonly isAnimating = signal(false);
-  protected readonly slideDirection = signal<'next' | 'prev' | null>(null);
+  protected readonly fadeStep = signal<'idle' | 'exit' | 'enter'>('idle');
+  protected readonly fadeDirection = signal<'right' | 'left' | null>(null);
+  protected readonly instantTransition = signal(false);
   private readonly isMobileViewport = signal(false);
 
   private readonly caseStudyTrigger = signal<HTMLElement | null>(null);
-  private readonly transitionOutgoingIndex = signal<number | null>(null);
-  private readonly transitionIncomingIndex = signal<number | null>(null);
-  private slideTimeoutId: ReturnType<typeof setTimeout> | null = null;
+  private pendingProjectId: string | null = null;
+  private fadeFallbackTimeoutId: ReturnType<typeof setTimeout> | null = null;
   private mobileMediaQuery: MediaQueryList | null = null;
   private preloadedImageUrls = new Set<string>();
 
@@ -89,26 +90,6 @@ export class Projects {
     return list.length > 0 && this.selectedIndex() < list.length - 1;
   });
 
-  protected readonly transitionOutgoingProject = computed(() => {
-    const index = this.transitionOutgoingIndex();
-
-    if (index === null) {
-      return null;
-    }
-
-    return this.displayProjects()[index] ?? null;
-  });
-
-  protected readonly transitionIncomingProject = computed(() => {
-    const index = this.transitionIncomingIndex();
-
-    if (index === null) {
-      return null;
-    }
-
-    return this.displayProjects()[index] ?? null;
-  });
-
   constructor() {
     effect(() => {
       this.preloadProjectImages(this.displayProjects());
@@ -127,7 +108,7 @@ export class Projects {
       this.mobileMediaQuery?.addEventListener('change', this.onMobileViewportChange);
 
       this.destroyRef.onDestroy(() => {
-        this.clearSlideTimeout();
+        this.clearFadeFallback();
         this.mobileMediaQuery?.removeEventListener('change', this.onMobileViewportChange);
       });
     });
@@ -147,7 +128,7 @@ export class Projects {
       return;
     }
 
-    this.navigateToIndex(this.selectedIndex() + 1, 'next');
+    this.navigateToIndex(this.selectedIndex() + 1, 'right');
   }
 
   protected prevProject(): void {
@@ -155,7 +136,7 @@ export class Projects {
       return;
     }
 
-    this.navigateToIndex(this.selectedIndex() - 1, 'prev');
+    this.navigateToIndex(this.selectedIndex() - 1, 'left');
   }
 
   protected openCaseStudy(event?: Event): void {
@@ -168,6 +149,25 @@ export class Projects {
     this.caseStudyOpen.set(false);
     queueMicrotask(() => this.caseStudyTrigger()?.focus());
     this.caseStudyTrigger.set(null);
+  }
+
+  protected onPanelTransitionEnd(event: TransitionEvent): void {
+    if (event.target !== event.currentTarget || event.propertyName !== 'opacity') {
+      return;
+    }
+
+    if (!this.isAnimating()) {
+      return;
+    }
+
+    if (this.fadeStep() === 'exit') {
+      this.beginEnterTransition();
+      return;
+    }
+
+    if (this.fadeStep() === 'idle') {
+      this.finishFadeTransition();
+    }
   }
 
   protected statusClass(status: ProjectView['status']): string {
@@ -196,7 +196,7 @@ export class Projects {
     this.syncSelectionToActiveList();
   };
 
-  private navigateToIndex(targetIndex: number, direction: 'next' | 'prev'): void {
+  private navigateToIndex(targetIndex: number, direction: 'right' | 'left'): void {
     const list = this.displayProjects();
     const currentIndex = this.selectedIndex();
     const targetProject = list[targetIndex];
@@ -212,7 +212,7 @@ export class Projects {
 
     this.caseStudyOpen.set(false);
 
-    if (!this.shouldAnimateSlide() || this.isAnimating()) {
+    if (!this.shouldAnimateFade() || this.isAnimating()) {
       if (this.isAnimating()) {
         return;
       }
@@ -221,20 +221,70 @@ export class Projects {
       return;
     }
 
-    this.transitionOutgoingIndex.set(currentIndex);
-    this.transitionIncomingIndex.set(targetIndex);
-    this.slideDirection.set(direction);
+    this.pendingProjectId = targetProject.id;
+    this.fadeDirection.set(direction);
+    this.fadeStep.set('exit');
     this.isAnimating.set(true);
+    this.scheduleFadeFallback();
+  }
 
-    this.clearSlideTimeout();
-    this.slideTimeoutId = setTimeout(() => {
-      this.selectedProjectId.set(targetProject.id);
-      this.isAnimating.set(false);
-      this.slideDirection.set(null);
-      this.transitionOutgoingIndex.set(null);
-      this.transitionIncomingIndex.set(null);
-      this.slideTimeoutId = null;
-    }, SLIDE_DURATION_MS);
+  private beginEnterTransition(): void {
+    const pendingId = this.pendingProjectId;
+
+    if (!pendingId) {
+      this.finishFadeTransition();
+      return;
+    }
+
+    this.selectedProjectId.set(pendingId);
+    this.pendingProjectId = null;
+    this.instantTransition.set(true);
+    this.fadeStep.set('enter');
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this.instantTransition.set(false);
+        this.fadeStep.set('idle');
+      });
+    });
+  }
+
+  private finishFadeTransition(): void {
+    this.clearFadeFallback();
+    this.instantTransition.set(false);
+    this.fadeStep.set('idle');
+    this.fadeDirection.set(null);
+    this.pendingProjectId = null;
+    this.isAnimating.set(false);
+  }
+
+  private scheduleFadeFallback(): void {
+    this.clearFadeFallback();
+    this.fadeFallbackTimeoutId = setTimeout(() => {
+      this.fadeFallbackTimeoutId = null;
+
+      if (!this.isAnimating()) {
+        return;
+      }
+
+      if (this.fadeStep() === 'exit') {
+        this.beginEnterTransition();
+        return;
+      }
+
+      if (this.fadeStep() === 'idle') {
+        this.finishFadeTransition();
+      }
+    }, FADE_DURATION_MS * 2 + 120);
+  }
+
+  private clearFadeFallback(): void {
+    if (this.fadeFallbackTimeoutId === null) {
+      return;
+    }
+
+    clearTimeout(this.fadeFallbackTimeoutId);
+    this.fadeFallbackTimeoutId = null;
   }
 
   private syncSelectionToActiveList(): void {
@@ -280,7 +330,7 @@ export class Projects {
     image.src = url;
   }
 
-  private shouldAnimateSlide(): boolean {
+  private shouldAnimateFade(): boolean {
     if (!isPlatformBrowser(this.platformId)) {
       return false;
     }
@@ -302,14 +352,5 @@ export class Projects {
 
   private matchesReducedMotion(): boolean {
     return this.matchesMediaQuery('(prefers-reduced-motion: reduce)');
-  }
-
-  private clearSlideTimeout(): void {
-    if (this.slideTimeoutId === null) {
-      return;
-    }
-
-    clearTimeout(this.slideTimeoutId);
-    this.slideTimeoutId = null;
   }
 }

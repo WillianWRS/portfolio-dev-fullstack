@@ -13,10 +13,19 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --color-surface-dark: #09090b;
+    --color-surface-card: #fafafa;
+    --color-accent-primary: #18181b;
+    --color-accent-cta: #059669;
+    color-scheme: light dark;
+  }
+
   html {
     scroll-behavior: smooth;
     scrollbar-width: thin;
     scrollbar-color: rgb(113 113 122) rgb(15 15 18);
+    color-scheme: light dark;
   }
 
   html::-webkit-scrollbar {
@@ -71,12 +80,19 @@
 
   html,
   body {
-    @apply h-full bg-surface-dark font-sans text-zinc-100 antialiased;
+    @apply h-full font-sans text-zinc-100 antialiased;
+    background-color: var(--color-surface-dark);
   }
 
   ::selection {
     @apply bg-zinc-700 text-zinc-50;
   }
+}
+
+.surface-light {
+  color-scheme: light;
+  background-color: var(--color-surface-card);
+  forced-color-adjust: none;
 }
 
 .sr-only {
@@ -93,7 +109,7 @@
 
 .bg-live {
   isolation: isolate;
-  background-color: rgb(9 9 11);
+  background-color: var(--color-surface-dark);
 }
 
 @keyframes scrollbarThumbSheen {

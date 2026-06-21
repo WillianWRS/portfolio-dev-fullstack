@@ -39,7 +39,7 @@ export const PROJECTS_SOURCE: readonly ProjectSource[] = [
   {
     id: 'wrs-habit-builder',
     title: 'Habit Builder',
-    imageUrl: '/habit-builder.webp',
+    imageUrl: '/new-habit-builder-image.png',
     descriptionBR:
       'App web para construir e acompanhar hábitos no dia a dia: painel Hoje com progresso, metas mínimas, sequências e frequência por dia da semana — sem login, com dados no navegador e deploy em produção.',
     descriptionEN:
@@ -80,7 +80,7 @@ export const PROJECTS_SOURCE: readonly ProjectSource[] = [
   {
     id: 'project-math',
     title: 'Project Math',
-    imageUrl: '/project-math.png',
+    imageUrl: '/new-project-math-image.png',
     descriptionBR:
       'Jogo de cálculo mental mobile first: você resolve operações em cadeia — cada acerto vira o próximo número base — enquanto o tempo aperta. Uma tela, foco total, estado de flow. Dificuldade sobe pela pressão do timer, não por contas impossíveis. Visual gamificado, fundo animado e feedback tátil nas respostas.',
     descriptionEN:

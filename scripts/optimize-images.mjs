@@ -20,11 +20,12 @@ const jobs = [
     ],
   },
   {
-    input: 'habit builder project.png',
-    outputs: [
-      { file: 'habit-builder.webp', width: 994, quality: 90 },
-      { file: 'habit-builder-lq.webp', width: 32, quality: 35, blur: 4 },
-    ],
+    input: 'new-habit-builder-image.png',
+    outputs: [{ file: 'new-habit-builder-image-lq.webp', width: 32, quality: 35, blur: 4 }],
+  },
+  {
+    input: 'new-project-math-image.png',
+    outputs: [{ file: 'new-project-math-image-lq.webp', width: 32, quality: 35, blur: 4 }],
   },
 ];
 

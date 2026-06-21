@@ -16,8 +16,8 @@ export const CRITICAL_ASSETS = {
   profilePhotoMobile: '/foto%20-%20mobile.png',
   brandLogo: '/wrs.png',
   habitBuilder: {
-    full: '/habit-builder.webp',
-    lq: '/habit-builder-lq.webp',
+    full: '/new-habit-builder-image.png',
+    lq: '/new-habit-builder-image-lq.webp',
   },
 } as const satisfies Record<string, string | ProgressiveAsset>;
 

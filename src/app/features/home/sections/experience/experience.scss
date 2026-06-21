@@ -272,6 +272,47 @@
   }
 }
 
+@media (max-width: 767px) {
+  .experience-timeline {
+    gap: 1.25rem;
+  }
+
+  .experience-item {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .experience-item__marker {
+    display: none;
+  }
+
+  .experience-item:not(:last-child) .experience-item__marker::before {
+    content: none;
+  }
+
+  .experience-item__body {
+    width: 100%;
+    padding: 1.15rem 1.125rem;
+  }
+
+  .experience-item--current .experience-item__body {
+    border-left: 3px solid rgb(24 24 27);
+    padding-left: calc(1.125rem - 2px);
+  }
+
+  .experience-item__header {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .experience-item__meta {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    align-self: stretch;
+  }
+}
+
 @media (min-width: 768px) {
   .experience-item__body {
     padding: 1.5rem 1.75rem;

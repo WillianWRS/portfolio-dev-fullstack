@@ -2,13 +2,26 @@
 
 Portfólio pessoal de **Willian Robert Scabora** — site one-page em **Angular 21** com **SSR/prerender**, **Tailwind CSS**, **Signals** (change detection zoneless) e conteúdo bilíngue (PT/EN).
 
-Repositório do site: [github.com/WillianWRS/portfolio-dev-fullstack](https://github.com/WillianWRS/portfolio-dev-fullstack) · Site (quando publicado): [willianscabora.dev](https://willianscabora.dev)
+**Site:** [willianscabora.dev](https://willianscabora.dev) · **Repositório:** [github.com/WillianWRS/portfolio-dev-fullstack](https://github.com/WillianWRS/portfolio-dev-fullstack)
 
 [![CI](https://github.com/WillianWRS/portfolio-dev-fullstack/actions/workflows/ci.yml/badge.svg)](https://github.com/WillianWRS/portfolio-dev-fullstack/actions/workflows/ci.yml)
 
 ## Sobre o projeto
 
-Aplicação pensada como **vitrine técnica**: arquitetura moderna em Angular, performance (hidratação incremental, bundle enxuto), acessibilidade, SEO localizado e pipeline de qualidade no CI. O conteúdo das seções (projetos, experiência, depoimentos) vive em arquivos TypeScript em `src/app/core/content/` e está em **evolução** — parte dos textos ainda serve como placeholder até a integração dos projetos vitrine reais.
+Aplicação pensada como **vitrine técnica**: arquitetura moderna em Angular, performance (hidratação incremental, bundle enxuto), acessibilidade, SEO localizado e pipeline de qualidade no CI.
+
+O conteúdo vive em arquivos TypeScript em `src/app/core/content/` e é servido pelo `PortfolioContentService` com reatividade ao idioma (PT/EN). Projetos em destaque (Habit Builder, Project Math, Profissionais), experiência profissional e depoimentos já estão publicados; slots vazios permanecem reservados para futuras entradas.
+
+### Seções do site
+
+| Seção | Descrição |
+|-------|-----------|
+| Perfil | Hero com foto progressiva, CTAs e destaques |
+| Projetos | Carrossel mobile, vitrine com case study e links live/GitHub |
+| Experiência | Timeline (desktop) e cards full-width (mobile) |
+| Stacks | Tecnologias agrupadas por área |
+| Depoimentos | Cards com citações e contexto |
+| Contato | E-mail, WhatsApp, calendário e redes |
 
 ### Destaques técnicos
 
@@ -16,7 +29,9 @@ Aplicação pensada como **vitrine técnica**: arquitetura moderna em Angular, p
 - **Zoneless** — `provideZonelessChangeDetection()` e estado com signals/computed
 - **SSR + prerender** — HTML estático no build; hidratação incremental com `@defer (hydrate on viewport)`
 - **i18n** — `LocaleService` + traduções; `SeoService` sincroniza title, meta, OG/Twitter e JSON-LD
+- **Imagens progressivas** — `ProgressiveImage` + assets críticos em `critical-assets.config.ts` (wall, foto, projetos)
 - **Efeitos** — partículas e fundo carregados com `@defer (on idle)`; coordenação via `EffectsCoordinatorService`
+- **UI** — tema visual fixo (`color-scheme`) independente do tema do dispositivo; nav flutuante com indicador de hover sincronizado ao scroll
 - **Qualidade** — Vitest (cobertura no CI), Playwright, axe (a11y), ESLint + Prettier
 - **Deploy** — artefato estático em `dist/.../browser` para **Firebase Hosting** (ver [ADR 002](docs/adr/002-prerender-firebase.md))
 
@@ -25,10 +40,10 @@ Aplicação pensada como **vitrine técnica**: arquitetura moderna em Angular, p
 | Área | Tecnologias |
 |------|-------------|
 | Framework | Angular 21, Angular SSR |
-| Estilo | Tailwind CSS 3, SCSS por componente |
+| Estilo | Tailwind CSS 3, SCSS por componente, variáveis CSS (`--color-surface-*`) |
 | Runtime (SSR opcional) | Express 5, compression |
 | Testes | Vitest, Playwright, @axe-core/playwright |
-| Tooling | ESLint (angular-eslint), Prettier, TypeScript 5.9 strict |
+| Tooling | ESLint (angular-eslint), Prettier, TypeScript 5.9 strict, Sharp (otimização de imagens) |
 
 ## Pré-requisitos
 
@@ -59,13 +74,17 @@ npm run build
 npm run serve:ssr:portfolio-dev-fullstack
 ```
 
-### Ícones das stacks
+### Assets estáticos
 
 ```bash
+# Ícones das stacks (public/icons/stacks/)
 npm run icons:sync
+
+# WebP de preview (LQ) para wall e imagens de projetos
+npm run images:optimize
 ```
 
-Baixa ícones para `public/icons/stacks/` (script em `scripts/sync-stack-icons.mjs`).
+Após trocar imagens em `public/` (ex.: `new-habit-builder-image.png`, `new-project-math-image.png`), rode `npm run images:optimize` para regenerar as versões LQ usadas no carregamento progressivo.
 
 ## Scripts
 
@@ -81,24 +100,26 @@ Baixa ícones para `public/icons/stacks/` (script em `scripts/sync-stack-icons.m
 | `npm run format` | Prettier (escrever) |
 | `npm run format:check` | Prettier (verificar) |
 | `npm run icons:sync` | Sincronizar ícones de stack |
+| `npm run images:optimize` | Gerar WebP otimizados e previews LQ |
 
 ## Estrutura do código
 
 ```
 src/app/
 ├── core/
-│   ├── config/          # APP_CONFIG (environment)
+│   ├── config/          # APP_CONFIG, critical-assets
 │   ├── content/         # Dados estáticos: projetos, experiência, stacks…
 │   ├── i18n/            # Traduções UI + metadados SEO
 │   ├── models/
 │   ├── services/        # Locale, conteúdo, SEO, clipboard, efeitos…
 │   └── effects/         # Partículas e config de efeitos
 ├── features/home/       # Página única e seções
-└── shared/ui/           # Componentes reutilizáveis (chips, ícones…)
+└── shared/ui/           # Componentes reutilizáveis (chips, ícones, imagem progressiva…)
 
 docs/adr/                # Architecture Decision Records
 e2e/                     # Playwright + axe
 public/                  # Assets, robots.txt, sitemap, manifest
+scripts/                 # sync-stack-icons, optimize-images
 ```
 
 ### Path aliases
@@ -150,8 +171,6 @@ Decisões documentadas em [`docs/adr/`](docs/adr/):
 | [002](docs/adr/002-prerender-firebase.md) | Prerender e Firebase Hosting |
 | [003](docs/adr/003-incremental-hydration.md) | Hidratação incremental (`@defer`) |
 
-Plano de evolução e checklist técnico: [`REVISAO-ARQUITETURA.md`](REVISAO-ARQUITETURA.md).
-
 ## Configuração por ambiente
 
 Edite:
@@ -161,7 +180,7 @@ Edite:
 
 Nome, e-mail, URLs de CV, calendário e repositório GitHub vêm de `appConfig` e são injetados via token `APP_CONFIG` em `app.config.ts`.
 
-**Não commite** secrets (tokens Firebase, API keys). O repositório não depende de `.env` para rodar localmente.
+**Não commite** secrets (tokens Firebase, API keys). O repositório não depende de `.env` para rodar localmente. O cache local do Firebase CLI (`.firebase/`) está no `.gitignore`.
 
 ## Deploy (Firebase Hosting)
 
@@ -171,6 +190,8 @@ firebase deploy --only hosting
 ```
 
 Saída esperada: `dist/portfolio-dev-fullstack/browser` (configurado em `firebase.json`).
+
+Projeto Firebase: `portfolio-dev-e5dfe` · domínio customizado: `willianscabora.dev`.
 
 ## Qualidade e CI
 
@@ -189,26 +210,28 @@ Pipeline em [`.github/workflows/ci.yml`](.github/workflows/ci.yml):
 
 | Seção | Arquivo |
 |-------|---------|
-| Perfil (nome, links) | `environment*.ts` + `profile.content.ts` |
-| Sobre | Conteúdo ligado ao serviço / seção About |
+| Perfil (nome, links) | `environment*.ts` + `core/content/profile.content.ts` |
 | Experiência | `core/content/experience.content.ts` |
 | Projetos | `core/content/projects.content.ts` |
 | Stacks | `core/content/stacks.content.ts` |
 | Depoimentos | `core/content/testimonials.content.ts` |
 | Redes sociais | `core/content/social.content.ts` |
 | Textos de UI | `core/i18n/translations.ts` |
+| Imagens críticas / LQ | `core/config/critical-assets.config.ts` + `public/` |
 
-Após alterar stacks listadas nos projetos, rode `npm run icons:sync`.
+Após alterar stacks listadas nos projetos, rode `npm run icons:sync`. Após trocar imagens de projeto ou wall, rode `npm run images:optimize`.
 
 ## Roadmap (resumo)
 
-- [ ] Publicar conteúdo definitivo (experiência, projetos e depoimentos reais)
-- [ ] Integrar projetos vitrine com case studies e links live
-- [ ] Deploy contínuo em produção (`willianscabora.dev`)
+- [x] Deploy em produção ([willianscabora.dev](https://willianscabora.dev))
+- [x] Projetos vitrine com links live (Habit Builder, Project Math, Profissionais)
+- [x] Experiência profissional publicada
+- [ ] Preencher slots vazios de projetos e depoimentos
+- [ ] Deploy contínuo via CI (hoje o deploy é manual com `firebase deploy`)
 
 ## Licença
 
-Código do portfólio — uso e cópia conforme política do autor. Projetos e marcas citados nos conteúdos de exemplo pertencem aos respectivos titulares.
+Código do portfólio — uso e cópia conforme política do autor. Projetos e marcas citados nos conteúdos pertencem aos respectivos titulares.
 
 ---
 
